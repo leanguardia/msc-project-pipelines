@@ -23,15 +23,14 @@ def index():
         rain = request.form['rain']
         temperature = request.form['temperature']
         new_fire = Fire(rain=rain, temperature=temperature)
-        # try:
-        db.session.add(new_fire)
-        db.session.commit()
-        return redirect('/')
-        # except:
-            # return 'There was a Problem!'
+        try:
+            db.session.add(new_fire)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was a Problem!'
     else:
-        # tasks = Fire.query.order_by(Fire.created_at).all()
-        tasks=[]
+        tasks = Fire.query.order_by(Fire.created_at).all()
         return render_template('index.html', tasks=tasks)
 
 
