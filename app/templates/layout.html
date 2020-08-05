@@ -11,10 +11,50 @@
   {% block head %}{% endblock %}
 </head>
 <body>
+
+  <header class="bg-success py-1">
+    <div class="container h-20">
+      <div class="row h-20 align-items-center">
+        <div class="col-lg-12 text-center">
+          <h3 class="text-white mt-5">Data Preparation</h3>
+          <h2 class="text-white mb-2">Patterns and Testing</h2>
+          <p class="lead mb-5 text-white-50">User Interface of MSc Advanced Project.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow">
+    <div class="container">
+      <a class="navbar-brand" href="#">Home</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/fires">Forest Fires
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">Dataset 2</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">Dataset 3</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">Dataset 4</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   {% block body %}{% endblock %}
   
   <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <!-- <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script> -->
   <script src="{{ url_for('static', filename='main.js') }}"></script>
 
 </body>

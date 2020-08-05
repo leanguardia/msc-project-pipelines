@@ -30,8 +30,8 @@ def index():
         except:
             return 'There was a Problem!'
     else:
-        tasks = Fire.query.order_by(Fire.created_at).all()
-        return render_template('index.html', tasks=tasks)
+        fires = Fire.query.order_by(Fire.created_at).all()
+        return render_template('index.html', fires=fires)
 
 
 if __name__ == "__main__":

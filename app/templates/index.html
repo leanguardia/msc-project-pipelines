@@ -5,19 +5,52 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <h3>Hola todos</h3>
-    <form action="/" method="POST">
+
+<!-- Dataset Title -->
+<div class="row bg-white pt-4 pb-3 shadow-sm">
+  <div class="container">
+    <h4>Forest Fires (Cortez et al)</h4>
+  </div>
+</div>
+
+<!-- Dataset Content -->
+<div class="container">  
+  <div class="row py-4">
+    <div class="col-3">
+      <h5 class="mb-3">Description</h5>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi sed placeat, hic dignissimos sit numquam laudantium quod beatae assumenda voluptatibus. Pariatur ipsa non mollitia quae sint est commodi harum soluta?</p>
+      <h5 class="mb-3">Data</h5>
+    </div>
+    <div class="col-5">
+      <h5 class="mb-3">Predictions</h5>
+      <form action="/" method="POST">
         <input name="rain" type="integer">
         <input name="temperature" type="integer">
-        <button type="submit">Submit</button>
-    </form>
+        <button class='btn btn-primary' type="submit">Submit</button>
+      </form>
+    </div>
+    <div class="col-4">
+      <h5 class="mb-3">Model</h5>
+      <table class="table table-responsive table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Model</th>
+            <th scope="col">MAE</th>
+            <th scope="col">RSME</th>
+            <th>R2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>LinearRegression</td>
+            <td>0.0</td>
+            <td>100</td>
+            <td>200</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-<br>
-
-{% for fire in fires %}
-    <p>{{ firer.rain }}</p>
-    <p>{{ fire.temperature }}</p>
-{% endfor %}
 
 {% endblock %}
