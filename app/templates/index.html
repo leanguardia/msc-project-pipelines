@@ -3,7 +3,21 @@
 {% block head %}
 <title>Home</title>
 {% endblock %}
-{% block body %}
 
-Hello Workd2
+{% block body %}
+<h3>Hola todos</h3>
+<div class="container">
+    <form utl=''name='fire' action="/" method="POST">
+        <input name="rain" type="integer">
+        <input name="temperature" type="integer">
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<br>
+
+{% for fire in fires %}
+    <p>{{ firer.rain }}</p>
+    <p>{{ fire.temperature }}</p>
+{% endfor %}
+
 {% endblock %}
