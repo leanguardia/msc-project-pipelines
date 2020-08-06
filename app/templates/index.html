@@ -7,9 +7,16 @@
 {% block body %}
 
 <!-- Dataset Title -->
-<div class="row bg-white pt-4 pb-3 shadow-sm">
+<div class="bg-white pt-4 pb-2 shadow-sm">
   <div class="container">
-    <h4>Forest Fires (Cortez et al)</h4>
+    <div class="row">
+      <div class="col-4">
+        <h4>Forest Fires <small>(Cortez et al)</small></h4>
+      </div>
+      <div class="col-8">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt, quos fugiat exercitationem quam quia dicta, ducimus voluptatibus aliquam repellendus veniam.</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -17,38 +24,112 @@
 <div class="container">  
   <div class="row py-4">
     <div class="col-3">
-      <h5 class="mb-3">Description</h5>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi sed placeat, hic dignissimos sit numquam laudantium quod beatae assumenda voluptatibus. Pariatur ipsa non mollitia quae sint est commodi harum soluta?</p>
       <h5 class="mb-3">Data</h5>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt, quos fugiat exercitationem quam quia dicta, ducimus voluptatibus aliquam repellendus veniam, accusantium eveniet omnis eius unde voluptatem numquam itaque facere?</p>
     </div>
-    <div class="col-5">
-      <h5 class="mb-3">Predictions</h5>
-      <form action="/" method="POST">
-        <input name="rain" type="integer">
-        <input name="temperature" type="integer">
-        <button class='btn btn-primary' type="submit">Submit</button>
+    <div class="col-6">
+      <h5 class="mb-3">How many hectares will be burned?</h5>
+      <form action="/" method="post">
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="X">Coord X</label>
+            <select name='X' class="form-control">
+              <option selected>1</option> <option>2</option> <option>3</option> 
+              <option>4</option> <option>5</option> <option>6</option> 
+              <option>7</option> <option>8</option> <option>9</option> 
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="Y">Coord Y</label>
+            <select name='Y' class="form-control">
+              <option selected>1</option> <option>2</option> <option>3</option> 
+              <option>4</option> <option>5</option> <option>6</option> 
+              <option>7</option> <option>8</option> <option>9</option> 
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="month">Month</label>
+            <select name='month' class="form-control">
+              <option selected>January</option> <option>February</option> <option>March</option> 
+              <option>April</option> <option>May</option> <option>June</option> 
+              <option>July</option> <option>August</option> <option>September</option> 
+              <option>October</option> <option>November</option> <option>December</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="day">Day</label>
+            <select name="day" class="form-control">
+              <option selected>Monday</option> <option>Tuesday</option> <option>Wednesday</option> 
+              <option>Thursday</option> <option>Friday</option> <option>Saturday</option> 
+              <option>Sunday</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="temp">Temperature (C)</label>
+            <input name="temp" class="form-control" placeholder="e.g. 18">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="RH">R. Humidity (%)</label>
+            <input name="RH" class="form-control" placeholder="0 - 100">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="wind">Wind (km/h)</label>
+            <input name="wind" class="form-control" placeholder="e.g. 3.1">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="rain">Rain (mm/m2)</label>
+            <input name="rain" class="form-control" placeholder="e.g. 0.1">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="FFMC">FFMC</label>
+            <input name="FFMC" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="DMC">DMC</label>
+            <input name="DMC" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="DC">DC</label>
+            <input name="DC" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="ISI">ISI</label>
+            <input name="ISI" class="form-control">
+          </div>
+        </div>
+        <div class="form-row mt-3 text-center">
+          <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-info">Predict</button>
+          </div>
+        </div>
       </form>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <h5 class="mb-3">Model</h5>
-      <table class="table table-responsive table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">Model</th>
-            <th scope="col">MAE</th>
-            <th scope="col">RSME</th>
-            <th>R2</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>LinearRegression</td>
-            <td>0.0</td>
-            <td>100</td>
-            <td>200</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Model</th>
+              <th scope="col">MAE</th>
+              <th scope="col">RSME</th>
+              <th>R2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Linear Regression</td>
+              <td>0.0</td>
+              <td>100</td>
+              <td>200</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
