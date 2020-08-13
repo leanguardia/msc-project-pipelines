@@ -13,4 +13,9 @@ def test_raise_datatype_error():
 
 def test_new_number_of_columns():
     dummified = dummify(df, 'category')
-    assert len(dummified.columns) == 3, "New columns should be added"
+    assert len(dummified.columns) == 3, "New columns should be concatenated"
+
+def test_includes_columns():
+    dummified_cols = dummify(df, 'category', prefix='category')
+    assert 'category_a' in dummified_cols, "New column should be added"
+    assert 'category_b' in dummified_cols, "New column should be added"
