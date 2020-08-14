@@ -1,5 +1,5 @@
 import pytest
-# from unittest.mock import Mock#, patch
+from unittest.mock import patch
 
 import os
 
@@ -18,8 +18,7 @@ def test_filepath_format():
     with pytest.raises(ValueError, match="filepath should end with specific extension"):
         store_model(model, 'filepath')
 
-# def test_new_number_of_columns():
-#     dump = Mock()
-#     dump(model, 'filepath.joblib')
-#     # store_model(model, 'filepath.joblib')
-#     dump.assert_called_once_with(model, 'filepath.joblib')
+@patch('models.io.dump')
+def test_new_number_of_columns(dump_mock):
+    store_model(model, 'filepath.joblib')
+    dump_mock.assert_called_once_with(model, 'filepath.joblib')
