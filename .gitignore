@@ -142,3 +142,5 @@ cython_debug/
 
 # Tracked by DVC
 lake/forest_fires/forestfires.csv
+*.pkl
+*.joblib
