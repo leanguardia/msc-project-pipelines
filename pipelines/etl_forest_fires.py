@@ -24,18 +24,17 @@ if __name__ == "__main__":
         help=f'SQLite database file to store result (default: {default_db})')
 
     args = vars(parser.parse_args())
-    print(args)
 
-    print("Extracting Data")
+    print("≫ Extracting Data")
     data_source = args['data']
     df = load_data(data_source)
     
-    print("Transforming Data")
+    print("≫ Transforming Data")
     df = dummify(df, 'month', prefix='month')
     df = dummify(df, 'day', prefix='day')
 
-    print("Loading Data")
-    database = args['data']
-    engine = create_engine('sqlite:///lake/warehouse.db')
+    print("≫ Loading Data")
+    database = args['database']
+    engine = create_engine(f'sqlite:///{database}')
     df.to_sql("fires", engine, if_exists='replace')
     print("ETL - Done")
