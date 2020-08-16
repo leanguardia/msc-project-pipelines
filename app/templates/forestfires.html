@@ -27,111 +27,121 @@
       <h5 class="mb-3">Data</h5>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt, quos fugiat exercitationem quam quia dicta, ducimus voluptatibus aliquam repellendus veniam, accusantium eveniet omnis eius unde voluptatem numquam itaque facere?</p>
     </div>
-    <div class="col-6">
-      <h5 class="mb-3">How many hectares will be burned?</h5>
+    <div class="col-9">
       <form action="/forestfires" method="get">
-        <div class="form-row">
-          <div class="form-group col-md-2">
-            <label for="X">Coord X</label>
-            <select name='X' class="form-control">
-              <option selected>1</option> <option>2</option> <option>3</option> 
-              <option>4</option> <option>5</option> <option>6</option> 
-              <option>7</option> <option>8</option> <option>9</option> 
-            </select>
+        <div class="row">
+          <div class="col-9">
+            <h5 class="mb-3">How many hectares will be burned?</h5>
+            <div class="form-row">
+              <div class="form-group col-md-2">
+                <label for="X">Coord X</label>
+                <select name='X' class="form-control">
+                  <option selected>1</option> <option>2</option> <option>3</option> 
+                  <option>4</option> <option>5</option> <option>6</option> 
+                  <option>7</option> <option>8</option> <option>9</option> 
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="Y">Coord Y</label>
+                <select name='Y' class="form-control">
+                  <option selected>1</option> <option>2</option> <option>3</option> 
+                  <option>4</option> <option>5</option> <option>6</option> 
+                  <option>7</option> <option>8</option> <option>9</option> 
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="month">Month</label>
+                <select name='month' class="form-control">
+                  <option selected>January</option> <option>February</option> <option>March</option> 
+                  <option>April</option> <option>May</option> <option>June</option> 
+                  <option>July</option> <option>August</option> <option>September</option> 
+                  <option>October</option> <option>November</option> <option>December</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="day">Day</label>
+                <select name="day" class="form-control">
+                  <option selected>Monday</option> <option>Tuesday</option> <option>Wednesday</option> 
+                  <option>Thursday</option> <option>Friday</option> <option>Saturday</option> 
+                  <option>Sunday</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="temp">Temperature (C)</label>
+                <input name="temp" class="form-control" placeholder="2.2 to 33.3">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="RH">R. Humidity (%)</label>
+                <input name="RH" class="form-control" placeholder="15.0 to 100">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="wind">Wind (km/h)</label>
+                <input name="wind" class="form-control" placeholder="0.40 to 9.40">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="rain">Rain (mm/m2)</label>
+                <input name="rain" class="form-control" placeholder="0.0 to 6.4">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="FFMC">FFMC</label>
+                <input name="FFMC" class="form-control" placeholder="18.7 to 96.20">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="DMC">DMC</label>
+                <input name="DMC" class="form-control" placeholder="1.1 to 291.3">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="DC">DC</label>
+                <input name="DC" class="form-control" placeholder="7.9 to 860.6">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="ISI">ISI</label>
+                <input name="ISI" class="form-control" placeholder="0.0 to 56.10">
+              </div>
+            </div>
           </div>
-          <div class="form-group col-md-2">
-            <label for="Y">Coord Y</label>
-            <select name='Y' class="form-control">
-              <option selected>1</option> <option>2</option> <option>3</option> 
-              <option>4</option> <option>5</option> <option>6</option> 
-              <option>7</option> <option>8</option> <option>9</option> 
-            </select>
-          </div>
-          <div class="form-group col-md-4">
-            <label for="month">Month</label>
-            <select name='month' class="form-control">
-              <option selected>January</option> <option>February</option> <option>March</option> 
-              <option>April</option> <option>May</option> <option>June</option> 
-              <option>July</option> <option>August</option> <option>September</option> 
-              <option>October</option> <option>November</option> <option>December</option>
-            </select>
-          </div>
-          <div class="form-group col-md-4">
-            <label for="day">Day</label>
-            <select name="day" class="form-control">
-              <option selected>Monday</option> <option>Tuesday</option> <option>Wednesday</option> 
-              <option>Thursday</option> <option>Friday</option> <option>Saturday</option> 
-              <option>Sunday</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-3">
-            <label for="temp">Temperature (C)</label>
-            <input name="temp" class="form-control" placeholder="e.g. 18">
-          </div>
-          <div class="form-group col-md-3">
-            <label for="RH">R. Humidity (%)</label>
-            <input name="RH" class="form-control" placeholder="0 - 100">
-          </div>
-          <div class="form-group col-md-3">
-            <label for="wind">Wind (km/h)</label>
-            <input name="wind" class="form-control" placeholder="e.g. 3.1">
-          </div>
-          <div class="form-group col-md-3">
-            <label for="rain">Rain (mm/m2)</label>
-            <input name="rain" class="form-control" placeholder="e.g. 0.1">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-3">
-            <label for="FFMC">FFMC</label>
-            <input name="FFMC" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label for="DMC">DMC</label>
-            <input name="DMC" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label for="DC">DC</label>
-            <input name="DC" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label for="ISI">ISI</label>
-            <input name="ISI" class="form-control">
-          </div>
-        </div>
-        <div class="form-row mt-3 text-center">
-          <div class="form-group col-md-12">
-            <button type="submit" class="btn btn-info">Predict</button>
+          <div class="col-3 mt-5">
+              <button type="submit" class="btn btn-info btn-lg btn-block">Predict</button>
+              <button type="button" class="btn btn-outline-secondary btn-block" disabled>Reset Values</button>
+              {% if prediction %}
+                <div class="card border-info mt-4 mb-3">
+                  <div class="card-body text-info">
+                    <h5 class="card-title">Burned Area</h5>
+                    <p class="card-text text-center">{{ prediction }}</p>
+                  </div>
+                </div>
+              {% endif %}
           </div>
         </div>
       </form>
-    </div>
-    <div class="col-3">
-      <h5 class="mb-3">Model</h5>
-      <div class="table-responsive">
-        <table class="table table-bordered table-sm">
-          <thead>
-            <tr>
-              <th scope="col">Model</th>
-              <th scope="col">MAE</th>
-              <th scope="col">RSME</th>
-              <th>R2</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Linear Regression</td>
-              <td>0.0</td>
-              <td>100</td>
-              <td>200</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
 </div>
 
 {% endblock %}
+
+<!-- <h5 class="mb-3">Model</h5>
+  <div class="table-responsive">
+    <table class="table table-bordered table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Model</th>
+          <th scope="col">MAE</th>
+          <th scope="col">RSME</th>
+          <th>R2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Linear Regression</td>
+          <td>0.0</td>
+          <td>100</td>
+          <td>200</td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->

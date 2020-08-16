@@ -30,7 +30,7 @@ def _process_prediction(args):
     arry = processor.transform(args['X'], args['Y'], args['month'], args['day'],
         args['FFMC'], args['DMC'], args['DC'], args['ISI'],
         args['temp'], args['RH'], args['wind'], args['rain'])
-    return model.predict([arry])
+    return model.predict([arry])[0]
 
 def _parse_forest_fire_params(args):
     return {
