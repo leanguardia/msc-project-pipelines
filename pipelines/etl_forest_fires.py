@@ -13,7 +13,22 @@ def load_data(filepath):
 class ForestFireProcessor():
     def transform(self, X, Y, month, day, FFMC, DMC, DC, ISI, temp, RH, wind, rain):
         arr = np.array([X, Y, FFMC, DMC, DC, ISI, temp, RH, wind, rain])
-        return list(arr)
+        return arr
+
+    def transform_batch(self, df):
+        """
+        Transforms a batch of Fores Fire records.
+        
+        Parameters:
+        - X: DataFrame with the 12 columns of the dataset.
+
+        Returns:
+        - Numpy Matrix containing the transformed records.
+        """
+        categorical_features = ['month', 'day']
+        numerical_features = [feature for feature in df.columns
+                                      if feature not in categorical_features]
+        return df[numerical_features].values
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

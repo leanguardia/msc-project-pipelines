@@ -23,12 +23,24 @@ from pipelines.etl_forest_fires import ForestFireProcessor
 # (this output variable is very skewed towards 0.0, thus it may make
 # sense to model with the logarithm transform).
 
-# Schema: [X, Y, month, day, FFMC, DMC, DC, ISI, temp, RH, wind, rain, area]
+cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain']
+vals =    [1, 2, 'jun', 'sat', 20.0,  100.0, 400, 35, 33.2, 60, 5, 4]
 
-def test_returns_same_numeric_values():
+def test_transform():
     processor = ForestFireProcessor()
-    assert processor.transform(
-        X= 1, Y= 2, month= 'jun', day= 'sat',
-        FFMC= 20.0, DMC= 100.0, DC= 400, ISI= 35,
-        temp= 33.2, RH= 60, wind= 5, rain=4
-    ), [1,2,20,100,400,35,33.2,60,5,4]
+    assert np.array_equal(
+        processor.transform(
+            X=1, Y=2, month= 'jun', day='sat',
+            FFMC= 20.0, DMC= 100.0, DC=400, ISI=35,
+            temp=33.2, RH=60, wind=5, rain=4
+        ),
+        np.array([1,2,20,100,400,35,33.2,60,5,4])
+    )
+
+def test_batch_transformation():
+    df = pd.DataFrame([vals, vals], columns=cols)
+    processor = ForestFireProcessor()
+    assert np.array_equal(
+        processor.transform_batch(df),
+        [[1,2,20,100,400,35,33.2,60,5,4], [1,2,20,100,400,35,33.2,60,5,4]]
+    )
