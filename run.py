@@ -18,40 +18,31 @@ def index():
 
 @app.route('/forestfires')
 def forest_fires():
-    prediction = None
-    if get_prediction(request):
-        args = _parse_forest_fire_params(request.args)
-        processor = ForestFireProcessor()
-        array = processor.transform(X=1, Y=2, month= 'jun', day='sat',
-            FFMC= 20.0, DMC= 100.0, DC=400, ISI=35,
-            temp=33.2, RH=60, wind=5, rain=4); print(array)
-        prediction = model.predict([array])
+    prediction = ''
+    if prediction_is_required(request):
+        prediction = _process_prediction(request.args)
         print("And the prediction is!", prediction)
     return render_template('forestfires.html', prediction=prediction)
 
+def _process_prediction(args):
+    args = _parse_forest_fire_params(args)
+    processor = ForestFireProcessor()
+    arry = processor.transform(args['X'], args['Y'], args['month'], args['day'],
+        args['FFMC'], args['DMC'], args['DC'], args['ISI'],
+        args['temp'], args['RH'], args['wind'], args['rain'])
+    return model.predict([arry])
+
 def _parse_forest_fire_params(args):
-    params = {
-        'X': int(args['X']),
-        'Y': int(args['Y']),
-        'month': args['month'],
-        'day': args['day'],
-        'temp': int(args['temp']),
-        'RH': int(args['RH']),
-        'wind': int(args['wind']),
-        'FFMC': int(args['FFMC']),
-        'DMC': int(args['DMC']),
-        'DC': int(args['DC']),
-        'ISI': int(args['ISI']),
+    return {
+        'X': int(args['X']), 'Y': int(args['Y']),
+        'month': args['month'], 'day': args['day'],
+        'FFMC': int(args['FFMC']), 'DMC': int(args['DMC']),
+        'DC': int(args['DC']), 'ISI': int(args['ISI']),
+        'temp': int(args['temp']), 'RH': int(args['RH']),
+        'wind': int(args['wind']), 'rain': int(args['rain']),
     }
-    return params
 
-def _parse_forest_fire_array(args):
-    x = np.array([args['X'], args['Y'],
-                  args['FFMC'], args['DMC'], args['DC'], args['ISI'],
-                  args['temp'], args['RH'], args['wind'], args['rain']])
-    return x
-
-def get_prediction(request):
+def prediction_is_required(request):
     return len(request.args) > 0
 
 

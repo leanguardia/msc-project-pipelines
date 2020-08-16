@@ -14,9 +14,10 @@ def load_data(database, table):
     engine = create_engine(f'sqlite:///{database}')
     df = pd.read_sql_table(table, engine)
     features  = ['X', 'Y', 'FFMC', 'DMC', 'DC', 'ISI', 'temp', 'RH', 'wind', 'rain',
-                'month_jan', 'month_feb', 'month_mar', 'month_apr', 'month_may', 'month_jun',
-                'month_jul', 'month_aug', 'month_sep', 'month_oct', 'month_nov', 'month_dec', 
-                'day_mon', 'day_tue', 'day_wed', 'day_thu', 'day_fri', 'day_sat', 'day_sun']
+                # 'month_jan', 'month_feb', 'month_mar', 'month_apr', 'month_may', 'month_jun',
+                # 'month_jul', 'month_aug', 'month_sep', 'month_oct', 'month_nov', 'month_dec', 
+                # 'day_mon', 'day_tue', 'day_wed', 'day_thu', 'day_fri', 'day_sat', 'day_sun'
+                ]
     target = 'area'
     X = df[features]
     y = df[target]
@@ -27,17 +28,6 @@ def evaluate(y_test, y_pred):
     print('(MAE) Mean absolute error: %.2f' % mean_absolute_error(y_test, y_pred))
     print('(MSE) Mean squared error: %.2f' % mean_squared_error(y_test, y_pred))
     print('(R2) Coefficient of determination: %.2f' % r2_score(y_test, y_pred))
-    
-
-# def save_model(model, model_filepath):
-#     '''
-#     Stores the model in a 
-#     Parameters:
-#         model: Sci-kit estimator object
-#         model_filepath: the filepath for model storage. E.g. regressor.joblib
-#     '''
-
-#     dump(model, model_filepath)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
