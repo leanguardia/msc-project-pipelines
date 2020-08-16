@@ -30,6 +30,14 @@ class ForestFireProcessor():
                                       if feature not in categorical_features]
         return df[numerical_features]
 
+class ForestFirePredictor():
+    def __init__(self, model):
+        self.model = model
+
+    def predict(self, X, decimals=2):
+        prediction = 234.234234
+        return [round(prediction, decimals)]
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Preparation of Forest Fires dataset.')
