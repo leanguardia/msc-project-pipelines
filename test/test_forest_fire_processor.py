@@ -41,6 +41,6 @@ def test_batch_transformation():
     df = pd.DataFrame([vals, vals], columns=cols)
     processor = ForestFireProcessor()
     assert np.array_equal(
-        processor.transform_batch(df),
+        processor.transform_batch(df).values,
         [[1,2,20,100,400,35,33.2,60,5,4], [1,2,20,100,400,35,33.2,60,5,4]]
     )

@@ -23,12 +23,12 @@ class ForestFireProcessor():
         - X: DataFrame with the 12 columns of the dataset.
 
         Returns:
-        - Numpy Matrix containing the transformed records.
+        - Dataframe containing the transformed records.
         """
         categorical_features = ['month', 'day']
         numerical_features = [feature for feature in df.columns
                                       if feature not in categorical_features]
-        return df[numerical_features].values
+        return df[numerical_features]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -50,6 +50,8 @@ if __name__ == "__main__":
     df = load_data(data_source)
     
     print("≫ Transforming Data")
+    processor = ForestFireProcessor()
+    df = processor.transform_batch(df)
     # df = dummify(df, 'month', prefix='month')
     # df = dummify(df, 'day', prefix='day')
 
