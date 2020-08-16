@@ -4,11 +4,16 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 
-from dummy_transformer import dummify
+# from dummy_transformer import dummify
 
 def load_data(filepath):
     df = pd.read_csv(filepath)
     return df
+
+class ForestFireProcessor():
+    def transform(self, X, Y, month, day, FFMC, DMC, DC, ISI, temp, RH, wind, rain):
+        arr = np.array([X, Y, FFMC, DMC, DC, ISI, temp, RH, wind, rain])
+        return list(arr)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -30,8 +35,8 @@ if __name__ == "__main__":
     df = load_data(data_source)
     
     print("≫ Transforming Data")
-    df = dummify(df, 'month', prefix='month')
-    df = dummify(df, 'day', prefix='day')
+    # df = dummify(df, 'month', prefix='month')
+    # df = dummify(df, 'day', prefix='day')
 
     print("≫ Loading Data")
     database = args['database']
