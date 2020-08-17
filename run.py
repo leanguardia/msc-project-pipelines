@@ -7,7 +7,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.externals import joblib
 
 import pipelines
-from pipelines.etl_forest_fires import ForestFireProcessor
+from pipelines.etl_forest_fires import ForestFireProcessor, ForestFirePredictor
 
 app = Flask(__name__, template_folder='app/templates')
 model = joblib.load("models/regrezz.pkl")
@@ -30,16 +30,17 @@ def _process_prediction(args):
     arry = processor.transform(args['X'], args['Y'], args['month'], args['day'],
         args['FFMC'], args['DMC'], args['DC'], args['ISI'],
         args['temp'], args['RH'], args['wind'], args['rain'])
-    return model.predict([arry])[0]
+    predictions = ForestFirePredictor(model).predict([arry])
+    return str(predictions[0])
 
 def _parse_forest_fire_params(args):
     return {
-        'X': int(args['X']), 'Y': int(args['Y']),
+        'X': float(args['X']), 'Y': float(args['Y']),
         'month': args['month'], 'day': args['day'],
-        'FFMC': int(args['FFMC']), 'DMC': int(args['DMC']),
-        'DC': int(args['DC']), 'ISI': int(args['ISI']),
-        'temp': int(args['temp']), 'RH': int(args['RH']),
-        'wind': int(args['wind']), 'rain': int(args['rain']),
+        'FFMC': float(args['FFMC']), 'DMC': float(args['DMC']),
+        'DC': float(args['DC']), 'ISI': float(args['ISI']),
+        'temp': float(args['temp']), 'RH': float(args['RH']),
+        'wind': float(args['wind']), 'rain': float(args['rain']),
     }
 
 def prediction_is_required(request):
