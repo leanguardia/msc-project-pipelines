@@ -35,7 +35,9 @@ class ForestFirePredictor():
         self.model = model
 
     def predict(self, X, decimals=2):
-        prediction = 234.234234
+        """ Performs one Prediction."""
+
+        prediction = self.model.predict(X)[0]
         return [round(prediction, decimals)]
 
 if __name__ == "__main__":
