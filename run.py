@@ -9,7 +9,7 @@ from sklearn.externals import joblib
 import pipelines
 from pipelines.etl_forest_fires import ForestFireProcessor, ForestFirePredictor
 
-app = Flask(__name__, template_folder='app/templates')
+app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 model = joblib.load("models/regrezz.pkl")
 
 @app.route('/')
