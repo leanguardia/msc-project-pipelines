@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 
-# from dummy_transformer import dummify
+from pipelines.dummy_transformer import dummify
 
 def load_data(filepath):
     df = pd.read_csv(filepath)
