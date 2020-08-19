@@ -1,0 +1,3 @@
+outs:
+- md5: 7dd2df1d823738249ad6462c96364195
+  path: winequality-white.csv
