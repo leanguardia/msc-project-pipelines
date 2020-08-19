@@ -1,3 +1,4 @@
+import sys
 import argparse
 
 import pandas as pd
@@ -48,9 +49,9 @@ class ForestFirePredictor():
         if prediction < 0: prediction = 0
         return [round(prediction, decimals)]
 
-if __name__ == "__main__":
+def parse_args(args=[]):
     parser = argparse.ArgumentParser(
-        description='Preparation of Forest Fires dataset.')
+        description='ETL Preparation Pipeline for Forest Fires data.')
 
     default_data = 'lake/forest_fires/forestfires.csv'
     parser.add_argument('-s', '--source', type=str, default=default_data,
@@ -61,7 +62,11 @@ if __name__ == "__main__":
         type=str, dest='database', default=default_db,
         help=f'SQLite database file to store result (default: {default_db})')
 
-    args = vars(parser.parse_args())
+    return vars(parser.parse_args(args))
+
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
 
     print("≫ Extracting Data")
     data_source = args['data']
