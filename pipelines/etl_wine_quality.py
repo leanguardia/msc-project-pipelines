@@ -5,11 +5,25 @@ import numpy as np
 import pandas as pd
 
 class WineQualityProcessor():
-    def transform(self, fixed_acidity, volatile_acidity, citric_acid,
-                  residual_sugar, chlorides, free_sulfur_dioxide,
-                  total_sulfur_dioxide, density, pH, sulphates, alcohol):
-        return np.array([7.0, 0.27, 0.36, 20.7, 0.045, 45, \
-                          170.0, 1.0010, 3.00, 0.45, 8.8])
+    INPUTS = ['fixed acidity', 'volatile acidity', 'citric acid',
+              'residual sugar', 'chlorides', 'free sulfur dioxide',
+              'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
+
+    def transform(self, data):
+        """
+        Clean, Transform and Enhance wine input data.
+
+        Parameters
+        data: list, ndarray or DataFrame of shape (X, 11)
+
+        Returns: DataFrame with wine transformed data
+        """
+    
+        if type(data) == list: data = np.array(data, ndmin=2)
+        if data.shape[1] != 11:
+            raise ValueError("data input must have exactly 11 columns.")
+        df = pd.DataFrame(data, columns=self.INPUTS)
+        return df
 
 
 def parse_args(args=[]):
