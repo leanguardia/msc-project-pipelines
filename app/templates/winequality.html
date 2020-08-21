@@ -1,0 +1,162 @@
+<!-- Alcohol, some are really weak
+  Chlorides, some are really salty.
+  Density, fermentation is not over for some wines.
+  Good, mos ot fhe wines are not excellent
+  PH, Some wines are much more acid than others
+  Residual sugars, Some of the are really sweet.
+  Alcohol / ph ration, quality has a good correlation. -->
+  
+  {% extends 'layout.html' %}
+  
+  {% block head %}
+  <title>Home</title>
+  {% endblock %}
+  
+  {% block body %}
+  
+  <!-- Dataset Title -->
+  <div class="bg-white pt-4 pb-2 shadow-sm">
+    <div class="container">
+      <div class="row">
+        <div class="col-4">
+          <h4>Wine Quality <small>(Cortez et al)</small></h4>
+        </div>
+        <div class="col-8">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt, quos fugiat exercitationem quam quia dicta, ducimus voluptatibus aliquam repellendus veniam.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Dataset Content -->
+  <div class="container">  
+    <div class="row py-4">
+      <div class="col-3">
+        <h5 class="mb-3">Data</h5>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt, quos fugiat exercitationem quam quia dicta, ducimus voluptatibus aliquam repellendus veniam, accusantium eveniet omnis eius unde voluptatem numquam itaque facere?</p>
+      </div>
+      <div class="col-9">
+        <form action="/forestfires" method="get">
+          <div class="row">
+            <div class="col-9">
+              <h5 class="mb-3">What is the quality of a white wine?</h5>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="fixed_acidity">Fixed Acidity: <strong id='fixed-acidity-val'>?</strong></label>
+                  <input name="fixed_acidity" type="range" class="custom-range"
+                         min="3.8" max="15.9" step="0.01" oninput="updateRangeValue(this.value, 'fixed-acidity');">
+                  <small class="form-text text-muted mt-0">3.8 to 15.9</small>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="volatile_acidity">Volatile Acidity: <strong id='volatile-acidity-val'>?</strong></label>
+                  <input name="volatile_acidity" type="range" class="custom-range"
+                         min="0.08" max="1.58" step="0.001" oninput="updateRangeValue(this.value, 'volatile-acidity');">
+                  <small class="form-text text-muted mt-0">0.08 to 1.58</small>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="citric_acid">Citric Acid: <strong id='citric-acid-val'>?</strong></label>
+                  <input name="citric_acid" type="range" class="custom-range"
+                         min="0.0" max="1.60" step="0.01" oninput="updateRangeValue(this.value, 'citric-acid');">
+                  <small class="form-text text-muted mt-0">0.0 to 1.60</small>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="residual_sugar">Residual Sugar: <strong id='residual-sugar-val'>?</strong></label>
+                  <input name="residual_suger" type="range" class="custom-range"
+                         min="0.6" max="8.1" step="0.01" oninput="updateRangeValue(this.value, 'residual-sugar');">
+                  <small class="form-text text-muted mt-0">0.6 to 8.1</small>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="FixedAcidity" id="fixed-acidity-val">Fixed Acidity: ?</label>
+                  <input name="fixed_acidity" type="range" class="custom-range"
+                         min="3.8" max="15.9" step="0.01" oninput="updateRangeValue(this.value);">
+                  <small class="form-text text-muted mt-0">3.8 to 15.9</small>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="VolatileAcidity">Volatile Acidity: ?</label>
+                  <input name="volatile_acidity" type="range" class="custom-range" min="0.08" max="1.58" step="0.01" id="volatile-acidity">
+                  <small class="form-text text-muted mt-0">3.8 to 15.9</small>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="FixedAcidity" id="fixed-acidity-val">Fixed Acidity: ?</label>
+                  <input name="fixed_acidity" type="range" class="custom-range"
+                         min="3.8" max="15.9" step="0.01" oninput="updateRangeValue(this.value);">
+                  <small class="form-text text-muted mt-0">3.8 to 15.9</small>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="VolatileAcidity">Volatile Acidity: ?</label>
+                  <input name="volatile_acidity" type="range" class="custom-range" min="0.08" max="1.58" step="0.01" id="volatile-acidity">
+                  <small class="form-text text-muted mt-0">3.8 to 15.9</small>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label for="temp">Temperature (C)</label>
+                  <input name="temp" class="form-control" placeholder="2.2 to 33.3">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="RH">R. Humidity (%)</label>
+                  <input name="RH" class="form-control" placeholder="15.0 to 100">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="wind">Wind (km/h)</label>
+                  <input name="wind" class="form-control" placeholder="0.40 to 9.40">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="rain">Rain (mm/m2)</label>
+                  <input name="rain" class="form-control" placeholder="0.0 to 6.4">
+                </div>
+              </div>
+            </div>
+            <div class="col-3 mt-5">
+              <button type="submit" class="btn btn-info btn-lg btn-block">Predict</button>
+              <button type="button" class="btn btn-outline-secondary btn-block" disabled>Reset Values</button>
+              {% if prediction %}
+              <div class="card border-info mt-4 mb-3">
+                <div class="card-body text-info">
+                  <h5 class="card-title">Burned Area</h5>
+                  <p class="card-text text-center">{{ prediction }} hectares</p>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function updateRangeValue(value, inputField) {
+        console.log(value)
+          document.getElementById(`${inputField}-val`).innerHTML = value; 
+        }
+    </script>
+    
+    {% endblock %}
+    
+    <!-- <h5 class="mb-3">Model</h5>
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Model</th>
+              <th scope="col">MAE</th>
+              <th scope="col">RSME</th>
+              <th>R2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Linear Regression</td>
+              <td>0.0</td>
+              <td>100</td>
+              <td>200</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->

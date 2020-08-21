@@ -20,11 +20,19 @@ def index():
 def forest_fires():
     prediction = ''
     if prediction_is_required(request):
-        prediction = _process_prediction(request.args)
+        prediction = _process_forest_fire_prediction(request.args)
         print("And the prediction is!", prediction)
     return render_template('forestfires.html', prediction=prediction)
 
-def _process_prediction(args):
+@app.route('/winequality')
+def wine_quality():
+    prediction = ''
+    # if prediction_is_required(request):
+    #     prediction = _process_wine_quality_prediction(request.args)
+    #     print("And the prediction is!", prediction)
+    return render_template('winequality.html', prediction=prediction)
+
+def _process_forest_fire_prediction(args):
     args = _parse_forest_fire_params(args)
     processor = ForestFireProcessor()
     arry = processor.transform(args['X'], args['Y'], args['month'], args['day'],
@@ -32,6 +40,10 @@ def _process_prediction(args):
         args['temp'], args['RH'], args['wind'], args['rain'])
     predictions = ForestFirePredictor(model).predict([arry])
     return str(predictions[0])
+
+def _process_wine_quality__prediction(args):
+    pass
+    # return str(predictions[0])
 
 def _parse_forest_fire_params(args):
     return {
