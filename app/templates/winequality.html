@@ -58,58 +58,35 @@
                 <div class="form-group col-md-6">
                   <label for="citric_acid">Citric Acid: <strong id='citric-acid-val'>?</strong></label>
                   <input name="citric_acid" type="range" class="custom-range"
-                         min="0.0" max="1.60" step="0.01" oninput="updateRangeValue(this.value, 'citric-acid');">
+                         min="0.0" max="1.60" step="0.01" oninput='updateRangeValue(this.value, "citric-acid");'>
                   <small class="form-text text-muted mt-0">0.0 to 1.60</small>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="residual_sugar">Residual Sugar: <strong id='residual-sugar-val'>?</strong></label>
                   <input name="residual_suger" type="range" class="custom-range"
-                         min="0.6" max="8.1" step="0.01" oninput="updateRangeValue(this.value, 'residual-sugar');">
+                  min="0.6" max="8.1" step="0.01" oninput="updateRangeValue(this.value, 'residual-sugar');">
                   <small class="form-text text-muted mt-0">0.6 to 8.1</small>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="FixedAcidity" id="fixed-acidity-val">Fixed Acidity: ?</label>
-                  <input name="fixed_acidity" type="range" class="custom-range"
-                         min="3.8" max="15.9" step="0.01" oninput="updateRangeValue(this.value);">
-                  <small class="form-text text-muted mt-0">3.8 to 15.9</small>
+                  <label for="free-sulfur-dioxide">Free Sulfur Sioxide: <strong id="free-sulfur-dioxide-val">?</strong></label><input name="free-sulfur-dioxide" type="range" class="custom-range" min="2.0" max="289.0" step="1" oninput="updateRangeValue(this.value, 'free-sulfur-dioxide');"> <small class="form-text text-muted mt-0">2.0 to 289.0</small>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="VolatileAcidity">Volatile Acidity: ?</label>
-                  <input name="volatile_acidity" type="range" class="custom-range" min="0.08" max="1.58" step="0.01" id="volatile-acidity">
-                  <small class="form-text text-muted mt-0">3.8 to 15.9</small>
+                  <label for="total-sulfur-dioxide">Total Sulfur Dioxide: <strong id="total-sulfur-dioxide-val">?</strong></label><input name="total-sulfur-dioxide" type="range" class="custom-range" min="9.0" max="440.0" step="1" oninput="updateRangeValue(this.value, 'total-sulfur-dioxide');"> <small class="form-text text-muted mt-0">9.0 to 440.0</small>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="FixedAcidity" id="fixed-acidity-val">Fixed Acidity: ?</label>
-                  <input name="fixed_acidity" type="range" class="custom-range"
-                         min="3.8" max="15.9" step="0.01" oninput="updateRangeValue(this.value);">
-                  <small class="form-text text-muted mt-0">3.8 to 15.9</small>
+                  <label for="density">Density: <strong id="density-val">?</strong></label><input name="density" type="range" class="custom-range" min="0.98711" max="1.03898" step="0.00001" oninput="updateRangeValue(this.value, 'density');"> <small class="form-text text-muted mt-0">0.98711 to 1.03898</small>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="VolatileAcidity">Volatile Acidity: ?</label>
-                  <input name="volatile_acidity" type="range" class="custom-range" min="0.08" max="1.58" step="0.01" id="volatile-acidity">
-                  <small class="form-text text-muted mt-0">3.8 to 15.9</small>
+                  <label for="sulphates">Sulphates: <strong id="sulphates-val">?</strong></label><input name="sulphates" type="range" class="custom-range" min="0.22" max="1.08" step="0.01" oninput='updateRangeValue(this.value, "sulphates");'> <small class="form-text text-muted mt-0">0.22 to 1.08</small>
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-3">
-                  <label for="temp">Temperature (C)</label>
-                  <input name="temp" class="form-control" placeholder="2.2 to 33.3">
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="RH">R. Humidity (%)</label>
-                  <input name="RH" class="form-control" placeholder="15.0 to 100">
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="wind">Wind (km/h)</label>
-                  <input name="wind" class="form-control" placeholder="0.40 to 9.40">
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="rain">Rain (mm/m2)</label>
-                  <input name="rain" class="form-control" placeholder="0.0 to 6.4">
+                <div class="form-group col-md-6">
+                  <label for="alcohol">Alcohol: <strong id="alcohol-val">?</strong></label><input name="alcohol" type="range" class="custom-range" min="8.0" max="14.2" step="0.01" oninput='updateRangeValue(this.value, "alcohol");'> <small class="form-text text-muted mt-0">8.0 to 14.2</small>
                 </div>
               </div>
             </div>
@@ -119,8 +96,8 @@
               {% if prediction %}
               <div class="card border-info mt-4 mb-3">
                 <div class="card-body text-info">
-                  <h5 class="card-title">Burned Area</h5>
-                  <p class="card-text text-center">{{ prediction }} hectares</p>
+                  <h5 class="card-title">Quality</h5>
+                  <p class="card-text text-center">{{ prediction }} %</p>
                 </div>
               </div>
               {% endif %}
@@ -132,7 +109,6 @@
 
     <script>
       function updateRangeValue(value, inputField) {
-        console.log(value)
           document.getElementById(`${inputField}-val`).innerHTML = value; 
         }
     </script>
