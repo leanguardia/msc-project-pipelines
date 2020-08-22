@@ -26,7 +26,18 @@ from pipelines.etl_forest_fires import ForestFireProcessor
 cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain']
 vals =    [1, 2, 'jun', 'sat', 20.0,  100.0, 400, 35, 33.2, 60, 5, 4]
 
-def test_transform():
+def test_transform_full():
+    processor = ForestFireProcessor()
+    assert np.array_equal(
+        processor.transform(
+            X=1, Y=2, month= 'jun', day='sat',
+            FFMC= 20.0, DMC= 100.0, DC=400, ISI=35,
+            temp=33.2, RH=60, wind=5, rain=4
+        ),
+        np.array([1,2,20,100,400,35,33.2,60,5,4])
+    )
+
+def test_transform_x():
     processor = ForestFireProcessor()
     assert np.array_equal(
         processor.transform(

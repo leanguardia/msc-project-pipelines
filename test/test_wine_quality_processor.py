@@ -13,6 +13,20 @@ values_np2 = values_np.reshape(1, len(values_np))
 df = pd.DataFrame([values], columns=cols)
 
 class TestWineQualityProcessor:
+    def test_transform_list(self):
+        processor = WineQualityProcessor()
+        transformed = processor.transform([values_np])
+        assert np.array_equal(transformed.values, values_np2)
+
+    def test_transform_narray_one_dim(self):
+        processor = WineQualityProcessor()
+        assert np.array_equal(
+            processor.transform(values_np).values, values_np2)
+
+    def test_transform_df(self):
+        processor = WineQualityProcessor()
+        assert np.array_equal(processor.transform(df).values, values_np2)
+
     def test_transform_requires_minimum_number_of_features(self):
         processor = WineQualityProcessor()
         with pytest.raises(ValueError, match='must have 11 or 12 columns'):
@@ -22,22 +36,6 @@ class TestWineQualityProcessor:
         processor = WineQualityProcessor()
         with pytest.raises(ValueError, match='must have 11 or 12 columns.'):
             processor.transform([7.0, 0.27, 0.36, 20.7, 0.045, 45] * 3)
-
-    def test_transform_list(self):
-        processor = WineQualityProcessor()
-        returned = processor.transform([values_np])
-        assert np.array_equal(returned.values, values_np2)
-
-    # def test_transform_narray_one_dim(self):
-    #     processor = WineQualityProcessor()
-    #     assert np.array_equal(
-    #         processor.transform(nvals).values, nvals)
-
-    
-    # def test_transform_df(self):
-    #     processor = WineQualityProcessor()
-    #     assert np.array_equal(processor.transform(df).values, nvals)
-
 
     # def test_transform_accepts_only_features_as_input(self):
     #     processor = WineQualityProcessor()
