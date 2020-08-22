@@ -22,13 +22,16 @@ class WineQualityProcessor():
         """
         if not type(data) == pd.DataFrame:
             data = np.array(data, ndmin=2)
-            # print(data.shape, "!!!!!!!!!!!")
+        
         rows, cols = data.shape
+        
         if cols < 11 or cols > 12:
             raise ValueError("data must have 11 or 12 columns.")
         columns = self.COLUMNS
-        # if cols == 11:/
-            # columns = self.COLUMNS[:-1]
+        
+        if cols == 11:
+            columns = self.COLUMNS[:-1]
+
         df = pd.DataFrame(data, columns=columns)
         return df
 

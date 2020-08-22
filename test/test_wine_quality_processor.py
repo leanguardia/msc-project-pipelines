@@ -37,10 +37,7 @@ class TestWineQualityProcessor:
         with pytest.raises(ValueError, match='must have 11 or 12 columns.'):
             processor.transform([7.0, 0.27, 0.36, 20.7, 0.045, 45] * 3)
 
-    # def test_transform_accepts_only_features_as_input(self):
-    #     processor = WineQualityProcessor()
-    #     X = nvals[0, :-1]
-    #     print(X, X.shape)
-    #     assert np.array_equal(processor.transform(X).values, X)
-
-
+    def test_transform_accepts_only_features_as_input(self):
+        processor = WineQualityProcessor()
+        X = values_np[:-1]
+        assert np.array_equal(processor.transform([X]).values, [X])
