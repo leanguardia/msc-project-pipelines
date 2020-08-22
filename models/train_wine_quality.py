@@ -1,21 +1,22 @@
+import sys
 import argparse
 
 import pandas as pd
 import numpy as np
-# from sklearn.linear_model import LinearRegression
-# from sklearn.model_selection import train_test_split
-# from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 
 from models.util.io import read_table, store_model
+# from models.util.evaluators import eval_regression
 
-# def load_data(database, table):
-#     df = read_table(database, table)
-#     features = ['fixed acidity', 'volatile acidity', 'citric acid',
-#                 'residual sugar', 'chlorides', 'free sulfur dioxide',
-#                 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
-#     X = df[features]
-#     y = df['quality']
-#     return X, y
+def load_data(database, table):
+    df = read_table(database, table)
+    features = ['fixed acidity', 'volatile acidity', 'citric acid',
+                'residual sugar', 'chlorides', 'free sulfur dioxide',
+                'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
+    X = df[features]
+    y = df['quality']
+    return X, y
 
 def parse_args(args):
     if args == None:
@@ -24,7 +25,7 @@ def parse_args(args):
     model_filepath = args[0]
 
     if len(model_filepath) < 5 or model_filepath[-4:] != '.pkl':
-        raise ValueError("Invalid model filepath")
+        raise ValueError(f"Invalid model filepath '{model_filepath}'.")
     
     parser = argparse.ArgumentParser(
         description='Train Wine Quality predictive model.')
@@ -42,37 +43,28 @@ def parse_args(args):
 
     return vars(parser.parse_args(args))
 
-        
 
-
-    # raise TypeError(ar)
-    # return {'database': 'lake/warehouse.db'}
-
-# if __name__ == "__main__":
-
-    # args = vars(parser.parse_args())
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
  
-    # print('≫ Loading data')
-    # database = args['database']
-    # db_table = args['table']
-    # X, y = load_data(database, db_table)
+    print('≫ Loading data')
+    X, y = load_data(args['database'], args['table'])
 
-    # print('≫ Feature Engineering')
+    print('≫ Feature Engineering')
 
     # Remove Outliers
     # Polynomial Data
-    # Transform to Log Scale
 
-    # print('≫ Training Model')
-    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
-    #                                                     random_state=25)
-    # model = LinearRegression()
-    # model.fit(X_train, y_train)
+    print('≫ Training Model')
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
+                                                        random_state=25)
+    linreg = LinearRegression()
+    linreg.fit(X_train, y_train)
 
-    # y_pred = model.predict(X_test)
+    y_pred = linreg.predict(X_test)
     
-    # # util.evaluators.eval_regression()
+    # eval_regression(y_test, y_pred)
 
-    # model_filepath = args['model']
-    # print(f'≫ Storing Model "{model_filepath}"')
-    # store_model(model, model_filepath)
+    model_filepath = args['model']
+    print(f'≫ Storing Model "{model_filepath}"')
+    store_model(linreg, model_filepath)
