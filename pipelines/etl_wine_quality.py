@@ -3,26 +3,33 @@ import argparse
 
 import numpy as np
 import pandas as pd
+from sqlalchemy import create_engine
 
 class WineQualityProcessor():
-    INPUTS = ['fixed acidity', 'volatile acidity', 'citric acid',
+    COLUMNS = ['fixed acidity', 'volatile acidity', 'citric acid',
               'residual sugar', 'chlorides', 'free sulfur dioxide',
-              'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
+              'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol',
+              'quality']
 
     def transform(self, data):
         """
         Clean, Transform and Enhance wine input data.
 
         Parameters
-        data: list, ndarray or DataFrame of shape (X, 11)
+        data: list, ndarray or DataFrame of shape (X, 11 or 12)
 
         Returns: DataFrame with wine transformed data
         """
-    
-        if type(data) == list: data = np.array(data, ndmin=2)
-        if data.shape[1] != 11:
-            raise ValueError("data input must have exactly 11 columns.")
-        df = pd.DataFrame(data, columns=self.INPUTS)
+        if not type(data) == pd.DataFrame:
+            data = np.array(data, ndmin=2)
+            # print(data.shape, "!!!!!!!!!!!")
+        rows, cols = data.shape
+        if cols < 11 or cols > 12:
+            raise ValueError("data must have 11 or 12 columns.")
+        columns = self.COLUMNS
+        # if cols == 11:/
+            # columns = self.COLUMNS[:-1]
+        df = pd.DataFrame(data, columns=columns)
         return df
 
 
@@ -51,13 +58,11 @@ if __name__ == "__main__":
     
     print("≫ Transforming Data")
     processor = WineQualityProcessor()
-    # df = processor.transform_batch(df)
-    # df = dummify(df, 'month', prefix='month')
-    # df = dummify(df, 'day', prefix='day')
+    df = processor.transform(df)
 
-    # print("≫ Loading Data")
-    # database = args['database']
-    # engine = create_engine(f'sqlite:///{database}')
-    # df.to_sql("fires", engine, if_exists='replace')
-    # print("ETL - Done")
+    print("≫ Loading Data")
+    database = args['database']
+    engine = create_engine(f'sqlite:///{database}')
+    df.to_sql("fires", engine, if_exists='replace')
+    print("ETL - Done")
 
