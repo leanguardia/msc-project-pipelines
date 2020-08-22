@@ -8,9 +8,12 @@ from sklearn.externals import joblib
 
 import pipelines
 from pipelines.etl_forest_fires import ForestFireProcessor, ForestFirePredictor
+from pipelines.etl_wine_quality import WineQualityProcessor
+from app.form_parser import parse_wine_quality_params
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 model = joblib.load("models/regrezz.pkl")
+wine_reg = joblib.load("models/wine_reg.pkl")
 
 @app.route('/')
 def index():
@@ -27,9 +30,9 @@ def forest_fires():
 @app.route('/winequality')
 def wine_quality():
     prediction = ''
-    # if prediction_is_required(request):
-    #     prediction = _process_wine_quality_prediction(request.args)
-    #     print("And the prediction is!", prediction)
+    if prediction_is_required(request):
+        prediction = _process_wine_quality_prediction(request.args)
+        print("And the prediction is!", prediction)
     return render_template('winequality.html', prediction=prediction)
 
 def _process_forest_fire_prediction(args):
@@ -41,9 +44,13 @@ def _process_forest_fire_prediction(args):
     predictions = ForestFirePredictor(model).predict([arry])
     return str(predictions[0])
 
-def _process_wine_quality__prediction(args):
-    pass
-    # return str(predictions[0])
+def _process_wine_quality_prediction(args):
+    params = parse_wine_quality_params(args)
+    processor = WineQualityProcessor()
+    features = processor.transform(params)
+    # TODO MAKE PREDICTOR GENERIC
+    predictions = ForestFirePredictor(wine_reg).predict(features)
+    return predictions[0]
 
 def _parse_forest_fire_params(args):
     return {
@@ -57,7 +64,6 @@ def _parse_forest_fire_params(args):
 
 def prediction_is_required(request):
     return len(request.args) > 0
-
 
 if __name__ == "__main__":
     app.run(debug=True)
