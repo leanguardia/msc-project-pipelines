@@ -21,8 +21,13 @@ def parse_args(args):
     if args == None:
         raise TypeError("An arguments list is required")
 
-    if args[0] == 'model_name':
-        raise ValueError
+    model_filepath = args[0]
+
+    if len(model_filepath) < 5 or model_filepath[-4:] != '.pkl':
+        raise ValueError("Invalid model filepath")
+
+    return {'model_filepath': 'model_filepath.pkl' }
+
     # parser = argparse.ArgumentParser(
     #     description='Train Wine Quality predictive model.')
         
