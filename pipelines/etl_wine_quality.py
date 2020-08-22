@@ -20,19 +20,18 @@ class WineQualityProcessor():
         Clean, Transform and Enhance wine input data.
 
         Parameters
-        data: list, ndarray or DataFrame of shape (X, 11 or 12)
+            data: list, ndarray or DataFrame of shape (X, 11 or 12)
 
         Returns: DataFrame with wine transformed data
         """
         if not type(data) == pd.DataFrame:
             data = np.array(data, ndmin=2)
         
-        rows, cols = data.shape
-        
+        rows, cols = data.shape        
         if cols < self.num_of_features or cols > self.num_of_columns:
             raise ValueError("data must have 11 or 12 columns.")
+
         columns = self.COLUMNS
-        
         if cols == self.num_of_features:
             columns = self.COLUMNS[:-1]
 
@@ -70,6 +69,6 @@ if __name__ == "__main__":
     print("≫ Loading Data")
     database = args['database']
     engine = create_engine(f'sqlite:///{database}')
-    df.to_sql("fires", engine, if_exists='replace')
+    df.to_sql("wines", engine, if_exists='replace')
     print("ETL - Done")
 
