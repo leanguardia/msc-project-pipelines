@@ -17,7 +17,16 @@ class TestTrainWineQuality(unittest.TestCase):
 
     def test_argparse_model_name(self):
         args = parse_args(['model_name.pkl'])
-        self.assertEqual(args['model_filepath'], 'model_filepath.pkl')
+        self.assertEqual(args['model'], 'model_name.pkl')
 
-#     def test_argparse_default_(self):
-#         self.assertEqual(parse_args()['database'], 'lake/warehouse.db')
+    def test_argparse_default_database(self):
+        args = parse_args(['model_name.pkl'])
+        self.assertEqual(args['database'], 'lake/warehouse.db')
+
+    def test_argparse_database(self):
+        args = parse_args(['model_name.pkl', '-d', 'other/database.db'])
+        self.assertEqual(args['database'], 'other/database.db')
+
+    def test_argparse_default_table(self):
+        args = parse_args(['model_name.pkl'])
+        self.assertEqual(args['table'], 'wines')

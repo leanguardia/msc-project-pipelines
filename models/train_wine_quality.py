@@ -25,23 +25,26 @@ def parse_args(args):
 
     if len(model_filepath) < 5 or model_filepath[-4:] != '.pkl':
         raise ValueError("Invalid model filepath")
+    
+    parser = argparse.ArgumentParser(
+        description='Train Wine Quality predictive model.')
 
-    return {'model_filepath': 'model_filepath.pkl' }
+    parser.add_argument('model',
+        help='Output model name (e.g. models/regression.pkl)')
 
-    # parser = argparse.ArgumentParser(
-    #     description='Train Wine Quality predictive model.')
+    default_db = 'lake/warehouse.db'
+    parser.add_argument('-d', '--database', dest='database', default=default_db,
+        help=f'SQLite database file to query data from (default: {default_db})')
+
+    default_table = 'wines'
+    parser.add_argument('-t', '--table', default=default_table,
+        help=f'Database table to query (default: {default_table})')
+
+    return vars(parser.parse_args(args))
+
         
-    # parser.add_argument('model', type=str,# dest='model_filepath',
-    #     help='Output model name (e.g. models/regression.pkl)')
 
-    # default_db = 'lake/warehouse.db'
-    # parser.add_argument('-d', '--database',
-    #     type=str, dest='database', default=default_db,
-    #     help=f'SQLite database file to query data from (default: {default_db})')
 
-    # default_table = 'fires'
-    # parser.add_argument('-t', '--table', type=str, default=default_table,
-    #     help=f'Database table to query (default: {default_table})')
     # raise TypeError(ar)
     # return {'database': 'lake/warehouse.db'}
 
