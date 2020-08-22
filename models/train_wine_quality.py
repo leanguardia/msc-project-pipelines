@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
 from models.util.io import read_table, store_model
-# from models.util.evaluators import eval_regression
+from models.evaluators import evaluate_regression
 
 def load_data(database, table):
     df = read_table(database, table)
@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
     y_pred = linreg.predict(X_test)
     
-    # eval_regression(y_test, y_pred)
+    evaluate_regression(y_test, y_pred)
 
     model_filepath = args['model']
     print(f'≫ Storing Model "{model_filepath}"')
