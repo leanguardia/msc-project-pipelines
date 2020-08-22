@@ -6,7 +6,7 @@ import os
 from sklearn.linear_model import LinearRegression
 from joblib import dump
 
-from models.util.io import store_model
+from models.io import store_model
 
 model = LinearRegression()
 
@@ -18,7 +18,7 @@ def test_filepath_format():
     with pytest.raises(ValueError, match="filepath should end with specific extension"):
         store_model(model, 'filepath')
 
-@patch('models.util.io.dump')
+@patch('models.io.dump')
 def test_new_number_of_columns(dump_mock):
     store_model(model, 'filepath.pkl')
     dump_mock.assert_called_once_with(model, 'filepath.pkl')

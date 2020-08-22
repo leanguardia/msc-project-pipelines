@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
-from models.util.io import read_table, store_model
+from models.io import read_table, store_model
 from models.evaluators import evaluate_regression
 
 def load_data(database, table):
