@@ -1,6 +1,9 @@
 import sys
 import argparse
 
+import pandas as pd
+from sqlalchemy import create_engine
+
 # Sex / nominal / -- / M, F, and I (infant)
 # Length / continuous / mm / Longest shell measurement
 # Diameter / continuous / mm / perpendicular to length
@@ -38,21 +41,19 @@ def parse_args(args=[]):
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
-    print(args)
 
-    # print("≫ Extracting Data")
-    # data_source = args['data']
-    # print(data_source)
-    # df = pd.read_csv(data_source)
+    print("≫ Extracting Data")
+    input_data = args['data']
+    df = pd.read_csv(input_data)
     
     # print("≫ Transforming Data")
     # processor = Processor()
     # df = processor.transform(df)
 
-    # print("≫ Loading Data")
-    # database = args['database']
-    # db_table = args['db_table']
-    # table_overwrite = args['table_overwrite']
-    # engine = create_engine(f'sqlite:///{database}')
-    # df.to_sql(db_table, engine, if_exists=table_overwrite)
-    # print("ETL - Done")
+    print("≫ Loading Data")
+    database = args['database']
+    db_table = args['table_name']
+    if_table_exists = 'replace' if args['table_overwrite'] else 'fail'
+    engine = create_engine(f'sqlite:///{database}')
+    df.to_sql(db_table, engine, if_exists=if_table_exists, index=False)
+    print("≫ ETL - Done")

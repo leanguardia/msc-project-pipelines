@@ -59,7 +59,6 @@ if __name__ == "__main__":
 
     print("≫ Extracting Data")
     data_source = args['data']
-    print(data_source)
     df = pd.read_csv(data_source)
     
     print("≫ Transforming Data")
@@ -69,6 +68,6 @@ if __name__ == "__main__":
     print("≫ Loading Data")
     database = args['database']
     engine = create_engine(f'sqlite:///{database}')
-    df.to_sql("wines", engine, if_exists='replace')
-    print("ETL - Done")
+    df.to_sql('wines', engine, if_exists='replace', index=False)
+    print("≫ ETL - Done")
 

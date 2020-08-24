@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 
-from pipelines.dummy_transformer import dummify
+# from pipelines.dummy_transformer import dummify
 
 def load_data(filepath):
     df = pd.read_csv(filepath)
@@ -81,5 +81,5 @@ if __name__ == "__main__":
     print("≫ Loading Data")
     database = args['database']
     engine = create_engine(f'sqlite:///{database}')
-    df.to_sql("fires", engine, if_exists='replace')
-    print("ETL - Done")
+    df.to_sql('forest_fires', engine, if_exists='replace', index=False)
+    print("≫ ETL - Done")
