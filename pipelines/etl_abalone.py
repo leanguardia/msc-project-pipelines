@@ -23,6 +23,11 @@ def parse_args(args=[]):
     parser.add_argument('-d', '--database', default=default_db, dest='database',
         help=f'SQLite database file to store result (default: {default_db})')
 
+    default_db_table = 'abalones'
+    parser.add_argument('-t', '--table', default=default_db_table,
+        dest='table_name',
+        help=f'SQLite database table name (default: {default_db_table})')
+
     default_table_overwrite = False
     parser.add_argument('-o', '--overwrite', default=default_table_overwrite,
         dest='table_overwrite', type=bool,
@@ -46,6 +51,8 @@ if __name__ == "__main__":
 
     # print("≫ Loading Data")
     # database = args['database']
+    # db_table = args['db_table']
+    # table_overwrite = args['table_overwrite']
     # engine = create_engine(f'sqlite:///{database}')
-    # df.to_sql("wines", engine, if_exists='replace')
+    # df.to_sql(db_table, engine, if_exists=table_overwrite)
     # print("ETL - Done")

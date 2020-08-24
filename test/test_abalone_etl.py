@@ -26,6 +26,18 @@ class TestAbaloneEtl(unittest.TestCase):
     def test_argparser_valid_database_long(self):
         args = parse_args(['--database', 'specific/path/to/database.db'])
         self.assertEqual(args['database'], 'specific/path/to/database.db')
+
+    def test_argparser_default_db_table(self):
+        args = parse_args()
+        self.assertEqual(args['table_name'], 'abalones')
+
+    def test_argparser_valid_db_table(self):
+        args = parse_args(['-t', 'other_table'])
+        self.assertEqual(args['table_name'], 'other_table')
+
+    def test_argparser_valid_db_table_long(self):
+        args = parse_args(['--table', 'other_table'])
+        self.assertEqual(args['table_name'], 'other_table')
     
     def test_argparser_default_table_overwrite(self):
         args = parse_args()
