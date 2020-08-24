@@ -1,0 +1,3 @@
+outs:
+- md5: 97b2e1b08f7b576c35a5206fb2f2aea3
+  path: abalone.csv

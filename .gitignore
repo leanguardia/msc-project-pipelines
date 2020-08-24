@@ -143,5 +143,6 @@ cython_debug/
 # Tracked by DVC
 lake/forest_fires/forestfires.csv
 lake/wine_quality/*.csv
+lake/abalone/abalone.csv
 *.pkl
 *.joblib
