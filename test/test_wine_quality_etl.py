@@ -21,6 +21,6 @@ class TestWineQualityETL:
         args = parse_args(['-d', 'specific/path/to/database.db'])
         assert args['database'] == 'specific/path/to/database.db'
 
-    def test_argparser_valid_database_lomg(self):
+    def test_argparser_valid_database_long(self):
         args = parse_args(['--database', 'specific/path/to/database.db'])
         assert args['database'] == 'specific/path/to/database.db'
