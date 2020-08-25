@@ -1,6 +1,6 @@
 import pytest
 import unittest
-from models.train_wine_quality import parse_args
+from models.train_abalone import parse_args
 
 class TestTrainWineQuality(unittest.TestCase):
     def test_argparse_missing_model_name_error(self):
@@ -8,11 +8,11 @@ class TestTrainWineQuality(unittest.TestCase):
             parse_args(None)
 
     def test_argparse_model_name_without_extension(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match='Invalid model filepath'):
             parse_args(['model_name'])
 
     def test_argparse_short_model_name_error(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match='Invalid model filepath'):
             parse_args(['.pkl'])
 
     def test_argparse_model_name(self):
@@ -26,14 +26,14 @@ class TestTrainWineQuality(unittest.TestCase):
     def test_argparse_database(self):
         args = parse_args(['model_name.pkl', '-d', 'other/database.db'])
         self.assertEqual(args['database'], 'other/database.db')
-
+    
     def test_argparse_database_long(self):
         args = parse_args(['model_name.pkl', '--database', 'other/database.db'])
         self.assertEqual(args['database'], 'other/database.db')
 
     def test_argparse_default_table(self):
         args = parse_args(['model_name.pkl'])
-        self.assertEqual(args['table'], 'wines')
+        self.assertEqual(args['table'], 'abalones')
 
     def test_argparse_default_valid_table(self):
         args = parse_args(['model_name.pkl', '-t', 'other_table'])
