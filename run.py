@@ -9,11 +9,12 @@ from sklearn.externals import joblib
 import pipelines
 from pipelines.etl_forest_fires import ForestFireProcessor, ForestFirePredictor
 from pipelines.etl_wine_quality import WineQualityProcessor
-from app.form_parser import parse_wine_quality_params
+from app.form_parser import parse_wine_quality_params, parse_abalone_params
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 model = joblib.load("models/regrezz.pkl")
 wine_reg = joblib.load("models/wine_reg.pkl")
+abalone_reg = joblib.load("models/abalone_rgrs.pkl")
 
 @app.route('/')
 def index():
@@ -34,6 +35,14 @@ def wine_quality():
         prediction = _process_wine_quality_prediction(request.args)
         print("And the prediction is!", prediction)
     return render_template('winequality.html', prediction=prediction)
+
+@app.route('/abalone')
+def abalone():
+    prediction = ''
+    if prediction_is_required(request):
+        prediction = _process_abalone_prediction(request.args)
+        print("And the prediction is!", prediction)
+    return render_template('abalone.html', prediction=prediction)
 
 def _process_forest_fire_prediction(args):
     args = _parse_forest_fire_params(args)
@@ -61,6 +70,15 @@ def _parse_forest_fire_params(args):
         'temp': float(args['temp']), 'RH': float(args['RH']),
         'wind': float(args['wind']), 'rain': float(args['rain']),
     }
+
+def _process_abalone_prediction(args):
+    params = parse_abalone_params(args)
+    # processor = WineQualityProcessor()
+    # features = processor.transform(params)
+    features = [params]
+    predictions = ForestFirePredictor(abalone_reg).predict(features)
+    # predictions = abalone_reg.predict(features)
+    return predictions[0]
 
 def prediction_is_required(request):
     return len(request.args) > 0

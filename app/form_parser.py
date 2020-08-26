@@ -12,3 +12,15 @@ def parse_wine_quality_params(args):
         float(args['ph']),
         float(args['alcohol'])
     ]
+
+def parse_abalone_params(args):
+    return [
+        # float(args['sex']),
+        float(args['length']),
+        float(args['diameter']),
+        float(args['height']),
+        float(args['whole_weight']),
+        float(args['shucked_weight']),
+        float(args['viscera_weight']),
+        float(args['shell_weight']),
+    ]
