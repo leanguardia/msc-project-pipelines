@@ -59,44 +59,8 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="length">Age: <strong id="length-val">?</strong></label>
-                <input name="length" type="range" class="custom-range" min="15.0" max="163.0" step="0.1" oninput='updateRangeValue(this.value, "length");'>
-                <small class="form-text text-muted mt-0">15.0 to 163.0</small>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="diameter">Diameter: <strong id="diameter-val">?</strong></label>
-                <input name="diameter" type="range" class="custom-range" min="11.0" max="130.0" step="1" oninput='updateRangeValue(this.value, "diameter");'>
-                <small class="form-text text-muted mt-0">11.0 to 130.0</small>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="height">Height: <strong id="height-val">?</strong></label>
-                <input name="height" type="range" class="custom-range" min="0.0" max="225.9" step="0.1" oninput='updateRangeValue(this.value, "height");'>
-                <small class="form-text text-muted mt-0">0.0 to 225.9</small>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="whole_weight">Whole weight: <strong id="whole_weight-val">?</strong></label>
-                <input name="whole_weight" type="range" class="custom-range" min="0" max="565" step="1" oninput='updateRangeValue(this.value, "whole_weight");'>
-                <small class="form-text text-muted mt-0">0 to 565</small>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="shucked_weight">Shucked weight: <strong id="shucked_weight-val">?</strong></label>
-                <input name="shucked_weight" type="range" class="custom-range" min="0.2" max="297.6" step="0.1" oninput='updateRangeValue(this.value, "shucked_weight");'>
-                <small class="form-text text-muted mt-0">0.2 to 297.6</small>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="viscera_weight">Viscera weight: <strong id="viscera_weight-val">?</strong></label>
-                <input name="viscera_weight" type="range" class="custom-range" min="0.1" max="152.0" step="0.1" oninput='updateRangeValue(this.value, "viscera_weight");'>
-                <small class="form-text text-muted mt-0">0.1 to 152.0</small>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="shell_weight">Shell weight: <strong id="shell_weight-val">?</strong></label>
-                <input name="shell_weight" type="range" class="custom-range" min="0.3" max="200.9" step="0.1" oninput='updateRangeValue(this.value, "shell_weight");'>
-                <small class="form-text text-muted mt-0">0.3 to 200.9</small>
+                <input name="length" type="range" class="custom-range" min="17" max="90" step="1" oninput='updateRangeValue(this.value, "length");'>
+                <small class="form-text text-muted mt-0">17 to 90</small>
               </div>
               <div class="form-group col-md-6">
                 <label for="sex">Sex:</label><br>
@@ -108,10 +72,98 @@
                   <input class="form-check-input" type="radio" name="sex" value="F">
                   <label class="form-check-label" for="inlineRadio2">Female</label>
                 </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="sex" value="I">
-                  <label class="form-check-label" for="inlineRadio3">Infant</label>
-                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for='education'>Education</label>
+                <select name='education' class="form-control">
+                  <option value='Bachelors'>Bachelors</option>
+                  <option value='Some-college'>Some-college</option>
+                  <option value='11th'>11th</option>
+                  <option value='HS-grad'>HS-grad</option>
+                  <option value='Prof-school'>Prof-school</option>
+                  <option value='Assoc-acdm'>Assoc-acdm</option>
+                  <option value='Assoc-voc'>Assoc-voc</option>
+                  <option value='9th'>9th</option>
+                  <option value='7th-8th'>7th-8th</option>
+                  <option value='12th'>12th</option>
+                  <option value='Masters'>Masters</option>
+                  <option value='1st-4th'>1st-4th</option>
+                  <option value='10th'>10th</option>
+                  <option value='Doctorate'>Doctorate</option>
+                  <option value='5th-6th'>5th-6th</option>
+                  <option value='Preschool'>Preschool</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for='occupation'>Ocupation</label>
+                <select name='occupation' class="form-control">
+                  <option value='Tech-support'>Tech-support</option>
+                  <option value='Craft-repair'>Craft-repair</option>
+                  <option value='Other-service'>Other-service</option>
+                  <option value='Sales'>Sales</option>
+                  <option value='Exec-managerial'>Exec-managerial</option>
+                  <option value='Prof-specialty'>Prof-specialty</option>
+                  <option value='Handlers-cleaners'>Handlers-cleaners</option>
+                  <option value='Machine-op-inspct'>Machine-op-inspct</option>
+                  <option value='Adm-clerical'>Adm-clerical</option>
+                  <option value='Farming-fishing'>Farming-fishing</option>
+                  <option value='Transport-moving'>Transport-moving</option>
+                  <option value='Priv-house-serv'>Priv-house-serv</option>
+                  <option value='Protective-serv'>Protective-serv</option>
+                  <option value='Armed-Forces'>Armed-Forces</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for='workclass'>Workclass</label>
+                <select name='workclass' class="form-control">
+                  <option value='Private'>Private</option>
+                  <option value='Self-emp-not-inc'>Self-emp-not-inc</option>
+                  <option value='Self-emp-inc'>Self-emp-inc</option>
+                  <option value='Federal-gov'>Federal-gov</option>
+                  <option value='Local-gov'>Local-gov</option>
+                  <option value='State-gov'>State-gov</option>
+                  <option value='Without-pay'>Without-pay</option>
+                  <option value='Never-worked'>Never-worked</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for='race'>Race</label>
+                <select name='race' class="form-control">
+                  <option>White</option>
+                  <option>Asian-Pac-Islander</option>
+                  <option>Amer-Indian-Eskimo</option>
+                  <option>Other</option>
+                  <option>Black</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for='relationship'>Relationship</label>
+                <select name='relationship' class="form-control">
+                  <option value='Wife'>Wife</option>
+                  <option value='Own-child'>Own-child</option>
+                  <option value='Husband'>Husband</option>
+                  <option value='Not-in-family'>Not-in-family</option>
+                  <option value='Other-relative'>Other-relative</option>
+                  <option value='Unmarried'>Unmarried</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for='martial_status'>Martial Status</label>
+                <select name='martial_status' class="form-control">
+                  <option value='Married-civ-spouse'>Married-civ-spouse</option>
+                  <option value='Divorced'>Divorced</option>
+                  <option value='Never-married'>Never-married</option>
+                  <option value='Separated'>Separated</option>
+                  <option value='Widowed'>Widowed</option>
+                  <option value='Married-spouse-absent'>Married-spouse-absent</option>
+                  <option value='Married-AF-spouse'>Married-AF-spouse</option>
+                </select>
               </div>
             </div>
           </div>
