@@ -1,0 +1,142 @@
+<!-- Alcohol, some are really weak
+  Chlorides, some are really salty.
+  Density, fermentation is not over for some wines.
+  Good, mos ot fhe wines are not excellent
+  PH, Some wines are much more acid than others
+  Residual sugars, Some of the are really sweet.
+  Alcohol / ph ration, quality has a good correlation. -->
+  
+  {% extends 'layout.html' %}
+  
+  {% block head %}
+  <title>Adult Census</title>
+  {% endblock %}
+  
+  {% block body %}
+  
+  <!-- Dataset Title -->
+<div class="bg-white pt-4 pb-2 shadow-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-4">
+        <h4>Bla Bla <small>bla bla bla</small></h4>
+      </div>
+      <div class="col-8">
+        <p>Census in the US.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dataset Content -->
+<div class="container">  
+  <div class="row py-4">
+    <div class="col-3">
+      <h5 class="mb-3">Data</h5>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <ul>
+        <li>Age</li>
+        <li>Workclass</li>
+        <li>Final Weight</li>
+        <li>Education</li>
+        <li>Education Num</li>
+        <li>Marital Status</li>
+        <li>Occupation</li>
+        <li>Relationship</li>
+        <li>Race</li>
+        <li>Sex</li>
+        <li>Capital gain</li>
+        <li>Capital loss</li>
+        <li>Hours per week</li>
+        <li>Native Country</li>
+      </ul>
+    </div>
+    <div class="col-9">
+      <form action="/abalone" method="get">
+        <div class="row">
+          <div class="col-9">
+            <h5 class="mb-3">Does this person make more than 50K$ a year?</h5>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="length">Age: <strong id="length-val">?</strong></label>
+                <input name="length" type="range" class="custom-range" min="15.0" max="163.0" step="0.1" oninput='updateRangeValue(this.value, "length");'>
+                <small class="form-text text-muted mt-0">15.0 to 163.0</small>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="diameter">Diameter: <strong id="diameter-val">?</strong></label>
+                <input name="diameter" type="range" class="custom-range" min="11.0" max="130.0" step="1" oninput='updateRangeValue(this.value, "diameter");'>
+                <small class="form-text text-muted mt-0">11.0 to 130.0</small>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="height">Height: <strong id="height-val">?</strong></label>
+                <input name="height" type="range" class="custom-range" min="0.0" max="225.9" step="0.1" oninput='updateRangeValue(this.value, "height");'>
+                <small class="form-text text-muted mt-0">0.0 to 225.9</small>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="whole_weight">Whole weight: <strong id="whole_weight-val">?</strong></label>
+                <input name="whole_weight" type="range" class="custom-range" min="0" max="565" step="1" oninput='updateRangeValue(this.value, "whole_weight");'>
+                <small class="form-text text-muted mt-0">0 to 565</small>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="shucked_weight">Shucked weight: <strong id="shucked_weight-val">?</strong></label>
+                <input name="shucked_weight" type="range" class="custom-range" min="0.2" max="297.6" step="0.1" oninput='updateRangeValue(this.value, "shucked_weight");'>
+                <small class="form-text text-muted mt-0">0.2 to 297.6</small>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="viscera_weight">Viscera weight: <strong id="viscera_weight-val">?</strong></label>
+                <input name="viscera_weight" type="range" class="custom-range" min="0.1" max="152.0" step="0.1" oninput='updateRangeValue(this.value, "viscera_weight");'>
+                <small class="form-text text-muted mt-0">0.1 to 152.0</small>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="shell_weight">Shell weight: <strong id="shell_weight-val">?</strong></label>
+                <input name="shell_weight" type="range" class="custom-range" min="0.3" max="200.9" step="0.1" oninput='updateRangeValue(this.value, "shell_weight");'>
+                <small class="form-text text-muted mt-0">0.3 to 200.9</small>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="sex">Sex:</label><br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sex" value="M">
+                  <label class="form-check-label" for="sex">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sex" value="F">
+                  <label class="form-check-label" for="inlineRadio2">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sex" value="I">
+                  <label class="form-check-label" for="inlineRadio3">Infant</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 mt-5">
+            <button type="submit" class="btn btn-info btn-lg btn-block">Predict</button>
+            <button type="button" class="btn btn-outline-secondary btn-block" disabled>Reset Values</button>
+            {% if prediction %}
+            <div class="card border-info mt-4 mb-3">
+              <div class="card-body text-info">
+                <h5 class="card-title">> 50K $?</h5>
+                <p class="card-text text-center">{{ prediction }}</p>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateRangeValue(value, inputField) {
+      document.getElementById(`${inputField}-val`).innerHTML = value; 
+    }
+</script>
+  
+{% endblock %}
