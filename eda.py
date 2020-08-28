@@ -9,8 +9,8 @@ def plot_corr_mat(data, title="Correlations"):
     correlations = data.corr()
     mask = np.zeros_like(correlations)
     mask[np.triu_indices_from(mask)] = True
-    plt.subplots(figsize=(9, 7)); plt.title(title) 
-    sns.heatmap(correlations, vmin=-1, vmax=1, mask=mask,
+    plt.subplots(figsize=(8, 6)); plt.title(title) 
+    sns.heatmap(correlations, vmin=-1, vmax=1, mask=mask, annot=True, fmt = ".2f",
                 square=True, center=0, cmap=sns.color_palette("RdBu_r", 50))
 
 def evaluate_regression(y_test, y_pred):
@@ -22,7 +22,7 @@ def plot_regression(y_test, y_pred):
     a = np.concatenate((y_test.values.reshape(-1,1), y_pred.reshape(-1,1)), axis=1)
     a = a[a[:,0].argsort()]
 
-    fig, ax = plt.subplots(figsize=(15,5))
+    _fig, ax = plt.subplots(figsize=(15,5))
     x_ticks = range(y_test.shape[0])
     ax.scatter(x_ticks, a[:,0], label='Actual', c='turquoise')
     ax.scatter(x_ticks, a[:,1], label='Predictions', s=15, c='orange');
