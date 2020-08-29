@@ -2,6 +2,7 @@ import sys
 import argparse
 
 import pandas as pd
+import numpy as np
 from sqlalchemy import create_engine
 
 # age: continuous.
@@ -53,6 +54,11 @@ if __name__ == "__main__":
     df = pd.read_csv(input_data)
 
     # print("≫ Transforming Data")
+    string_columns = df.loc[:, df.dtypes == np.object].copy()
+    # Strip all values
+    df.loc[:, df.dtypes == np.object] = string_columns.applymap(lambda text: text.strip())
+    df['>50K<=50K'] = df['>50K<=50K'].replace({'>50K.': '>50K', '<=50K.': '<=50K'})
+    df['>50K'] = df['>50K<=50K'].map({'>50K': 1, '<=50K': 0})
     # processor = Processor()
     # df = processor.transform(df)
 
