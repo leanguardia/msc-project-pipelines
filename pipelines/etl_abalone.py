@@ -16,7 +16,7 @@ from sqlalchemy import create_engine
 
 def parse_args(args=[]):
     parser = argparse.ArgumentParser(
-        description='ETL Preparation Pipeline for Wine Quality data.')
+        description='ETL Preparation Pipeline for Abalone data.')
 
     default_data = 'lake/abalone/abalone.csv'
     parser.add_argument('-i', '--input', default=default_data, dest='data',

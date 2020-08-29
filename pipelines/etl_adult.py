@@ -22,7 +22,7 @@ from sqlalchemy import create_engine
 
 def parse_args(args=[]):
     parser = argparse.ArgumentParser(
-    description='ETL Preparation Pipeline for Wine Quality data.')
+    description='ETL Preparation Pipeline for Adult Census data.')
 
     default_data = 'lake/adult/adult_full.csv'
     parser.add_argument('-i', '--input', default=default_data, dest='data',
