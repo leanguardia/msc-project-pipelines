@@ -24,3 +24,14 @@ def parse_abalone_params(args):
         float(args['viscera_weight']),
         float(args['shell_weight']),
     ]
+
+def parse_adult_params(args):
+    print(args)
+    return [
+        int(args['age']),
+        int(args['final_weight']),
+        9, # Education_num TODO: Remove this, Add Categorical
+        int(args['capital_gain']),
+        int(args['capital_loss']),
+        int(args['hours_per_week'])
+    ]

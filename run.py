@@ -9,12 +9,13 @@ from sklearn.externals import joblib
 import pipelines
 from pipelines.etl_forest_fires import ForestFireProcessor, ForestFirePredictor
 from pipelines.etl_wine_quality import WineQualityProcessor
-from app.form_parser import parse_wine_quality_params, parse_abalone_params
+from app.form_parser import parse_wine_quality_params, parse_abalone_params, parse_adult_params
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
-model = joblib.load("models/regrezz.pkl")
+fires_reg = joblib.load("models/regrezz.pkl")
 wine_reg = joblib.load("models/wine_reg.pkl")
 abalone_reg = joblib.load("models/abalone_rgrs.pkl")
+adult_cls = joblib.load("models/cls_adult.pkl")
 
 @app.route('/')
 def index():
@@ -47,9 +48,9 @@ def abalone():
 @app.route('/adult')
 def adult():
     prediction = ''
-    # if prediction_is_required(request):
-        # prediction = _process_abalone_prediction(request.args)
-        # print("And the prediction is!", prediction)
+    if prediction_is_required(request):
+        prediction = _process_adult_prediction(request.args)
+        print("And the prediction is!", prediction)
     return render_template('adult.html', prediction=prediction)
 
 def _process_forest_fire_prediction(args):
@@ -58,7 +59,7 @@ def _process_forest_fire_prediction(args):
     arry = processor.transform(args['X'], args['Y'], args['month'], args['day'],
         args['FFMC'], args['DMC'], args['DC'], args['ISI'],
         args['temp'], args['RH'], args['wind'], args['rain'])
-    predictions = ForestFirePredictor(model).predict([arry])
+    predictions = ForestFirePredictor(fires_reg).predict([arry])
     return str(predictions[0])
 
 def _process_wine_quality_prediction(args):
@@ -81,12 +82,20 @@ def _parse_forest_fire_params(args):
 
 def _process_abalone_prediction(args):
     params = parse_abalone_params(args)
-    # processor = WineQualityProcessor()
+    # processor = Processor()
     # features = processor.transform(params)
     features = [params]
     predictions = ForestFirePredictor(abalone_reg).predict(features)
-    # predictions = abalone_reg.predict(features)
     return predictions[0]
+
+def _process_adult_prediction(args):
+    params = parse_adult_params(args)
+    # processor = Processor()
+    # features = processor.transform(params)
+    features = [params]
+    predictions = adult_cls.predict(features) # TODO: Isolate in Predictor
+    prediction = 'YES' if predictions[0] else 'NO'
+    return prediction
 
 def prediction_is_required(request):
     return len(request.args) > 0

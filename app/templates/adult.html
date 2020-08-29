@@ -51,25 +51,25 @@
       </ul>
     </div>
     <div class="col-9">
-      <form action="/abalone" method="get">
+      <form action="/adult" method="get">
         <div class="row">
           <div class="col-9">
             <h5 class="mb-3">Does this person make more than 50K$ a year?</h5>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="length">Age: <strong id="length-val">?</strong></label>
-                <input name="length" type="range" class="custom-range" min="17" max="90" step="1" oninput='updateRangeValue(this.value, "length");'>
+                <label for="age">Age: <strong id="age-val">?</strong></label>
+                <input name="age" type="range" class="custom-range" min="17" max="90" step="1" oninput='updateRangeValue(this.value, "age");'>
                 <small class="form-text text-muted mt-0">17 to 90</small>
               </div>
               <div class="form-group col-md-6">
                 <label for="sex">Sex</label><br>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="sex" value="M">
-                  <label class="form-check-label" for="sex">Male</label>
+                  <input class="form-check-input" type="radio" name="sex" value="M" id="sex-m">
+                  <label class="form-check-label" for="sex-m">Male</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="sex" value="F">
-                  <label class="form-check-label" for="inlineRadio2">Female</label>
+                  <input class="form-check-input" type="radio" name="sex" value="F" id="sex-f">
+                  <label class="form-check-label" for="sex-f">Female</label>
                 </div>
               </div>
             </div>
@@ -163,8 +163,8 @@
                 </select>
               </div>
               <div class="form-group col-md-6">
-                <label for="working_hours">Working Hours (week): <strong id="working-hours-val">?</strong></label>
-                <input name="working_hours" type="range" class="custom-range" min="1" max="99" step="1" oninput='updateRangeValue(this.value, "working-hours");'>
+                <label for="hours_per_week">Working Hours (week): <strong id="working-hours-val">?</strong></label>
+                <input name="hours_per_week" type="range" class="custom-range" min="1" max="99" step="1" oninput='updateRangeValue(this.value, "working-hours");'>
                 <small class="form-text text-muted mt-0">1 to 99</small>
               </div>
             </div>
@@ -220,20 +220,20 @@
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="final-weight">Final Weight: <strong id="final-weight-val">?</strong></label>
-                <input name="final-weight" type="range" class="custom-range" min="12285" max="1490400" step="100" oninput='updateRangeValue(this.value, "final-weight");'>
+                <label for="final_weight">Final Weight: <strong id="final-weight-val">?</strong></label>
+                <input name="final_weight" type="range" class="custom-range" min="12285" max="1490400" step="100" oninput='updateRangeValue(this.value, "final-weight");'>
                 <small class="form-text text-muted mt-0">12285 to 1490400</small>
               </div>
               <div class="form-group col-md-6">
-                <label for="length">Capital Gain: <strong id="capital-gain-val">?</strong></label>
-                <input name="capital-gain" type="range" class="custom-range" min="0" max="99999" step="10" oninput='updateRangeValue(this.value, "capital-gain");'>
+                <label for="capital_gain">Capital Gain: <strong id="capital-gain-val">?</strong></label>
+                <input name="capital_gain" type="range" class="custom-range" min="0" max="99999" step="10" oninput='updateRangeValue(this.value, "capital-gain");'>
                 <small class="form-text text-muted mt-0">0 to 99999</small>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="length">Capital Loss: <strong id="capital-loss-val">?</strong></label>
-                <input name="capital-loss" type="range" class="custom-range" min="0" max="4356" step="1" oninput='updateRangeValue(this.value, "capital-loss");'>
+                <label for="capital_loss">Capital Loss: <strong id="capital-loss-val">?</strong></label>
+                <input name="capital_loss" type="range" class="custom-range" min="0" max="4356" step="1" oninput='updateRangeValue(this.value, "capital-loss");'>
                 <small class="form-text text-muted mt-0">0 to 4356</small>
               </div>
             </div>
