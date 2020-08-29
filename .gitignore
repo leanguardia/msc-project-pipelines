@@ -144,8 +144,7 @@ cython_debug/
 lake/forest_fires/forestfires.csv
 lake/wine_quality/*.csv
 lake/abalone/abalone.csv
-lake/adult/adult_test.csv
-lake/adult/adult_train.csv
+lake/adult/*.csv
 
 *.pkl
 *.joblib

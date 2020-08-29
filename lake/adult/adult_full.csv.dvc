@@ -1,0 +1,3 @@
+outs:
+- md5: f8d641ee9d3d5a4686357a2fe0922aaf
+  path: adult_full.csv
