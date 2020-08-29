@@ -1,16 +1,16 @@
 from unittest import TestCase
 
-from pipelines.etl_abalone import parse_args
+from pipelines.etl_adult import parse_args
 
-class TestAbaloneEtl(TestCase):
+class TestAdultEtl(TestCase):
     def test_argparser_default_data_source(self):
         args = parse_args()
-        self.assertEqual(args['data'], 'lake/abalone/abalone.csv')
-    
+        self.assertEqual(args['data'], 'lake/adult/adult.csv')
+
     def test_argparser_valid_data_source(self):
         args = parse_args(['-i', 'specific/path/to/data.csv'])
         self.assertEqual(args['data'], 'specific/path/to/data.csv')\
-    
+
     def test_argparser_valid_data_source_long(self):
         args = parse_args(['--input', 'specific/path/to/data.csv'])
         self.assertEqual(args['data'], 'specific/path/to/data.csv')\
@@ -29,7 +29,7 @@ class TestAbaloneEtl(TestCase):
 
     def test_argparser_default_db_table(self):
         args = parse_args()
-        self.assertEqual(args['table_name'], 'abalones')
+        self.assertEqual(args['table_name'], 'adults')
 
     def test_argparser_valid_db_table(self):
         args = parse_args(['-t', 'other_table'])
