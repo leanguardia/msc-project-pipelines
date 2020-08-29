@@ -5,7 +5,7 @@ from pipelines.etl_adult import parse_args
 class TestAdultEtl(TestCase):
     def test_argparser_default_data_source(self):
         args = parse_args()
-        self.assertEqual(args['data'], 'lake/adult/adult.csv')
+        self.assertEqual(args['data'], 'lake/adult/adult_full.csv')
 
     def test_argparser_valid_data_source(self):
         args = parse_args(['-i', 'specific/path/to/data.csv'])

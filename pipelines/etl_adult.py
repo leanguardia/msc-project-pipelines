@@ -1,6 +1,9 @@
 import sys
 import argparse
 
+import pandas as pd
+from sqlalchemy import create_engine
+
 # age: continuous.
 # sex: Female, Male.
 # education: Bachelors, Some-college, 11th, HS-grad, Prof-school, Assoc-acdm, Assoc-voc, 9th, 7th-8th, 12th, Masters, 1st-4th, 10th, Doctorate, 5th-6th, Preschool.
@@ -21,7 +24,7 @@ def parse_args(args=[]):
     parser = argparse.ArgumentParser(
     description='ETL Preparation Pipeline for Wine Quality data.')
 
-    default_data = 'lake/adult/adult.csv'
+    default_data = 'lake/adult/adult_full.csv'
     parser.add_argument('-i', '--input', default=default_data, dest='data',
         help=f'Input data filepath (default: {default_data})')
 
@@ -44,3 +47,19 @@ def parse_args(args=[]):
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
     print(args)
+
+    print("≫ Extracting Data")
+    input_data = args['data']
+    df = pd.read_csv(input_data)
+
+    # print("≫ Transforming Data")
+    # processor = Processor()
+    # df = processor.transform(df)
+
+    print("≫ Loading Data")
+    database = args['database']
+    db_table = args['table_name']
+    engine = create_engine(f'sqlite:///{database}')
+    if_table_exists = 'replace' if args['table_overwrite'] else 'fail'
+    df.to_sql(db_table, engine, if_exists=if_table_exists, index=False)
+    print("≫ ETL - Done")
