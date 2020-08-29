@@ -2,17 +2,19 @@ import sys
 import argparse
 
 # import numpy as np
-# from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 
-# from models.io import read_table, store_model
-# from models.evaluators import evaluate_regression
+from models.io import read_table, store_model
+from models.evaluators import evaluate_classification
 
-# def load_data(database, table):
-#     df = read_table(database, table)
-#     # features = []
-#     X = df[features]
-#     y = df['']
-#     return X, y
+def load_data(database, table):
+    df = read_table(database, table)
+    features = ['age', 'fnlwgt', 'education_num', 'capital_gain',
+                'capital_loss', 'hours_per_week']
+    X = df[features]
+    y = df['>50K']
+    return X, y
 
 
 def parse_args(args):
@@ -42,8 +44,8 @@ def parse_args(args):
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
  
-    # print('≫ Loading data')
-    # X, y = load_data(args['database'], args['table'])
+    print('≫ Loading data')
+    X, y = load_data(args['database'], args['table'])
 
     # print('≫ Feature Engineering')
 
@@ -51,17 +53,17 @@ if __name__ == "__main__":
     # Remove Outliers
     # Polynomial Data
 
-    # print('≫ Training Model')
-    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
-    #                                                     random_state=25)
+    print('≫ Training Model')
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
+                                                        random_state=25)
 
-    # logreg = LoisticRegression()
-    # logreg.fit(X_train, y_train)
+    logreg = LogisticRegression()
+    logreg.fit(X_train, y_train)
 
-    # y_pred = logreg.predict(X_test)
+    y_pred = logreg.predict(X_test)
 
-    # evaluate_classification(y_test, y_pred)
+    evaluate_classification(y_test, y_pred)
 
-    # model_filepath = args['model']
-    # print(f'≫ Storing Model "{model_filepath}"')
-    # store_model(linreg, model_filepath)
+    model_filepath = args['model']
+    print(f'≫ Storing Model "{model_filepath}"')
+    store_model(logreg, model_filepath)
