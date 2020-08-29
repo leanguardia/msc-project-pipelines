@@ -1,9 +1,9 @@
 import pytest
-import unittest
+from unittest import TestCase
 
-from models.train_abalone import parse_args
+from models.train_adult import parse_args
 
-class TestTrainAbalone(unittest.TestCase):
+class TestTrainAdult(TestCase):
     def test_argparse_missing_model_name_error(self):
         with pytest.raises(TypeError, match='An arguments list is required'):
             parse_args(None)
@@ -34,7 +34,7 @@ class TestTrainAbalone(unittest.TestCase):
 
     def test_argparse_default_table(self):
         args = parse_args(['model_name.pkl'])
-        self.assertEqual(args['table'], 'abalones')
+        self.assertEqual(args['table'], 'adults')
 
     def test_argparse_default_valid_table(self):
         args = parse_args(['model_name.pkl', '-t', 'other_table'])
