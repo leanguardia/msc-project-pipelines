@@ -19,10 +19,10 @@
   <div class="container">
     <div class="row">
       <div class="col-4">
-        <h4>Bla Bla <small>bla bla bla</small></h4>
+        <h4>Adult<small>A. Asuncion & D. J. Newman</small></h4>
       </div>
       <div class="col-8">
-        <p>Census in the US.</p>
+        <p>The “Adult” database was extracted from the census bureau database found at http://www.census.gov/ in 1994 by Ronny Kohavi and Barry Becker, Data Mining and Visualization, Silicon Graphics. It was originally used to predict whether income exceeds USD 50K/yr based on census data.</p>
       </div>
     </div>
   </div>
@@ -37,9 +37,8 @@
       <ul>
         <li>Age</li>
         <li>Workclass</li>
-        <li>Final Weight</li>
+        <li>Final Weight: Estimated number of represented people in census</li>
         <li>Education</li>
-        <li>Education Num</li>
         <li>Marital Status</li>
         <li>Occupation</li>
         <li>Relationship</li>
@@ -63,7 +62,7 @@
                 <small class="form-text text-muted mt-0">17 to 90</small>
               </div>
               <div class="form-group col-md-6">
-                <label for="sex">Sex:</label><br>
+                <label for="sex">Sex</label><br>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="sex" value="M">
                   <label class="form-check-label" for="sex">Male</label>
@@ -97,9 +96,50 @@
                 </select>
               </div>
               <div class="form-group col-md-6">
-                <label for="education_num">Education Number: <strong id="education-num-val">?</strong></label>
-                <input name="education_num" type="range" class="custom-range" min="1" max="16" step="1" oninput='updateRangeValue(this.value, "education-num");'>
-                <small class="form-text text-muted mt-0">1 to 16</small>
+                <label for='native_country'>Native Country</label>
+                <select name='native_country' class="form-control">
+                  <option>United-States</option>
+                  <option>Cambodia</option>
+                  <option>England</option>
+                  <option>Puerto-Rico</option>
+                  <option>Canada</option>
+                  <option>Germany</option>
+                  <option>Outlying-US(Guam-USVI-etc)</option>
+                  <option>India</option>
+                  <option>Japan</option>
+                  <option>Greece</option>
+                  <option>South</option>
+                  <option>China</option>
+                  <option>Cuba</option>
+                  <option>Iran</option>
+                  <option>Honduras</option>
+                  <option>Philippines</option>
+                  <option>Italy</option>
+                  <option>Poland</option>
+                  <option>Jamaica</option>
+                  <option>Vietnam</option>
+                  <option>Mexico</option>
+                  <option>Portugal</option>
+                  <option>Ireland</option>
+                  <option>France</option>
+                  <option>Dominican-Republic</option>
+                  <option>Laos</option>
+                  <option>Ecuador</option>
+                  <option>Taiwan</option>
+                  <option>Haiti</option>
+                  <option>Columbia</option>
+                  <option>Hungary</option>
+                  <option>Guatemala</option>
+                  <option>Nicaragua</option>
+                  <option>Scotland</option>
+                  <option>Thailand</option>
+                  <option>Yugoslavia</option>
+                  <option>El-Salvador</option>
+                  <option>Trinadad&Tobago</option>
+                  <option>Peru</option>
+                  <option>Hong</option>
+                  <option>Holand-Netherlands</option>
+                </select>
               </div>
             </div>
             <div class="form-row">
@@ -180,66 +220,20 @@
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for='native_country'>Native Country</label>
-                <select name='native_country' class="form-control">
-                  <option>United-States</option>
-                  <option>Cambodia</option>
-                  <option>England</option>
-                  <option>Puerto-Rico</option>
-                  <option>Canada</option>
-                  <option>Germany</option>
-                  <option>Outlying-US(Guam-USVI-etc)</option>
-                  <option>India</option>
-                  <option>Japan</option>
-                  <option>Greece</option>
-                  <option>South</option>
-                  <option>China</option>
-                  <option>Cuba</option>
-                  <option>Iran</option>
-                  <option>Honduras</option>
-                  <option>Philippines</option>
-                  <option>Italy</option>
-                  <option>Poland</option>
-                  <option>Jamaica</option>
-                  <option>Vietnam</option>
-                  <option>Mexico</option>
-                  <option>Portugal</option>
-                  <option>Ireland</option>
-                  <option>France</option>
-                  <option>Dominican-Republic</option>
-                  <option>Laos</option>
-                  <option>Ecuador</option>
-                  <option>Taiwan</option>
-                  <option>Haiti</option>
-                  <option>Columbia</option>
-                  <option>Hungary</option>
-                  <option>Guatemala</option>
-                  <option>Nicaragua</option>
-                  <option>Scotland</option>
-                  <option>Thailand</option>
-                  <option>Yugoslavia</option>
-                  <option>El-Salvador</option>
-                  <option>Trinadad&Tobago</option>
-                  <option>Peru</option>
-                  <option>Hong</option>
-                  <option>Holand-Netherlands</option>
-                </select>
-              </div>
-              <div class="form-group col-md-6">
                 <label for="final-weight">Final Weight: <strong id="final-weight-val">?</strong></label>
                 <input name="final-weight" type="range" class="custom-range" min="12285" max="1490400" step="100" oninput='updateRangeValue(this.value, "final-weight");'>
                 <small class="form-text text-muted mt-0">12285 to 1490400</small>
               </div>
-            </div>
-            <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="length">Capital Gain: <strong id="capital-gain-val">?</strong></label>
                 <input name="capital-gain" type="range" class="custom-range" min="0" max="99999" step="10" oninput='updateRangeValue(this.value, "capital-gain");'>
                 <small class="form-text text-muted mt-0">0 to 99999</small>
               </div>
+            </div>
+            <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="length">Capital Loss: <strong id="capital-loss-val">?</strong></label>
-                <input name="capital-loss" type="range" class="custom-range" min="0" max="4356" step="100" oninput='updateRangeValue(this.value, "capital-loss");'>
+                <input name="capital-loss" type="range" class="custom-range" min="0" max="4356" step="1" oninput='updateRangeValue(this.value, "capital-loss");'>
                 <small class="form-text text-muted mt-0">0 to 4356</small>
               </div>
             </div>

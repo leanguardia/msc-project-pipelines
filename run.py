@@ -44,6 +44,14 @@ def abalone():
         print("And the prediction is!", prediction)
     return render_template('abalone.html', prediction=prediction)
 
+@app.route('/adult')
+def adult():
+    prediction = ''
+    # if prediction_is_required(request):
+        # prediction = _process_abalone_prediction(request.args)
+        # print("And the prediction is!", prediction)
+    return render_template('adult.html', prediction=prediction)
+
 def _process_forest_fire_prediction(args):
     args = _parse_forest_fire_params(args)
     processor = ForestFireProcessor()
