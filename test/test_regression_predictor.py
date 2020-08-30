@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 import joblib
-from pipelines.regression_predictor import RegressionPredictor
+from pipelines.predictors import RegressionPredictor
 from unittest.mock import Mock
 
 cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain']
