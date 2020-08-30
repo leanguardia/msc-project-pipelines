@@ -21,3 +21,10 @@ def store_model(model, filepath):
     if not filepath[-4:] == '.pkl':
         raise ValueError('filepath should end with specific extension')
     dump(model, filepath)
+
+def is_valid_model_filepath(filepath):
+    if not type(filepath) == str: raise TypeError('filepath should be a string')
+    if len(filepath) <= 4:
+        raise ValueError('should end with specific extension')
+    return filepath.split('.')[-1] == 'pkl'
+
