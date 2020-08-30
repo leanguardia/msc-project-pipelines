@@ -7,7 +7,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.externals import joblib
 
 import pipelines
-from pipelines.etl_forest_fires import ForestFireProcessor, ForestFirePredictor
+from pipelines.etl_forest_fires import ForestFireProcessor, RegressionPredictor
 from pipelines.etl_wine_quality import WineQualityProcessor
 from app.form_parser import parse_wine_quality_params, parse_abalone_params, parse_adult_params
 
@@ -59,7 +59,7 @@ def _process_forest_fire_prediction(args):
     arry = processor.transform(args['X'], args['Y'], args['month'], args['day'],
         args['FFMC'], args['DMC'], args['DC'], args['ISI'],
         args['temp'], args['RH'], args['wind'], args['rain'])
-    predictions = ForestFirePredictor(fires_reg).predict([arry])
+    predictions = RegressionPredictor(fires_reg).predict([arry])
     return str(predictions[0])
 
 def _process_wine_quality_prediction(args):
@@ -67,7 +67,7 @@ def _process_wine_quality_prediction(args):
     processor = WineQualityProcessor()
     features = processor.transform(params)
     # TODO MAKE PREDICTOR GENERIC
-    predictions = ForestFirePredictor(wine_reg).predict(features)
+    predictions = RegressionPredictor(wine_reg).predict(features)
     return predictions[0]
 
 def _parse_forest_fire_params(args):
@@ -85,7 +85,7 @@ def _process_abalone_prediction(args):
     # processor = Processor()
     # features = processor.transform(params)
     features = [params]
-    predictions = ForestFirePredictor(abalone_reg).predict(features)
+    predictions = RegressionPredictor(abalone_reg).predict(features)
     return predictions[0]
 
 def _process_adult_prediction(args):
