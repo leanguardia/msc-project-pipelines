@@ -7,14 +7,15 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.externals import joblib
 
 import pipelines
-from pipelines.etl_forest_fires import ForestFireProcessor, RegressionPredictor
+from pipelines.etl_forest_fires import ForestFireProcessor
+from pipelines.predictors import RegressionPredictor
 from pipelines.etl_wine_quality import WineQualityProcessor
 from app.form_parser import parse_wine_quality_params, parse_abalone_params, parse_adult_params
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 fires_reg = joblib.load("models/regrezz.pkl")
 wine_reg = joblib.load("models/wine_reg.pkl")
-abalone_reg = joblib.load("models/abalone_rgrs.pkl")
+abalone_reg = joblib.load("models/cls_abalone.pkl")
 adult_cls = joblib.load("models/cls_adult.pkl")
 
 @app.route('/')
