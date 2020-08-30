@@ -3,10 +3,10 @@ import argparse
 
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
 
 from models.io import read_table, store_model, is_valid_model_filepath
-from models.evaluators import evaluate_regression
+from models.evaluators import evaluate_classification
 
 def load_data(database, table):
     df = read_table(database, table)
@@ -57,13 +57,13 @@ if __name__ == "__main__":
     print('≫ Training Model')
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
                                                         random_state=25)
-    linreg = LinearRegression()
-    linreg.fit(X_train, y_train)
+    logreg = LogisticRegression()
+    logreg.fit(X_train, y_train)
 
-    y_pred = linreg.predict(X_test)
+    y_pred = logreg.predict(X_test)
 
-    evaluate_regression(y_test, y_pred)
+    evaluate_classification(y_test, y_pred, np.arange(23))
 
     model_filepath = args['model']
     print(f'≫ Storing Model "{model_filepath}"')
-    store_model(linreg, model_filepath)
+    store_model(logreg, model_filepath)
