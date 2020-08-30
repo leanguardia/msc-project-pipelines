@@ -1,5 +1,6 @@
 import pytest
 import unittest
+
 from models.train_wine_quality import parse_args
 
 class TestTrainWineQuality(unittest.TestCase):

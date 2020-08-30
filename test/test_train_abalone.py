@@ -13,7 +13,7 @@ class TestTrainAbalone(unittest.TestCase):
             parse_args(['model_name'])
 
     def test_argparse_short_model_name_error(self):
-        with pytest.raises(ValueError, match='Invalid model filepath'):
+        with pytest.raises(ValueError):
             parse_args(['.pkl'])
 
     def test_argparse_model_name(self):

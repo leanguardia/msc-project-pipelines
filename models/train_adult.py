@@ -5,7 +5,7 @@ import argparse
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
-from models.io import read_table, store_model
+from models.io import read_table, store_model, is_valid_model_filepath
 from models.evaluators import evaluate_classification
 
 def load_data(database, table):
@@ -21,8 +21,8 @@ def parse_args(args):
     if args == None: raise TypeError('An arguments list is required')
 
     model_filepath = args[0]
-    if len(model_filepath) < 5 or model_filepath[-4:] != '.pkl':
-        raise ValueError(f"Invalid model filepath '{model_filepath}'.")
+    if not is_valid_model_filepath(model_filepath):
+        raise ValueError('Invalid model filepath {}'.format(model_filepath))
 
     parser = argparse.ArgumentParser(
         description='Train Adult income predictive model.')
