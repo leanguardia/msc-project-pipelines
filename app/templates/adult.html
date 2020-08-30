@@ -1,18 +1,19 @@
-<!-- Alcohol, some are really weak
-  Chlorides, some are really salty.
-  Density, fermentation is not over for some wines.
-  Good, mos ot fhe wines are not excellent
-  PH, Some wines are much more acid than others
-  Residual sugars, Some of the are really sweet.
-  Alcohol / ph ration, quality has a good correlation. -->
+{% extends 'layout.html' %}
+
+{% block head %}
+<title>Adult Census</title>
+{% endblock %}
+
+{% block nav_items %}
+<li class="nav-item"><a class="nav-link" href="/forestfires">Forest Fires</a></li>
+<li class="nav-item"><a class="nav-link" href="/winequality">Wine Quality</a></li>
+<li class="nav-item"><a class="nav-link" href="/abalone">Abalone</a></li>
+<li class="nav-item active">
+  <a class="nav-link" href="/adult">Adult<span class="sr-only">(current)</span></a>
+</li>
+{% endblock %}
   
-  {% extends 'layout.html' %}
-  
-  {% block head %}
-  <title>Adult Census</title>
-  {% endblock %}
-  
-  {% block body %}
+{% block body %}
   
   <!-- Dataset Title -->
 <div class="bg-white pt-4 pb-2 shadow-sm">
