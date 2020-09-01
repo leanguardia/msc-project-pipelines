@@ -37,13 +37,23 @@ def parse_args(args=[]):
         description='ETL Preparation Pipeline for Forest Fires data.')
 
     default_data = 'lake/forest_fires/forestfires.csv'
-    parser.add_argument('-s', '--source', type=str, default=default_data,
+    parser.add_argument('-i', '--input', default=default_data,
         dest='data', help=f'filepath for data source (default: {default_data})')
     
     default_db = 'lake/warehouse.db'
     parser.add_argument('-d', '--database',
         type=str, dest='database', default=default_db,
         help=f'SQLite database file to store result (default: {default_db})')
+
+    default_db_table = 'forest_fires'
+    parser.add_argument('-t', '--table', default=default_db_table,
+        dest='table_name',
+        help=f'SQLite database table name (default: {default_db_table})')
+
+    default_table_overwrite = False
+    parser.add_argument('-o', '--overwrite', default=default_table_overwrite,
+        dest='table_overwrite', type=bool,
+        help=f'Overwrite database table (default: {default_table_overwrite})')
 
     return vars(parser.parse_args(args))
 
