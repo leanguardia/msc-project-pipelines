@@ -19,12 +19,20 @@ class TestWineQualityProcessor(TestCase):
         self.processor = WineQualityProcessor()
 
     def test_transform_list(self):
+        transformed = self.processor.transform(values)
+        assert np.array_equal(transformed.values, np_values_2d)
+
+    def test_transform_wrapped_list(self):
         transformed = self.processor.transform([values])
         assert np.array_equal(transformed.values, np_values_2d)
 
     def test_transform_narray_one_dim(self):
         assert np.array_equal(
             self.processor.transform(np_values).values, np_values_2d)
+
+    def test_transform_wrapped_narray_one_dim(self):
+        assert np.array_equal(
+            self.processor.transform([np_values]).values, np_values_2d)
 
     def test_transform_narray_two_dims(self):
         assert np.array_equal(
