@@ -27,7 +27,7 @@ class WineQualityProcessor():
         if not type(data) == pd.DataFrame:
             data = np.array(data, ndmin=2)
         
-        rows, cols = data.shape        
+        _rows, cols = data.shape        
         if cols < self.num_of_features or cols > self.num_of_columns:
             raise ValueError("data must have 11 or 12 columns.")
 
