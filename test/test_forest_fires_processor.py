@@ -36,6 +36,8 @@ np_values    = np.array(values)
 np_values_2d = np_values.reshape(1, len(np_values))
 df = pd.DataFrame([values], columns=cols)
 
+# features = [8, 6, 1, 1, 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
+
 class TestForestFiresProcessor(TestCase):
     def setUp(self):
         self.processor = ForestFiresProcessor()
@@ -63,6 +65,15 @@ class TestForestFiresProcessor(TestCase):
     def test_transform_df(self):
         assert np.array_equal(self.processor.transform(df).values, np_values_2d)
 
-    # def test_transform_requires_minimum_number_of_features(self):
-    #     with pytest.raises(ValueError, match='must have 11 or 12 columns'):
-    #         self.processor.transform(values[:4])
+    def test_transform_requires_minimum_number_of_features(self):
+        with pytest.raises(ValueError, match="incorrect number of columns"):
+            self.processor.transform(values[:6])
+
+    def test_transform_requires_maximum_number_of_features(self):
+        with pytest.raises(ValueError, match='incorrect number of columns'):
+            self.processor.transform(values * 2)
+
+    def test_transform_accepts_only_features_as_input(self):
+        X = np_values[:-1]
+        assert np.array_equal(self.processor.transform([X]).values, [X])
+    

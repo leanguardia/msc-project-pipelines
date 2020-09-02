@@ -13,13 +13,29 @@ def load_data(filepath):
 
 class ForestFiresProcessor():
 
+    # COLUMNS = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
     COLUMNS = ['X','Y','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
 
+    def __init__(self):
+        self.num_of_columns = len(self.COLUMNS) 
+        self.num_of_features = self.num_of_columns - 1
+
     def transform(self, data):
+        # if not type(data) == pd.DataFrame:
+        data = np.array(data, ndmin=2)
+
         if not type(data) == pd.DataFrame:
             data = np.array(data, ndmin=2)
+        
+        _rows, cols = data.shape        
+        if cols < self.num_of_features or cols > self.num_of_columns:
+            raise ValueError(f"incorrect number of columns")
 
-        df = pd.DataFrame(data, columns=self.COLUMNS)
+        columns = self.COLUMNS
+        if cols == self.num_of_features:
+            columns = self.COLUMNS[:-1]
+
+        df = pd.DataFrame(data, columns=columns)
         return df
 
     # def transform_batch(self, df):
