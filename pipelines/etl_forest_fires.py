@@ -12,10 +12,14 @@ def load_data(filepath):
     return df
 
 class ForestFiresProcessor():
+
+    COLUMNS = ['X','Y','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
+
     def transform(self, data):
-        # if not type(data) == pd.DataFrame:
-        data = np.array(data, ndmin=2)
-        df = pd.DataFrame(data, columns=['X','Y','FFMC','DMC','DC','ISI','temp','RH','wind','rain'])
+        if not type(data) == pd.DataFrame:
+            data = np.array(data, ndmin=2)
+
+        df = pd.DataFrame(data, columns=self.COLUMNS)
         return df
 
     # def transform_batch(self, df):
