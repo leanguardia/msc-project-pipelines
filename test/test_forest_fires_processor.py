@@ -50,9 +50,8 @@ class TestForestFiresProcessor(TestCase):
     def setUp(self):
         self.processor = ForestFiresProcessor()
 
-    def test_raw_features_stay(self):
-        transformed = self.processor.transform(values)
-        row = transformed.loc[0]
+    def test_raw_features_values(self):
+        row = self.processor.transform(values).loc[0]
         self.assertEqual(row['X'], 8)
         self.assertEqual(row['Y'], 6)
         self.assertEqual(row['month'], 'sep')
@@ -66,6 +65,22 @@ class TestForestFiresProcessor(TestCase):
         self.assertEqual(row['wind'], 4.5)
         self.assertEqual(row['rain'], 0)
         self.assertEqual(row['area'], 1.12)
+
+    def test_raw_features_types(self):
+        row = self.processor.transform(values).loc[0]
+        self.assertIsInstance(row['X'], np.int64)
+        self.assertIsInstance(row['Y'], np.int64)
+        self.assertIsInstance(row['month'], str)
+        self.assertIsInstance(row['day'], str)
+        self.assertIsInstance(row['FFMC'], np.float64)
+        self.assertIsInstance(row['DMC'], np.float64)
+        self.assertIsInstance(row['DC'], np.float64)
+        self.assertIsInstance(row['ISI'], np.float64)
+        self.assertIsInstance(row['temp'], np.float64)
+        self.assertIsInstance(row['RH'], np.float64)
+        self.assertIsInstance(row['wind'], np.float64)
+        self.assertIsInstance(row['rain'], np.float64)
+        self.assertIsInstance(row['area'], np.float64)
         
     # def test_transform(self):
         # print(transformed.dtypes)
