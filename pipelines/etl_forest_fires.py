@@ -14,8 +14,7 @@ def load_data(filepath):
 class ForestFiresProcessor():
 
     COLUMNS = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-    DTYPES =   [int,int,str,str,float,float,float,float,float,float,float,float,float]
-    # COLUMNS = ['X','Y','''FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
+    DTYPES  = [int,int,str,str,float,float,float,float,float,float,float,float,float]
 
     def __init__(self):
         self.num_of_columns = len(self.COLUMNS) 
@@ -26,8 +25,8 @@ class ForestFiresProcessor():
             data = np.array(data, ndmin=2)
         
         _rows, cols = data.shape        
-        # if cols < self.num_of_features or cols > self.num_of_columns:
-        #     raise ValueError(f"incorrect number of columns")
+        if cols < self.num_of_features or cols > self.num_of_columns:
+            raise ValueError(f"incorrect number of columns")
 
         if cols == self.num_of_features:
             columns = self.COLUMNS[:-1]

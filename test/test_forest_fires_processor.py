@@ -26,12 +26,12 @@ import numpy as np
 
 from pipelines.etl_forest_fires import ForestFiresProcessor
 
-cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
+variables = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
 values = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
 
 np_values    = np.array(values)
 np_values_2d = np_values.reshape(1, len(np_values))
-df_values = pd.DataFrame([values], columns=cols)
+df_values = pd.DataFrame([values], columns=variables)
 
 # cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
 # np_features_2d = np.a/rray(features, ndmin=2, 
@@ -110,15 +110,15 @@ class TestForestFiresProcessor(TestCase):
         # assert np.array_equal(transformed.values, np_features_2d)
         # [np.int64, np.int64, str, str,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.uint8,np.uint8]
 
-    # def test_transform_requires_minimum_number_of_features(self):
-    #     with pytest.raises(ValueError, match="incorrect number of columns"):
-    #         self.processor.transform(values[:6])
+    def test_transform_requires_minimum_number_of_features(self):
+        with pytest.raises(ValueError, match="incorrect number of columns"):
+            self.processor.transform(values[:6])
 
-    # def test_transform_requires_maximum_number_of_features(self):
-    #     with pytest.raises(ValueError, match='incorrect number of columns'):
-    #         self.processor.transform(values * 2)
+    def test_transform_requires_maximum_number_of_features(self):
+        with pytest.raises(ValueError, match='incorrect number of columns'):
+            self.processor.transform(values * 2)
 
-    # def test_transform_accepts_only_features_as_input(self):
+    # def test_transform_with_missing_target(self):
     #     X = np_values[:-1]
     #     assert np.array_equal(self.processor.transform([X]).values, [X])
     
