@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 
-# from pipelines.dummy_transformer import dummify
+from pipelines.dummy_transformer import dummify
 
 def load_data(filepath):
     df = pd.read_csv(filepath)
@@ -13,29 +13,36 @@ def load_data(filepath):
 
 class ForestFiresProcessor():
 
-    # COLUMNS = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-    COLUMNS = ['X','Y','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
+    COLUMNS = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
+    DTYPES =   [int,int,str,str,float,float,float,float,float,float,float,float,float]
+    # COLUMNS = ['X','Y','''FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
 
     def __init__(self):
         self.num_of_columns = len(self.COLUMNS) 
         self.num_of_features = self.num_of_columns - 1
 
     def transform(self, data):
-        # if not type(data) == pd.DataFrame:
-        data = np.array(data, ndmin=2)
-
         if not type(data) == pd.DataFrame:
             data = np.array(data, ndmin=2)
         
         _rows, cols = data.shape        
-        if cols < self.num_of_features or cols > self.num_of_columns:
-            raise ValueError(f"incorrect number of columns")
+        # if cols < self.num_of_features or cols > self.num_of_columns:
+        #     raise ValueError(f"incorrect number of columns")
 
-        columns = self.COLUMNS
         if cols == self.num_of_features:
             columns = self.COLUMNS[:-1]
+            dtypes = self.DTYPES[:-1]
+        else:
+            columns = self.COLUMNS
+            dtypes = self.DTYPES
 
         df = pd.DataFrame(data, columns=columns)
+        for col, dtype in zip(columns, dtypes):
+            df[col]= df[col].astype(dtype)
+
+        df = dummify(df, 'month')
+        df = dummify(df, 'day')
+
         return df
 
     # def transform_batch(self, df):
@@ -88,8 +95,8 @@ if __name__ == "__main__":
     df = load_data(data_source)
     
     print("≫ Transforming Data")
-    processor = ForestFireProcessor()
-    df = processor.transform_batch(df)
+    processor = ForestFiresProcessor()
+    df = processor.transform(df)
     # df = dummify(df, 'month', prefix='month')
     # df = dummify(df, 'day', prefix='day')
 

@@ -27,53 +27,98 @@ import numpy as np
 from pipelines.etl_forest_fires import ForestFiresProcessor
 
 # cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-# values = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
+values = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
 
-cols = ['X','Y','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-values = [8, 6, 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
+# cols = ['X','Y','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
+# values = [8, 6, 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
 
-np_values    = np.array(values)
-np_values_2d = np_values.reshape(1, len(np_values))
-df = pd.DataFrame([values], columns=cols)
+# np_values    = np.array(values)
+# np_values_2d = np_values.reshape(1, len(np_values))
+# df_values = pd.DataFrame([values], columns=cols)
 
-# features = [8, 6, 1, 1, 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
+# cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
+# features = [8, 6, 'sep','thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
+# np_features_2d = np.a/rray(features, ndmin=2, 
+    # dtype=[int,int,str,str,float,float,float,float,float,float,float,float,float]
+    # )
+
+# df_features = pd.DataFrame(
+    # [features], columns=cols
+# )
 
 class TestForestFiresProcessor(TestCase):
     def setUp(self):
         self.processor = ForestFiresProcessor()
 
-    def test_transform_list(self):
+    def test_raw_features_stay(self):
         transformed = self.processor.transform(values)
-        assert np.array_equal(transformed.values, np_values_2d)
+        row = transformed.loc[0]
+        self.assertEqual(row['X'], 8)
+        self.assertEqual(row['Y'], 6)
+        self.assertEqual(row['month'], 'sep')
+        self.assertEqual(row['day'], 'thu')
+        self.assertEqual(row['FFMC'], 93.7)
+        self.assertEqual(row['DMC'], 80.9)
+        self.assertEqual(row['DC'], 685.2)
+        self.assertEqual(row['ISI'], 17.9)
+        self.assertEqual(row['temp'], 23.7)
+        self.assertEqual(row['RH'], 25)
+        self.assertEqual(row['wind'], 4.5)
+        self.assertEqual(row['rain'], 0)
+        self.assertEqual(row['area'], 1.12)
+        
+    # def test_transform(self):
+        # print(transformed.dtypes)
+        # print(transformed.values)
+        # print(np_features_2d)
+        # assert np.array_equal(transformed.values, np_features_2d)
+        # [np.int64, np.int64, str, str,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.uint8,np.uint8]
 
-    def test_transform_wrapped_list(self):
-        transformed = self.processor.transform([values])
-        assert np.array_equal(transformed.values, np_values_2d)
+    # def test_transform_list(self):
+        # transformed = self.processor.transform(values)
+        # assert np.array_equal(transformed.values, np_features_2d)
+        # assert transformed.equals(df_features)
 
-    def test_transform_narray_one_dim(self):
-        transformed = self.processor.transform(np_values)
-        assert np.array_equal(transformed.values, np_values_2d)
+    # def test_transform_wrapped_list(self):
+    #     transformed = self.processor.transform([values])
+    #     assert np.array_equal(transformed.values, np_values_2d)
 
-    def test_transform_wrapped_narray_one_dim(self):
-        transformed = self.processor.transform([np_values])
-        assert np.array_equal(transformed.values, np_values_2d)
+    # def test_transform_narray_one_dim(self):
+    #     transformed = self.processor.transform(np_values)
+    #     assert np.array_equal(transformed.values, np_values_2d)
 
-    def test_transform_narray_two_dims(self):
-        assert np.array_equal(
-            self.processor.transform(np_values_2d).values, np_values_2d)
+    # def test_transform_wrapped_narray_one_dim(self):
+    #     transformed = self.processor.transform([np_values])
+    #     assert np.array_equal(transformed.values, np_values_2d)
 
-    def test_transform_df(self):
-        assert np.array_equal(self.processor.transform(df).values, np_values_2d)
+    # def test_transform_narray_two_dims(self):
+    #     assert np.array_equal(
+    #         self.processor.transform(np_values_2d).values, np_values_2d)
 
-    def test_transform_requires_minimum_number_of_features(self):
-        with pytest.raises(ValueError, match="incorrect number of columns"):
-            self.processor.transform(values[:6])
+    # def test_transform_df(self):
+    #     assert np.array_equal(self.processor.transform(df_values).values, np_values_2d)
 
-    def test_transform_requires_maximum_number_of_features(self):
-        with pytest.raises(ValueError, match='incorrect number of columns'):
-            self.processor.transform(values * 2)
+    # def test_transform_requires_minimum_number_of_features(self):
+    #     with pytest.raises(ValueError, match="incorrect number of columns"):
+    #         self.processor.transform(values[:6])
 
-    def test_transform_accepts_only_features_as_input(self):
-        X = np_values[:-1]
-        assert np.array_equal(self.processor.transform([X]).values, [X])
+    # def test_transform_requires_maximum_number_of_features(self):
+    #     with pytest.raises(ValueError, match='incorrect number of columns'):
+    #         self.processor.transform(values * 2)
+
+    # def test_transform_accepts_only_features_as_input(self):
+    #     X = np_values[:-1]
+    #     assert np.array_equal(self.processor.transform([X]).values, [X])
     
+    ##
+
+    # def test_month_is_dummified(self):
+    #     X = np_values[:-1]
+    #     feature_cols = self.processor.transform([X]).columns.to_list()
+    #     self.assertIn('sep', feature_cols)
+
+    # def test_day_is_dummified(self):
+    #     X = np_values[:-1]
+    #     feature_cols = self.processor.transform([X]).columns.to_list()
+    #     self.assertIn('thu', feature_cols)
+
