@@ -26,21 +26,21 @@ import numpy as np
 
 from pipelines.etl_forest_fires import ForestFiresProcessor
 
-variables = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-values = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
+target = 'area'
+input_names = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain']
+values        = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12]
 
 np_values    = np.array(values)
 np_values_2d = np_values.reshape(1, len(np_values))
-df_values = pd.DataFrame([values], columns=variables)
+df_values    = pd.DataFrame([values], columns=input_names + [target])
 
-# cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-# np_features_2d = np.a/rray(features, ndmin=2, 
-    # dtype=[int,int,str,str,float,float,float,float,float,float,float,float,float]
-    # )
+new_features = ['sep']
+feature_names = input_names + [target] + new_features 
+feature_vals = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12, 1]
+df_features = pd.DataFrame([feature_vals], columns=feature_names)
+df_features['sep'] = df_features['sep'].astype(np.uint8)
 
-feature_names = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-features = [8, 6, 'sep','thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12]
-df_features = pd.DataFrame([features], columns=feature_names)
+X = np_values[:-1]
 
 class TestForestFiresProcessor(TestCase):
     def setUp(self):
@@ -102,14 +102,6 @@ class TestForestFiresProcessor(TestCase):
         transformed = self.processor.transform(df_values)
         assert transformed.equals(df_features)
 
-    # THIS IS NOT A UNIT
-    # def test_transform(self):
-        # print(transformed.dtypes)
-        # print(transformed.values)
-        # print(np_features_2d)
-        # assert np.array_equal(transformed.values, np_features_2d)
-        # [np.int64, np.int64, str, str,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.uint8,np.uint8]
-
     def test_transform_requires_minimum_number_of_features(self):
         with pytest.raises(ValueError, match="incorrect number of columns"):
             self.processor.transform(values[:6])
@@ -118,19 +110,15 @@ class TestForestFiresProcessor(TestCase):
         with pytest.raises(ValueError, match='incorrect number of columns'):
             self.processor.transform(values * 2)
 
-    # def test_transform_with_missing_target(self):
-    #     X = np_values[:-1]
-    #     assert np.array_equal(self.processor.transform([X]).values, [X])
+    def test_transform_features_only(self):
+        transformed = self.processor.transform([X])
+        assert transformed.equals(df_features[input_names + new_features])
     
-    ##
-
-    # def test_month_is_dummified(self):
-    #     X = np_values[:-1]
-    #     feature_cols = self.processor.transform([X]).columns.to_list()
-    #     self.assertIn('sep', feature_cols)
+    def test_month_is_dummified(self):
+        feature_cols = self.processor.transform([X]).columns.to_list()
+        self.assertIn('sep', feature_cols)
 
     # def test_day_is_dummified(self):
     #     X = np_values[:-1]
     #     feature_cols = self.processor.transform([X]).columns.to_list()
     #     self.assertIn('thu', feature_cols)
-
