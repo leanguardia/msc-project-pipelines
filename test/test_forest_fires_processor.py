@@ -26,15 +26,12 @@ import numpy as np
 
 from pipelines.etl_forest_fires import ForestFiresProcessor
 
-# cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
+cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
 values = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
 
-# cols = ['X','Y','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-# values = [8, 6, 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
-
-# np_values    = np.array(values)
-# np_values_2d = np_values.reshape(1, len(np_values))
-# df_values = pd.DataFrame([values], columns=cols)
+np_values    = np.array(values)
+np_values_2d = np_values.reshape(1, len(np_values))
+df_values = pd.DataFrame([values], columns=cols)
 
 # cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
 # np_features_2d = np.a/rray(features, ndmin=2, 
@@ -83,9 +80,28 @@ class TestForestFiresProcessor(TestCase):
 
     def test_transform_list(self):
         transformed = self.processor.transform(values)
-        # assert np.array_equal(transformed.values, np_features_2d)
+        assert transformed.equals(df_features)
+
+    def test_transform_wrapped_list(self):
+        transformed = self.processor.transform([values])
+        assert transformed.equals(df_features)
+
+    def test_transform_narray_one_dim(self):
+        transformed = self.processor.transform(np_values)
         assert transformed.equals(df_features)
     
+    def test_transform_wrapped_narray_one_dim(self):
+        transformed = self.processor.transform([np_values])
+        assert transformed.equals(df_features)
+
+    def test_transform_narray_two_dims(self):
+        transformed = self.processor.transform(np_values_2d)
+        assert transformed.equals(df_features)
+
+    def test_transform_df(self):
+        transformed = self.processor.transform(df_values)
+        assert transformed.equals(df_features)
+
     # THIS IS NOT A UNIT
     # def test_transform(self):
         # print(transformed.dtypes)
@@ -93,26 +109,6 @@ class TestForestFiresProcessor(TestCase):
         # print(np_features_2d)
         # assert np.array_equal(transformed.values, np_features_2d)
         # [np.int64, np.int64, str, str,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.uint8,np.uint8]
-
-
-    # def test_transform_wrapped_list(self):
-    #     transformed = self.processor.transform([values])
-    #     assert np.array_equal(transformed.values, np_values_2d)
-
-    # def test_transform_narray_one_dim(self):
-    #     transformed = self.processor.transform(np_values)
-    #     assert np.array_equal(transformed.values, np_values_2d)
-
-    # def test_transform_wrapped_narray_one_dim(self):
-    #     transformed = self.processor.transform([np_values])
-    #     assert np.array_equal(transformed.values, np_values_2d)
-
-    # def test_transform_narray_two_dims(self):
-    #     assert np.array_equal(
-    #         self.processor.transform(np_values_2d).values, np_values_2d)
-
-    # def test_transform_df(self):
-    #     assert np.array_equal(self.processor.transform(df_values).values, np_values_2d)
 
     # def test_transform_requires_minimum_number_of_features(self):
     #     with pytest.raises(ValueError, match="incorrect number of columns"):
