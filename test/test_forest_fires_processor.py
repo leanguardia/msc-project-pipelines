@@ -37,14 +37,13 @@ values = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
 # df_values = pd.DataFrame([values], columns=cols)
 
 # cols = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-# features = [8, 6, 'sep','thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25, 4.5, 0, 1.12]
 # np_features_2d = np.a/rray(features, ndmin=2, 
     # dtype=[int,int,str,str,float,float,float,float,float,float,float,float,float]
     # )
 
-# df_features = pd.DataFrame(
-    # [features], columns=cols
-# )
+feature_names = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
+features = [8, 6, 'sep','thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12]
+df_features = pd.DataFrame([features], columns=feature_names)
 
 class TestForestFiresProcessor(TestCase):
     def setUp(self):
@@ -81,7 +80,13 @@ class TestForestFiresProcessor(TestCase):
         self.assertIsInstance(row['wind'], np.float64)
         self.assertIsInstance(row['rain'], np.float64)
         self.assertIsInstance(row['area'], np.float64)
-        
+
+    def test_transform_list(self):
+        transformed = self.processor.transform(values)
+        # assert np.array_equal(transformed.values, np_features_2d)
+        assert transformed.equals(df_features)
+    
+    # THIS IS NOT A UNIT
     # def test_transform(self):
         # print(transformed.dtypes)
         # print(transformed.values)
@@ -89,10 +94,6 @@ class TestForestFiresProcessor(TestCase):
         # assert np.array_equal(transformed.values, np_features_2d)
         # [np.int64, np.int64, str, str,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.float64,np.uint8,np.uint8]
 
-    # def test_transform_list(self):
-        # transformed = self.processor.transform(values)
-        # assert np.array_equal(transformed.values, np_features_2d)
-        # assert transformed.equals(df_features)
 
     # def test_transform_wrapped_list(self):
     #     transformed = self.processor.transform([values])
