@@ -34,9 +34,9 @@ np_inputs    = np.array(inputs)
 np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
 df_inputs    = pd.DataFrame([inputs], columns=input_names + [target_name])
 
-new_features  = [f'{target_name}_log', 'FFMC_log', 'sep', 'thu']
+new_features  = [f'{target_name}_log', 'FFMC_log', 'ISI_log', 'sep', 'thu']
 feature_names = input_names + [target_name] + new_features
-feature_vals  = inputs + [np.log1p(1.12), np.log1p(93.7), 1, 1]
+feature_vals  = inputs + [np.log1p(1.12), np.log1p(93.7), np.log1p(17.9), 1, 1]
 df_features   = pd.DataFrame([feature_vals], columns=feature_names)
 df_features['sep'] = df_features['sep'].astype(np.uint8)
 df_features['thu'] = df_features['thu'].astype(np.uint8)
@@ -118,6 +118,10 @@ class TestForestFiresProcessor(TestCase):
     def test_transform_FFMC_to_log(self):
         row = self.processor.transform(inputs).loc[0]
         self.assertEqual(row['FFMC_log'], np.log1p(93.7))
+
+    def test_transform_ISI_to_log(self):
+        row = self.processor.transform(inputs).loc[0]
+        self.assertEqual(row['ISI_log'], np.log1p(17.9))
 
     def test_transform_area_to_log(self):
         row = self.processor.transform(inputs).loc[0]

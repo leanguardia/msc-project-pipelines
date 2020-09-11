@@ -44,6 +44,7 @@ class ForestFiresProcessor():
             df['area_log'] = np.log1p(df['area'])
         
         df['FFMC_log'] = np.log1p(df['FFMC'])
+        df['ISI_log'] = np.log1p(df['ISI'])
 
         df = dummify(df, 'month')
         df = dummify(df, 'day')
