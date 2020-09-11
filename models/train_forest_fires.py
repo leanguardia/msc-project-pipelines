@@ -4,10 +4,11 @@ import argparse
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
-from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-# from sklearn.preprocessing import PolynomialFeatures
 
 from pipelines.transformation import remove_outliers_iqr
 from models.io import store_model, is_valid_model_filepath
@@ -15,17 +16,12 @@ from models.evaluators import evaluate_regression
 
 def load_data(database, table):
     engine = create_engine(f'sqlite:///{database}')
-    df = pd.read_sql_table(table, engine)
-    features  = ['X', 'Y', 'FFMC', 'DMC', 'DC', 'temp', 'RH', 'wind', 
-                 'ISI_log', 'rain_log',
-                 'apr', 'aug', 'dec', 'feb', 'jan', 'jul',
-                 'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
-                 'fri', 'mon', 'sat', 'sun', 'thu', 'tue', 'wed'
-                 ]
-    target = 'area_log'
+    return pd.read_sql_table(table, engine)
+
+def split_data(df, features, target='area_log'):
     X = df[features]
     y = df[target]
-    return X, y
+    return  train_test_split(X, y, test_size=0.25, random_state=0)
 
 def parse_args(args):
     if args == None: raise TypeError('An arguments list is required')
@@ -54,20 +50,24 @@ if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
  
     print('≫ Loading data')
-    database = args['database']
-    db_table = args['table']
-    X, y = load_data(database, db_table)
+    df = load_data(args['database'], args['table'])
 
     print('≫ Model Specific Transformations')
-
     # Remove Outliers
     # df_full = df.copy()
     # df = remove_outliers_iqr(df, 'FFMC')
     # Polynomial Data
 
+    features = [
+        'X', 'Y', 'FFMC', 'DMC', 'DC', 'temp', 'RH', 'wind', 
+        'ISI_log', 'rain_log',
+        'apr', 'aug', 'dec', 'feb', 'jan', 'jul',
+        'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
+        'fri', 'mon', 'sat', 'sun', 'thu', 'tue', 'wed'
+    ]
+    X_train, X_test, y_train, y_test = split_data(df, features, target='area_log')
+
     print('≫ Training Model')
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
-                                                        random_state=25)
 
     model = LinearRegression()
     model.fit(X_train, y_train)
@@ -82,4 +82,3 @@ if __name__ == "__main__":
     model_filepath = args['model']
     print(f'≫ Storing Model "{model_filepath}"')
     store_model(model, model_filepath)
-
