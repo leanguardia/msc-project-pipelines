@@ -1,3 +1,4 @@
+import sys
 import argparse
 
 import pandas as pd
@@ -9,7 +10,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 # from sklearn.preprocessing import PolynomialFeatures
 
 # from pipelines.dummy_transformer import remove_outliers_iqr
-from models.io import store_model
+from models.io import store_model, is_valid_model_filepath
 from models.evaluators import evaluate_regression
 
 def load_data(database, table):
@@ -26,23 +27,31 @@ def load_data(database, table):
     y = df[target]
     return X, y
 
-if __name__ == "__main__":
+def parse_args(args):
+    if args == None: raise TypeError('An arguments list is required')
+
+    model_filepath = args[0]
+    if not is_valid_model_filepath(model_filepath):
+        raise ValueError('Invalid model filepath {}'.format(model_filepath))
+
     parser = argparse.ArgumentParser(
-        description='Training of Forest Fires predictive model.')
-        
-    parser.add_argument('model', type=str,# dest='model_filepath',
-        help='Output model name (e.g. models/regression.pkl)')
+        description='Train Adult income predictive model.')
+
+    parser.add_argument('model',
+        help='Output model name (e.g. models/regressor.pkl)')
 
     default_db = 'lake/warehouse.db'
-    parser.add_argument('-d', '--database',
-        type=str, dest='database', default=default_db,
+    parser.add_argument('-d', '--database', dest='database', default=default_db,
         help=f'SQLite database file to query data from (default: {default_db})')
 
     default_table = 'forest_fires'
-    parser.add_argument('-t', '--table', type=str, default=default_table,
+    parser.add_argument('-t', '--table', default=default_table,
         help=f'Database table to query (default: {default_table})')
 
-    args = vars(parser.parse_args())
+    return vars(parser.parse_args(args))
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
  
     print('≫ Loading data')
     database = args['database']
@@ -73,25 +82,4 @@ if __name__ == "__main__":
     model_filepath = args['model']
     print(f'≫ Storing Model "{model_filepath}"')
     store_model(model, model_filepath)
-
-# # ### SVR
-
-# from sklearn.preprocessing import StandardScaler
-# xscaler = StandardScaler(); x_test_scaler = StandardScaler()
-# yscaler = StandardScaler(); y_test_scaler = StandardScaler()
-# X_train_sc = xscaler.fit_transform(X_train)
-# y_train_sc = yscaler.fit_transform(y_train.values.reshape(-1,1))
-# X_test_sc = x_test_scaler.fit_transform(X_test)
-# y_test_sc = y_test_scaler.fit_transform(y_test.values.reshape(-1,1))
-
-# from sklearn.svm import SVR
-# svr = SVR(kernel='rbf')
-# svr.fit(X_train_sc, y_train_sc.ravel())
-
-
-# y_preds_sc = svr.predict(X_test_sc)
-# y_preds = y_test_scaler.inverse_transform(y_preds_sc)
-# y_preds[:10]
-
-# evaluate(y_test, y_preds)
 
