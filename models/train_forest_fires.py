@@ -11,7 +11,7 @@ from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-from pipelines.transformation import remove_outliers_iqr
+from pipelines.transformation import remove_outliers_iqr, remove_outliers_zscore
 from models.io import store_model, is_valid_model_filepath
 from models.evaluators import evaluate_regression
 
@@ -64,6 +64,7 @@ if __name__ == "__main__":
     
     # Remove Outliers
     # df = remove_outliers_iqr(df, 'FFMC')
+    # df = remove_outliers_zscore(df, 'FFMC')
 
     # Polynomial Data (?)
 
@@ -71,9 +72,9 @@ if __name__ == "__main__":
         'X', 'Y',             # Coordinates
         'FFMC', 'DMC', 'DC', 'ISI_log',      # Fire Indicator System
         'temp', 'RH', 'wind', 'rain_cat',    # Meteorological Measurements
-        'apr', 'aug', 'dec', 'feb', 'jan', 'jul', # Month of occurrence
+        'apr', 'aug', 'dec', 'feb', 'jan', #'jul', # Month of occurrence
         'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
-        'fri', 'mon', 'sat', 'sun', 'thu', 'tue', 'wed' # Weekday
+        'fri', 'mon', 'sat', 'sun', 'thu', 'tue', #'wed' # Weekday
     ]
     X_train, X_test, y_train, y_test = split_data(df, features, target='area_log')
     y_test = np.expm1(y_test) 
@@ -133,5 +134,5 @@ if __name__ == "__main__":
 
     best = models[max(models)]
     model_filepath = args['model']
-    print(f'≫ Storing Model "{model_filepath}"')
-    store_model(model, model_filepath)
+    print(f'≫ Storing Model {type(best)} in "{model_filepath}"')
+    store_model(best, model_filepath)
