@@ -34,9 +34,9 @@ np_inputs    = np.array(inputs)
 np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
 df_inputs    = pd.DataFrame([inputs], columns=input_names + [target_name])
 
-new_features  = ['sep', 'thu']
-feature_names = input_names + [target_name] + new_features 
-feature_vals  = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12, 1, 1]
+new_features  = ['area_log', 'sep', 'thu']
+feature_names = input_names + [target_name] + new_features
+feature_vals  = inputs + [np.log1p(1.12), 1, 1]
 df_features   = pd.DataFrame([feature_vals], columns=feature_names)
 df_features['sep'] = df_features['sep'].astype(np.uint8)
 df_features['thu'] = df_features['thu'].astype(np.uint8)
@@ -81,7 +81,7 @@ class TestForestFiresProcessor(TestCase):
 
     def test_transform_features_only(self):
         transformed = self.processor.transform([X])
-        assert transformed.equals(df_features[input_names + new_features])
+        assert transformed.equals(df_features[input_names + new_features[1:]])
 
     def test_raw_features_inputs(self):
         row = self.processor.transform(inputs).loc[0]
@@ -123,6 +123,6 @@ class TestForestFiresProcessor(TestCase):
         feature_cols = self.processor.transform([X]).columns.to_list()
         self.assertIn('thu', feature_cols)
 
-    # def test_transform_area_to_log(self):
-    #     row = self.processor.transform(inputs).loc[0]
-    #     self.assertIn(row['X'], 
+    def test_transform_area_to_log(self):
+        row = self.processor.transform(inputs).loc[0]
+        self.assertEqual(row['area_log'], np.log1p(1.12))

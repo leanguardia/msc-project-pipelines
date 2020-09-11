@@ -39,8 +39,13 @@ class ForestFiresProcessor():
         for col, dtype in zip(columns, dtypes):
             df[col]= df[col].astype(dtype)
 
+        # Target Transformations
+        if cols == self.num_of_columns:
+            df['area_log'] = np.log1p(df['area'])
+
         df = dummify(df, 'month')
         df = dummify(df, 'day')
+
 
         return df
 
