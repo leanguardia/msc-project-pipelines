@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sklearn.model_selection import train_test_split, GridSearchCV
 # from sklearn.preprocessing import StandardScaler
 # from sklearn.svm import SVR
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -76,10 +76,12 @@ if __name__ == "__main__":
         'fri', 'mon', 'sat', 'sun', 'thu', 'tue', 'wed' # Weekday
     ]
     X_train, X_test, y_train, y_test = split_data(df, features, target='area_log')
+    y_test = np.expm1(y_test) 
 
     print('≫ Training Models')
     models = {}
 
+    
     print('Linear Regression')
     linreg = LinearRegression()
     parameters = {
@@ -87,16 +89,32 @@ if __name__ == "__main__":
         'normalize':     [True, False],
     }
     model = GridSearchCV(linreg, param_grid=parameters)
-    model.fit(X_train, y_train)
+    model.fit(X_train, y_train) 
     print('> Best parameters:', model.best_params_)
     y_pred = model.predict(X_test)
 
-    # Invert log transformation
-    y_test = np.expm1(y_test)
-    y_pred = np.expm1(y_pred)
+    y_pred = np.expm1(y_pred) # Invert log transformation
     r2 = evaluate_regression(y_test, y_pred)
     models[r2] = model.best_estimator_
 
+
+    print('Ridge')
+    linreg = Ridge()
+    parameters = {
+        'fit_intercept': [True, False],
+        'normalize':     [True, False],
+        'alpha':         range(20),
+    }
+    model = GridSearchCV(linreg, param_grid=parameters)
+    model.fit(X_train, y_train) 
+    print('> Best parameters:', model.best_params_)
+    y_pred = model.predict(X_test)
+
+    y_pred = np.expm1(y_pred) # Invert log transformation
+    r2 = evaluate_regression(y_test, y_pred)
+    models[r2] = model.best_estimator_
+
+    
     print('Random Forest')
     forest = RandomForestRegressor()
     parameters = {
@@ -108,11 +126,10 @@ if __name__ == "__main__":
     print('> Best parameters:', model.best_params_)
     y_pred = model.predict(X_test)
 
-    # Invert log transformation
-    # y_test = np.expm1(y_test)
-    # y_pred = np.expm1(y_pred)
+    y_pred = np.expm1(y_pred) # Invert log transformation
     r2 = evaluate_regression(y_test, y_pred)
     models[r2] = model.best_estimator_
+
 
     best = models[max(models)]
     model_filepath = args['model']
