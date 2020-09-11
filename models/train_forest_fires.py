@@ -5,8 +5,8 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVR
+# from sklearn.preprocessing import StandardScaler
+# from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -53,14 +53,22 @@ if __name__ == "__main__":
     df = load_data(args['database'], args['table'])
 
     print('≫ Model Specific Transformations')
+    # features_to_scale = [
+    #     'X', 'Y', 'FFMC', 'DMC', 'DC', 'ISI_log',
+    #     'temp', 'RH', 'wind', 'rain_log', 'area_log'
+    # ]
+
+    # scaler = StandardScaler()
+    # df_sc = scaler.fit_transform(df[features_to_scale])
+    
     # Remove Outliers
-    # df_full = df.copy()
     # df = remove_outliers_iqr(df, 'FFMC')
-    # Polynomial Data
+
+    # Polynomial Data (?)
 
     features = [
-        'X', 'Y', 'FFMC', 'DMC', 'DC', 'temp', 'RH', 'wind', 
-        'ISI_log', 'rain_log',
+        'X', 'Y', 'FFMC', 'DMC', 'DC', 'ISI_log',
+        'temp', 'RH', 'wind', 'rain_log',
         'apr', 'aug', 'dec', 'feb', 'jan', 'jul',
         'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
         'fri', 'mon', 'sat', 'sun', 'thu', 'tue', 'wed'
