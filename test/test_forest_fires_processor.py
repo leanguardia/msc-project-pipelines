@@ -26,65 +26,65 @@ import numpy as np
 
 from pipelines.etl_forest_fires import ForestFiresProcessor
 
-target = 'area'
+target_name = 'area'
 input_names = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain']
-values        = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12]
+inputs      = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12]
 
-np_values    = np.array(values)
-np_values_2d = np_values.reshape(1, len(np_values))
-df_values    = pd.DataFrame([values], columns=input_names + [target])
+np_inputs    = np.array(inputs)
+np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
+df_inputs    = pd.DataFrame([inputs], columns=input_names + [target_name])
 
-new_features = ['sep', 'thu']
-feature_names = input_names + [target] + new_features 
-feature_vals = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12, 1, 1]
-df_features = pd.DataFrame([feature_vals], columns=feature_names)
+new_features  = ['sep', 'thu']
+feature_names = input_names + [target_name] + new_features 
+feature_vals  = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12, 1, 1]
+df_features   = pd.DataFrame([feature_vals], columns=feature_names)
 df_features['sep'] = df_features['sep'].astype(np.uint8)
 df_features['thu'] = df_features['thu'].astype(np.uint8)
 
-X = np_values[:-1]
+X = np_inputs[:-1]
 
 class TestForestFiresProcessor(TestCase):
     def setUp(self):
         self.processor = ForestFiresProcessor()
 
     def test_transform_list(self):
-        transformed = self.processor.transform(values)
+        transformed = self.processor.transform(inputs)
         assert transformed.equals(df_features)
 
     def test_transform_wrapped_list(self):
-        transformed = self.processor.transform([values])
+        transformed = self.processor.transform([inputs])
         assert transformed.equals(df_features)
 
     def test_transform_narray_one_dim(self):
-        transformed = self.processor.transform(np_values)
+        transformed = self.processor.transform(np_inputs)
         assert transformed.equals(df_features)
     
     def test_transform_wrapped_narray_one_dim(self):
-        transformed = self.processor.transform([np_values])
+        transformed = self.processor.transform([np_inputs])
         assert transformed.equals(df_features)
 
     def test_transform_narray_two_dims(self):
-        transformed = self.processor.transform(np_values_2d)
+        transformed = self.processor.transform(np_inputs_2d)
         assert transformed.equals(df_features)
 
     def test_transform_df(self):
-        transformed = self.processor.transform(df_values)
+        transformed = self.processor.transform(df_inputs)
         assert transformed.equals(df_features)
 
     def test_transform_requires_minimum_number_of_features(self):
         with pytest.raises(ValueError, match="incorrect number of columns"):
-            self.processor.transform(values[:6])
+            self.processor.transform(inputs[:6])
 
     def test_transform_requires_maximum_number_of_features(self):
         with pytest.raises(ValueError, match='incorrect number of columns'):
-            self.processor.transform(values * 2)
+            self.processor.transform(inputs * 2)
 
     def test_transform_features_only(self):
         transformed = self.processor.transform([X])
         assert transformed.equals(df_features[input_names + new_features])
 
-    def test_raw_features_values(self):
-        row = self.processor.transform(values).loc[0]
+    def test_raw_features_inputs(self):
+        row = self.processor.transform(inputs).loc[0]
         self.assertEqual(row['X'], 8)
         self.assertEqual(row['Y'], 6)
         self.assertEqual(row['month'], 'sep')
@@ -100,7 +100,7 @@ class TestForestFiresProcessor(TestCase):
         self.assertEqual(row['area'], 1.12)
 
     def test_raw_features_types(self):
-        row = self.processor.transform(values).loc[0]
+        row = self.processor.transform(inputs).loc[0]
         self.assertIsInstance(row['X'], np.int64)
         self.assertIsInstance(row['Y'], np.int64)
         self.assertIsInstance(row['month'], str)
@@ -122,3 +122,7 @@ class TestForestFiresProcessor(TestCase):
     def test_transform_dummy_day(self):
         feature_cols = self.processor.transform([X]).columns.to_list()
         self.assertIn('thu', feature_cols)
+
+    # def test_transform_area_to_log(self):
+    #     row = self.processor.transform(inputs).loc[0]
+    #     self.assertIn(row['X'], 
