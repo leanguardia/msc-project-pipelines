@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 # from sklearn.preprocessing import PolynomialFeatures
 
-# from pipelines.dummy_transformer import remove_outliers_iqr
+from pipelines.transformation import remove_outliers_iqr
 from models.io import store_model, is_valid_model_filepath
 from models.evaluators import evaluate_regression
 

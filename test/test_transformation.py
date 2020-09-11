@@ -1,9 +1,8 @@
 import pytest
-
 import pandas as pd
 import numpy as np
 
-from pipelines.dummy_transformer import dummify
+from pipelines.transformation import dummify
 
 df = pd.DataFrame(['a', 'b', 'a'], columns=['category'])
 
