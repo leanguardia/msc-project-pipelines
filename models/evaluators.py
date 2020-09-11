@@ -7,9 +7,9 @@ def evaluate_regression(y_test, y_pred):
     mae = mean_absolute_error(y_test, y_pred)
     mse = mean_squared_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
-    print('(MAE) Mean absolute error: %.2f' % mae)
-    print('(MSE) Mean squared error: %.2f' % mse)
-    print('(R2)  Coefficient of determination: %.2f' % r2)
+    print('(MAE) Mean absolute error: %.3f' % mae)
+    print('(MSE) Mean squared error: %.3f' % mse)
+    print('(R2)  Coefficient of determination: %.3f' % r2)
     return r2
 
 def evaluate_classification(y_test, y_pred, labels=np.arange(2)):

@@ -68,11 +68,12 @@ if __name__ == "__main__":
     # Polynomial Data (?)
 
     features = [
-        'X', 'Y', 'FFMC', 'DMC', 'DC', 'ISI_log',
-        'temp', 'RH', 'wind', 'rain_log',
-        'apr', 'aug', 'dec', 'feb', 'jan', 'jul',
+        'X', 'Y',             # Coordinates
+        'FFMC', 'DMC', 'DC', 'ISI_log',      # Fire Indicator System
+        'temp', 'RH', 'wind', 'rain_cat',    # Meteorological Measurements
+        'apr', 'aug', 'dec', 'feb', 'jan', 'jul', # Month of occurrence
         'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
-        'fri', 'mon', 'sat', 'sun', 'thu', 'tue', 'wed'
+        'fri', 'mon', 'sat', 'sun', 'thu', 'tue', 'wed' # Weekday
     ]
     X_train, X_test, y_train, y_test = split_data(df, features, target='area_log')
 
@@ -94,13 +95,13 @@ if __name__ == "__main__":
     y_test = np.expm1(y_test)
     y_pred = np.expm1(y_pred)
     r2 = evaluate_regression(y_test, y_pred)
-    models['linreg'] = (linreg, r2)
+    models[r2] = model.best_estimator_
 
     print('Random Forest')
     forest = RandomForestRegressor()
     parameters = {
-        'n_estimators': [75, 100, 250],
-        'max_depth':    [2, 3, None],
+        'n_estimators': [75, 100, 300],
+        'max_depth':    [2, 5, None],
     }
     model = GridSearchCV(forest, param_grid=parameters)
     model.fit(X_train, y_train)
@@ -111,8 +112,9 @@ if __name__ == "__main__":
     # y_test = np.expm1(y_test)
     # y_pred = np.expm1(y_pred)
     r2 = evaluate_regression(y_test, y_pred)
-    models['forest'] = (forest, r2)
+    models[r2] = model.best_estimator_
 
-    # model_filepath = args['model']
-    # print(f'≫ Storing Model "{model_filepath}"')
-    # store_model(model, model_filepath)
+    best = models[max(models)]
+    model_filepath = args['model']
+    print(f'≫ Storing Model "{model_filepath}"')
+    store_model(model, model_filepath)
