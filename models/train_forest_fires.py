@@ -8,26 +8,23 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 # from sklearn.preprocessing import PolynomialFeatures
 
+# from pipelines.dummy_transformer import remove_outliers_iqr
 from models.io import store_model
+from models.evaluators import evaluate_regression
 
 def load_data(database, table):
     engine = create_engine(f'sqlite:///{database}')
     df = pd.read_sql_table(table, engine)
-    features  = ['X', 'Y', 'FFMC', 'DMC', 'DC', 'ISI', 'temp', 'RH', 'wind', 'rain',
-                # 'month_jan', 'month_feb', 'month_mar', 'month_apr', 'month_may', 'month_jun',
-                # 'month_jul', 'month_aug', 'month_sep', 'month_oct', 'month_nov', 'month_dec', 
-                # 'day_mon', 'day_tue', 'day_wed', 'day_thu', 'day_fri', 'day_sat', 'day_sun'
-                ]
-    target = 'area'
+    features  = ['X', 'Y', 'FFMC', 'DMC', 'DC', 'temp', 'RH', 'wind', 
+                 'ISI_log', 'rain_log',
+                 'apr', 'aug', 'dec', 'feb', 'jan', 'jul',
+                 'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
+                 'fri', 'mon', 'sat', 'sun', 'thu', 'tue', 'wed'
+                 ]
+    target = 'area_log'
     X = df[features]
     y = df[target]
     return X, y
-
-
-def evaluate(y_test, y_pred):
-    print('(MAE) Mean absolute error: %.2f' % mean_absolute_error(y_test, y_pred))
-    print('(MSE) Mean squared error: %.2f' % mean_squared_error(y_test, y_pred))
-    print('(R2) Coefficient of determination: %.2f' % r2_score(y_test, y_pred))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -41,7 +38,7 @@ if __name__ == "__main__":
         type=str, dest='database', default=default_db,
         help=f'SQLite database file to query data from (default: {default_db})')
 
-    default_table = 'fires'
+    default_table = 'forest_fires'
     parser.add_argument('-t', '--table', type=str, default=default_table,
         help=f'Database table to query (default: {default_table})')
 
@@ -52,36 +49,30 @@ if __name__ == "__main__":
     db_table = args['table']
     X, y = load_data(database, db_table)
 
-    print('≫ Feature Engineering')
+    print('≫ Model Specific Transformations')
 
     # Remove Outliers
+    # df_full = df.copy()
+    # df = remove_outliers_iqr(df, 'FFMC')
     # Polynomial Data
-    # Transform to Log Scale
 
     print('≫ Training Model')
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
                                                         random_state=25)
+
     model = LinearRegression()
     model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
 
-    print('≫ Evaluation Summary')
-    print('(MAE) Mean absolute error: %.2f' % mean_absolute_error(y_test, y_pred))
-    print('(MSE) Mean squared error: %.2f' % mean_squared_error(y_test, y_pred))
-    print('(R2) Coefficient of determination: %.2f' % r2_score(y_test, y_pred)) 
+    # Invert log transformation
+    y_pred = np.expm1(y_pred)
+    y_test = np.expm1(y_test)
+    evaluate_regression(y_test, y_pred)
 
     model_filepath = args['model']
     print(f'≫ Storing Model "{model_filepath}"')
     store_model(model, model_filepath)
-
-# Polynomial transformations
-# X_train_polyer = PolynomialFeatures(degree=2)
-# X_test_polyer = PolynomialFeatures(degree=2)
-# X_train_poly = X_train_polyer.fit_transform(X_train)
-# X_test_poly = X_test_polyer.fit_transform(X_test)
-# print(X_train_polyer.get_feature_names(features))
-# X_train_poly.shape
 
 # # ### SVR
 
