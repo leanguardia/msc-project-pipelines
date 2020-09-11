@@ -43,6 +43,7 @@ class ForestFiresProcessor():
         if cols == self.num_of_columns:
             df['area_log'] = np.log1p(df['area'])
         
+        # Feature Transformations
         df['FFMC_log'] = np.log1p(df['FFMC'])
         df['ISI_log'] = np.log1p(df['ISI'])
         df['rain_log'] = np.log1p(df['rain'])
@@ -50,23 +51,7 @@ class ForestFiresProcessor():
         df = dummify(df, 'month')
         df = dummify(df, 'day')
 
-
         return df
-
-    # def transform_batch(self, df):
-    #     """
-    #     Transforms a batch of Fores Fire records.
-        
-    #     Parameters:
-    #     - X: DataFrame with the 12 columns of the dataset.
-
-    #     Returns:
-    #     - Dataframe containing the transformed records.
-    #     """
-    #     categorical_features = ['month', 'day']
-    #     numerical_features = [feature for feature in df.columns
-    #                                   if feature not in categorical_features]
-    #     return df[numerical_features]
 
 
 def parse_args(args=[]):
@@ -105,8 +90,6 @@ if __name__ == "__main__":
     print("≫ Transforming Data")
     processor = ForestFiresProcessor()
     df = processor.transform(df)
-    # df = dummify(df, 'month', prefix='month')
-    # df = dummify(df, 'day', prefix='day')
 
     print("≫ Loading Data")
     database = args['database']
