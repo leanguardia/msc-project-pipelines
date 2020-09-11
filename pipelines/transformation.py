@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from scipy import stats
 
 def dummify(df, column, **kwargs):
     if not type(df) == pd.DataFrame:
@@ -14,3 +15,7 @@ def remove_outliers_iqr(df, column):
     upper_bound = q3 + 1.5 * iqr
     df = df[(lower_bound <= df[column]) & (df[column] <= upper_bound)]
     return df.dropna()
+
+def remove_outliers_zscore(df, column, zscore=3):
+    z_scores = np.abs(stats.zscore(df[column]))
+    return df.loc[z_scores <= zscore]
