@@ -42,6 +42,8 @@ class ForestFiresProcessor():
         # Target Transformations
         if cols == self.num_of_columns:
             df['area_log'] = np.log1p(df['area'])
+        
+        df['FFMC_log'] = np.log1p(df['FFMC'])
 
         df = dummify(df, 'month')
         df = dummify(df, 'day')
