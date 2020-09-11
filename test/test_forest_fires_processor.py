@@ -28,19 +28,20 @@ from pipelines.etl_forest_fires import ForestFiresProcessor
 
 target_name = 'area'
 input_names = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain']
-inputs      = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12]
+inputs      = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.4, 1.12]
 
 np_inputs    = np.array(inputs)
 np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
 df_inputs    = pd.DataFrame([inputs], columns=input_names + [target_name])
 
-new_features  = [f'{target_name}_log', 'FFMC_log', 'ISI_log', 'rain_log', 'sep', 'thu']
-feature_vals  = inputs + [np.log1p(1.12), np.log1p(93.7), np.log1p(17.9), np.log1p(0.0), 1, 1]
+new_features  = [f'{target_name}_log', 'FFMC_log', 'ISI_log', 'rain_log', 'rain_cat', 'sep', 'thu']
+feature_vals  = inputs + [np.log1p(1.12), np.log1p(93.7), np.log1p(17.9), np.log1p(0.4), 1, 1, 1]
 
 feature_names = input_names + [target_name] + new_features
 df_features   = pd.DataFrame([feature_vals], columns=feature_names)
 df_features['sep'] = df_features['sep'].astype(np.uint8)
 df_features['thu'] = df_features['thu'].astype(np.uint8)
+df_features['rain_cat'] = df_features['rain_cat'].astype(np.uint8)
 
 X = np_inputs[:-1]
 
@@ -97,7 +98,7 @@ class TestForestFiresProcessor(TestCase):
         self.assertEqual(row['temp'], 23.7)
         self.assertEqual(row['RH'], 25)
         self.assertEqual(row['wind'], 4.5)
-        self.assertEqual(row['rain'], 0)
+        self.assertEqual(row['rain'], 0.4)
         self.assertEqual(row['area'], 1.12)
 
     def test_raw_features_types(self):
@@ -116,6 +117,10 @@ class TestForestFiresProcessor(TestCase):
         self.assertIsInstance(row['rain'], np.float64)
         self.assertIsInstance(row['area'], np.float64)
 
+    def test_transform_area_to_log(self):
+        row = self.processor.transform(inputs).loc[0]
+        self.assertEqual(row['area_log'], np.log1p(1.12))
+
     def test_transform_FFMC_to_log(self):
         row = self.processor.transform(inputs).loc[0]
         self.assertEqual(row['FFMC_log'], np.log1p(93.7))
@@ -126,11 +131,11 @@ class TestForestFiresProcessor(TestCase):
 
     def test_transform_rain_to_log(self):
         row = self.processor.transform(inputs).loc[0]
-        self.assertEqual(row['rain_log'], np.log1p(0.0))
+        self.assertEqual(row['rain_log'], np.log1p(0.4))
 
-    def test_transform_area_to_log(self):
+    def test_transform_rain_to_category(self):
         row = self.processor.transform(inputs).loc[0]
-        self.assertEqual(row['area_log'], np.log1p(1.12))
+        self.assertEqual(row['rain_cat'], 1)
 
     def test_transform_dummy_month(self):
         feature_cols = self.processor.transform([X]).columns.to_list()
