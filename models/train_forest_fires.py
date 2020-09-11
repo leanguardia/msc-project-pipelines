@@ -4,7 +4,7 @@ import argparse
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 # from sklearn.preprocessing import StandardScaler
 # from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
@@ -77,8 +77,15 @@ if __name__ == "__main__":
 
     print('≫ Training Model')
 
-    model = LinearRegression()
+    linreg = LinearRegression()
+    parameters = {
+        'fit_intercept': [True, False],
+        'normalize':     [True, False],
+    }
+
+    model = GridSearchCV(linreg, param_grid=parameters)
     model.fit(X_train, y_train)
+    print('> Best parameters:', model.best_params_)
 
     y_pred = model.predict(X_test)
 
