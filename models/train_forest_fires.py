@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 # from sklearn.preprocessing import StandardScaler
 # from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from pipelines.transformation import remove_outliers_iqr
@@ -75,25 +76,43 @@ if __name__ == "__main__":
     ]
     X_train, X_test, y_train, y_test = split_data(df, features, target='area_log')
 
-    print('≫ Training Model')
+    print('≫ Training Models')
+    models = {}
 
+    print('Linear Regression')
     linreg = LinearRegression()
     parameters = {
         'fit_intercept': [True, False],
         'normalize':     [True, False],
     }
-
     model = GridSearchCV(linreg, param_grid=parameters)
     model.fit(X_train, y_train)
     print('> Best parameters:', model.best_params_)
-
     y_pred = model.predict(X_test)
 
     # Invert log transformation
-    y_pred = np.expm1(y_pred)
     y_test = np.expm1(y_test)
-    evaluate_regression(y_test, y_pred)
+    y_pred = np.expm1(y_pred)
+    r2 = evaluate_regression(y_test, y_pred)
+    models['linreg'] = (linreg, r2)
 
-    model_filepath = args['model']
-    print(f'≫ Storing Model "{model_filepath}"')
-    store_model(model, model_filepath)
+    print('Random Forest')
+    forest = RandomForestRegressor()
+    parameters = {
+        'n_estimators': [75, 100, 250],
+        'max_depth':    [2, 3, None],
+    }
+    model = GridSearchCV(forest, param_grid=parameters)
+    model.fit(X_train, y_train)
+    print('> Best parameters:', model.best_params_)
+    y_pred = model.predict(X_test)
+
+    # Invert log transformation
+    # y_test = np.expm1(y_test)
+    # y_pred = np.expm1(y_pred)
+    r2 = evaluate_regression(y_test, y_pred)
+    models['forest'] = (forest, r2)
+
+    # model_filepath = args['model']
+    # print(f'≫ Storing Model "{model_filepath}"')
+    # store_model(model, model_filepath)
