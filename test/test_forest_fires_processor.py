@@ -34,49 +34,18 @@ np_values    = np.array(values)
 np_values_2d = np_values.reshape(1, len(np_values))
 df_values    = pd.DataFrame([values], columns=input_names + [target])
 
-new_features = ['sep']
+new_features = ['sep', 'thu']
 feature_names = input_names + [target] + new_features 
-feature_vals = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12, 1]
+feature_vals = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.0, 1.12, 1, 1]
 df_features = pd.DataFrame([feature_vals], columns=feature_names)
 df_features['sep'] = df_features['sep'].astype(np.uint8)
+df_features['thu'] = df_features['thu'].astype(np.uint8)
 
 X = np_values[:-1]
 
 class TestForestFiresProcessor(TestCase):
     def setUp(self):
         self.processor = ForestFiresProcessor()
-
-    def test_raw_features_values(self):
-        row = self.processor.transform(values).loc[0]
-        self.assertEqual(row['X'], 8)
-        self.assertEqual(row['Y'], 6)
-        self.assertEqual(row['month'], 'sep')
-        self.assertEqual(row['day'], 'thu')
-        self.assertEqual(row['FFMC'], 93.7)
-        self.assertEqual(row['DMC'], 80.9)
-        self.assertEqual(row['DC'], 685.2)
-        self.assertEqual(row['ISI'], 17.9)
-        self.assertEqual(row['temp'], 23.7)
-        self.assertEqual(row['RH'], 25)
-        self.assertEqual(row['wind'], 4.5)
-        self.assertEqual(row['rain'], 0)
-        self.assertEqual(row['area'], 1.12)
-
-    def test_raw_features_types(self):
-        row = self.processor.transform(values).loc[0]
-        self.assertIsInstance(row['X'], np.int64)
-        self.assertIsInstance(row['Y'], np.int64)
-        self.assertIsInstance(row['month'], str)
-        self.assertIsInstance(row['day'], str)
-        self.assertIsInstance(row['FFMC'], np.float64)
-        self.assertIsInstance(row['DMC'], np.float64)
-        self.assertIsInstance(row['DC'], np.float64)
-        self.assertIsInstance(row['ISI'], np.float64)
-        self.assertIsInstance(row['temp'], np.float64)
-        self.assertIsInstance(row['RH'], np.float64)
-        self.assertIsInstance(row['wind'], np.float64)
-        self.assertIsInstance(row['rain'], np.float64)
-        self.assertIsInstance(row['area'], np.float64)
 
     def test_transform_list(self):
         transformed = self.processor.transform(values)
@@ -113,12 +82,43 @@ class TestForestFiresProcessor(TestCase):
     def test_transform_features_only(self):
         transformed = self.processor.transform([X])
         assert transformed.equals(df_features[input_names + new_features])
-    
-    def test_month_is_dummified(self):
+
+    def test_raw_features_values(self):
+        row = self.processor.transform(values).loc[0]
+        self.assertEqual(row['X'], 8)
+        self.assertEqual(row['Y'], 6)
+        self.assertEqual(row['month'], 'sep')
+        self.assertEqual(row['day'], 'thu')
+        self.assertEqual(row['FFMC'], 93.7)
+        self.assertEqual(row['DMC'], 80.9)
+        self.assertEqual(row['DC'], 685.2)
+        self.assertEqual(row['ISI'], 17.9)
+        self.assertEqual(row['temp'], 23.7)
+        self.assertEqual(row['RH'], 25)
+        self.assertEqual(row['wind'], 4.5)
+        self.assertEqual(row['rain'], 0)
+        self.assertEqual(row['area'], 1.12)
+
+    def test_raw_features_types(self):
+        row = self.processor.transform(values).loc[0]
+        self.assertIsInstance(row['X'], np.int64)
+        self.assertIsInstance(row['Y'], np.int64)
+        self.assertIsInstance(row['month'], str)
+        self.assertIsInstance(row['day'], str)
+        self.assertIsInstance(row['FFMC'], np.float64)
+        self.assertIsInstance(row['DMC'], np.float64)
+        self.assertIsInstance(row['DC'], np.float64)
+        self.assertIsInstance(row['ISI'], np.float64)
+        self.assertIsInstance(row['temp'], np.float64)
+        self.assertIsInstance(row['RH'], np.float64)
+        self.assertIsInstance(row['wind'], np.float64)
+        self.assertIsInstance(row['rain'], np.float64)
+        self.assertIsInstance(row['area'], np.float64)
+
+    def test_transform_dummy_month(self):
         feature_cols = self.processor.transform([X]).columns.to_list()
         self.assertIn('sep', feature_cols)
 
-    # def test_day_is_dummified(self):
-    #     X = np_values[:-1]
-    #     feature_cols = self.processor.transform([X]).columns.to_list()
-    #     self.assertIn('thu', feature_cols)
+    def test_transform_dummy_day(self):
+        feature_cols = self.processor.transform([X]).columns.to_list()
+        self.assertIn('thu', feature_cols)

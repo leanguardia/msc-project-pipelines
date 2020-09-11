@@ -40,7 +40,7 @@ class ForestFiresProcessor():
             df[col]= df[col].astype(dtype)
 
         df = dummify(df, 'month')
-        # df = dummify(df, 'day')
+        df = dummify(df, 'day')
 
         return df
 
