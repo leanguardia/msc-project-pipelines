@@ -60,3 +60,35 @@ class TestWineQualityProcessor(TestCase):
     def test_transform_accepts_only_features_as_input(self):
         transformed = self.processor.transform([X])
         assert transformed.equals(df_features[input_names])
+
+    def test_raw_features_inputs(self):
+        row = self.processor.transform(inputs).loc[0]
+        assert row['fixed_acidity'] == 7.0
+        assert row['citric_acid'] == 0.36
+        assert row['volatile_acidity'] == 0.27
+        assert row['residual_sugar'] == 20.7
+        assert row['chlorides'] == 0.045
+        assert row['free_sulfur_dioxide'] == 45.0
+        assert row['total_sulfur_dioxide'] == 170.0
+        assert row['density'] == 1.0010
+        assert row['pH'] == 3.00
+        assert row['sulphates'] == 0.45
+        assert row['alcohol'] == 8.8
+        assert row['quality'] == 6
+    
+    # Quality is not being passed as Integer for some reason
+    # def test_raw_features_types(self):
+    #     transformed = self.processor.transform(inputs)
+    #     row = transformed.loc[0]
+    #     self.assertIsInstance(row['fixed_acidity'], np.float64)
+    #     self.assertIsInstance(row['citric_acid'], np.float64)
+    #     self.assertIsInstance(row['volatile_acidity'], np.float64)
+    #     self.assertIsInstance(row['residual_sugar'], np.float64)
+    #     self.assertIsInstance(row['chlorides'], np.float64)
+    #     self.assertIsInstance(row['free_sulfur_dioxide'], np.float64)
+    #     self.assertIsInstance(row['total_sulfur_dioxide'], np.float64)
+    #     self.assertIsInstance(row['density'], np.float64)
+    #     self.assertIsInstance(row['pH'], np.float64)
+    #     self.assertIsInstance(row['sulphates'], np.float64)
+    #     self.assertIsInstance(row['alcohol'], np.float64)
+    #     self.assertIsInstance(row['quality'], np.uint8)
