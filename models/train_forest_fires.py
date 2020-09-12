@@ -74,7 +74,7 @@ if __name__ == "__main__":
         'temp', 'RH', 'wind', 'rain_cat',    # Meteorological Measurements
         'apr', 'aug', 'dec', 'feb', 'jan', #'jul', # Month of occurrence
         'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
-        'fri', 'mon', 'sat', 'sun', 'thu', 'tue', #'wed' # Weekday
+        'fri', 'mon', 'sat', 'sun', 'thu', #'tue', #'wed' # Weekday
     ]
     X_train, X_test, y_train, y_test = split_data(df, features, target='area_log')
     y_test = np.expm1(y_test) 
