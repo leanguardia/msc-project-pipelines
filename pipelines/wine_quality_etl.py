@@ -43,6 +43,8 @@ class WineQualityProcessor():
             feature_name = feature['name']
             df[feature_name]= df[feature_name].astype(feature['type'])
 
+        df['free_sulfur_dioxide_log'] = np.log(df['free_sulfur_dioxide'])
+
         return df
 
 
