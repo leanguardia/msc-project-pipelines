@@ -28,6 +28,8 @@ def plot_regression(y_test, y_pred):
     ax.scatter(x_ticks, a[:,1], label='Predictions', s=15, c='orange');
     ax.legend()
 
+def skew_kurt(df):
+    return pd.DataFrame({'kurtosis':  df.kurtosis(), 'skewness': df.skew()})
 
 # def coeficient_importance(linear_model, columns, excluded_cols):
 #     coeficients = pd.DataFrame([linear_model.coef_], columns=columns)
