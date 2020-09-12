@@ -19,3 +19,7 @@ def remove_outliers_iqr(df, column):
 def remove_outliers_zscore(df, column, zscore=3):
     z_scores = np.abs(stats.zscore(df[column]))
     return df.loc[z_scores <= zscore]
+
+def replace_outliers_winsor(df, column, limits):
+    df[column] = stats.mstats.winsorize(df[column], limits).data
+    return df
