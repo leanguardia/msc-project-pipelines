@@ -140,6 +140,9 @@ cython_debug/
 # Databases
 *.db
 
+# Text-editor
+.vscode
+
 # Tracked by DVC
 lake/forest_fires/forestfires.csv
 lake/wine_quality/*.csv
