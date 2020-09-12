@@ -4,12 +4,14 @@ import argparse
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
+from pipelines.wine_quality_schema import features
 
 class WineQualityProcessor():
-    COLUMNS = ['fixed acidity', 'volatile acidity', 'citric acid',
-              'residual sugar', 'chlorides', 'free sulfur dioxide',
-              'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol',
-              'quality']
+    COLUMNS = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar',
+               'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density',
+               'pH', 'sulphates', 'alcohol', 'quality']
+
+
 
     def __init__(self):
         self.num_of_columns = len(self.COLUMNS) 
@@ -27,7 +29,7 @@ class WineQualityProcessor():
         if not type(data) == pd.DataFrame:
             data = np.array(data, ndmin=2)
         
-        _rows, cols = data.shape        
+        _rows, cols = data.shape
         if cols < self.num_of_features or cols > self.num_of_columns:
             raise ValueError("data must have 11 or 12 columns.")
 
@@ -36,6 +38,10 @@ class WineQualityProcessor():
             columns = self.COLUMNS[:-1]
 
         df = pd.DataFrame(data, columns=columns)
+        for feature in features:
+            feature_name = feature['name']
+            df[feature_name]= df[feature_name].astype(feature['type'])
+
         return df
 
 

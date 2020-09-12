@@ -1,4 +1,4 @@
-from pipelines.etl_wine_quality import parse_args
+from pipelines.wine_quality_etl import parse_args
 
 class TestWineQualityETL:
     def test_argparser_default_data_source(self):
