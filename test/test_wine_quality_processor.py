@@ -17,11 +17,12 @@ np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
 df_inputs    = pd.DataFrame([inputs], columns=input_names + [target_name])
 X = np_inputs[:-1]
 
-new_feature_names = ['free_sulfur_dioxide_log']
-feature_vals = inputs + [np.log(45.0)]
+new_feature_names = ['quality_cat', 'free_sulfur_dioxide_log']
+feature_vals = inputs + [1, np.log(45.0)]
 
 feature_names = input_names + [target_name] + new_feature_names
 df_features = pd.DataFrame([feature_vals], columns=feature_names)
+df_features['quality_cat'] = df_features['quality_cat'].astype(np.uint8)
 
 class TestWineQualityProcessor(TestCase):
     def setUp(self):
@@ -61,7 +62,7 @@ class TestWineQualityProcessor(TestCase):
 
     def test_transform_accepts_only_features_as_input(self):
         transformed = self.processor.transform([X])
-        assert transformed.equals(df_features[input_names + new_feature_names])
+        assert transformed.equals(df_features[input_names + new_feature_names[1:]])
 
     def test_raw_features_inputs(self):
         row = self.processor.transform(inputs).loc[0]
@@ -93,7 +94,13 @@ class TestWineQualityProcessor(TestCase):
         self.assertIsInstance(row['sulphates'], np.float64)
         self.assertIsInstance(row['alcohol'], np.float64)
         # Quality is not being passed as Integer for some reason
-        # self.assertIsInstance(row['quality'], np.int64)
+        self.assertIsInstance(row['quality'], np.int64)
+
+    def test_transform_quality_to_category(self):
+        transformed = self.processor.transform(inputs)
+        print(transformed)
+        print(df_features)
+        self.assertEqual(transformed.loc[0]['quality_cat'], 1)
 
     def test_transform_free_sulfur_dioxide_to_log(self):
         row = self.processor.transform(inputs).loc[0]

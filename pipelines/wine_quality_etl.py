@@ -43,6 +43,10 @@ class WineQualityProcessor():
             feature_name = feature['name']
             df[feature_name]= df[feature_name].astype(feature['type'])
 
+        # Target Transformations
+        if cols == self.num_of_columns:
+            df['quality_cat'] = pd.cut(df['quality'], bins=[0,5,7,10], labels=[0,1,2]).astype(np.uint8)
+
         df['free_sulfur_dioxide_log'] = np.log(df['free_sulfur_dioxide'])
 
         return df
