@@ -11,11 +11,10 @@ class WineQualityProcessor():
                'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density',
                'pH', 'sulphates', 'alcohol', 'quality']
 
-
-
     def __init__(self):
         self.num_of_columns = len(self.COLUMNS) 
         self.num_of_features = self.num_of_columns - 1
+        self.features = features
 
     def transform(self, data):
         """
@@ -31,11 +30,13 @@ class WineQualityProcessor():
         
         _rows, cols = data.shape
         if cols < self.num_of_features or cols > self.num_of_columns:
-            raise ValueError("data must have 11 or 12 columns.")
+            raise ValueError(f"incorrect number of columns")
 
         columns = self.COLUMNS
+        features = self.features
         if cols == self.num_of_features:
-            columns = self.COLUMNS[:-1]
+            columns  = columns[:-1]
+            features = features[:-1]
 
         df = pd.DataFrame(data, columns=columns)
         for feature in features:

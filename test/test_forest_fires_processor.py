@@ -33,6 +33,7 @@ inputs      = [8, 6, 'sep', 'thu', 93.7, 80.9, 685.2, 17.9, 23.7, 25.0, 4.5, 0.4
 np_inputs    = np.array(inputs)
 np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
 df_inputs    = pd.DataFrame([inputs], columns=input_names + [target_name])
+X = np_inputs[:-1]
 
 new_feature_names  = [f'{target_name}_log', 'FFMC_log', 'ISI_log', 'rain_log', 'rain_cat', 'sep', 'thu']
 feature_vals  = inputs + [np.log1p(1.12), np.log1p(93.7), np.log1p(17.9), np.log1p(0.4), 1, 1, 1]
@@ -43,7 +44,6 @@ df_features['sep'] = df_features['sep'].astype(np.uint8)
 df_features['thu'] = df_features['thu'].astype(np.uint8)
 df_features['rain_cat'] = df_features['rain_cat'].astype(np.uint8)
 
-X = np_inputs[:-1]
 
 class TestForestFiresProcessor(TestCase):
     def setUp(self):
