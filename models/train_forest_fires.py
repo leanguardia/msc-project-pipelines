@@ -12,17 +12,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from pipelines.transformation import remove_outliers_iqr, remove_outliers_zscore
-from models.io import store_model, is_valid_model_filepath
+from models.io import load_table, store_model, is_valid_model_filepath
 from models.evaluators import evaluate_regression
-
-def load_data(database, table):
-    engine = create_engine(f'sqlite:///{database}')
-    return pd.read_sql_table(table, engine)
-
-def split_data(df, features, target='area_log'):
-    X = df[features]
-    y = df[target]
-    return  train_test_split(X, y, test_size=0.25, random_state=0)
 
 def parse_args(args):
     if args == None: raise TypeError('An arguments list is required')
@@ -51,7 +42,7 @@ if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
  
     print('≫ Loading data')
-    df = load_data(args['database'], args['table'])
+    df = load_table(args['database'], args['table'])
 
     print('≫ Model Specific Transformations')
     # features_to_scale = [
@@ -76,8 +67,11 @@ if __name__ == "__main__":
         'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
         'fri', 'mon', 'sat', 'sun', 'thu', #'tue', #'wed' # Weekday
     ]
-    X_train, X_test, y_train, y_test = split_data(df, features, target='area_log')
-    y_test = np.expm1(y_test) 
+    X = df[features]
+    y = df['area_log']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
+
+    y_test = np.expm1(y_test) # Inverse target log transformation 
 
     print('≫ Training Models')
     models = {}
