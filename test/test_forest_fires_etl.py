@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pipelines.etl_forest_fires import parse_args
+from pipelines.forest_fires_etl import parse_args
 
 class TestForestFiresETL(TestCase):
     def test_argparser_default_data_source(self):

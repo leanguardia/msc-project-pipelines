@@ -1,4 +1,4 @@
-# read_table
+# load table
 
     # test presence
     # test 

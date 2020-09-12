@@ -3,7 +3,7 @@ from joblib import dump, load
 from sqlalchemy import create_engine
 from sklearn.base import BaseEstimator
 
-def read_table(database, table_name):
+def load_table(database, table_name):
     engine = create_engine(f'sqlite:///{database}')
     return pd.read_sql_table(table_name, engine)
 

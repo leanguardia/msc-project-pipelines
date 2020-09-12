@@ -5,11 +5,11 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
-from models.io import read_table, store_model, is_valid_model_filepath
+from models.io import load_table, store_model, is_valid_model_filepath
 from models.evaluators import evaluate_classification
 
 def load_data(database, table):
-    df = read_table(database, table)
+    df = load_table(database, table)
     # features = ['sex', 'length', 'diameter', 'height', 'whole_weight',
     features = ['length', 'diameter', 'height', 'whole_weight',
                 'shucked_weight', 'viscera_weight', 'shell_weight']

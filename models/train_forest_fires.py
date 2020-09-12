@@ -67,8 +67,7 @@ if __name__ == "__main__":
         'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
         'fri', 'mon', 'sat', 'sun', 'thu', #'tue', #'wed' # Weekday
     ]
-    X = df[features]
-    y = df['area_log']
+    X, y = df[features], df['area_log']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
 
     y_test = np.expm1(y_test) # Inverse target log transformation 
@@ -76,7 +75,7 @@ if __name__ == "__main__":
     print('≫ Training Models')
     models = {}
 
-    
+
     print('Linear Regression')
     linreg = LinearRegression()
     parameters = {

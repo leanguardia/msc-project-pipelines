@@ -5,11 +5,11 @@ import argparse
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
-from models.io import read_table, store_model, is_valid_model_filepath
+from models.io import load_table, store_model, is_valid_model_filepath
 from models.evaluators import evaluate_classification
 
 def load_data(database, table):
-    df = read_table(database, table)
+    df = load_table(database, table)
     features = ['age', 'fnlwgt', 'education_num', 'capital_gain',
                 'capital_loss', 'hours_per_week']
     X = df[features]
