@@ -9,7 +9,7 @@ from pipelines.wine_quality_schema import features
 class WineQualityProcessor():
     COLUMNS = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar',
                'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density',
-               'pH', 'sulphates', 'alcohol', 'quality']
+               'pH', 'sulphates', 'alcohol', 'quality', 'type']
 
     def __init__(self):
         self.num_of_columns = len(self.COLUMNS) 
@@ -27,7 +27,7 @@ class WineQualityProcessor():
         """
         if not type(data) == pd.DataFrame:
             data = np.array(data, ndmin=2)
-        
+
         _rows, cols = data.shape
         if cols < self.num_of_features or cols > self.num_of_columns:
             raise ValueError(f"incorrect number of columns")
@@ -38,10 +38,12 @@ class WineQualityProcessor():
             columns  = columns[:-1]
             features = features[:-1]
 
+        print(data.isna().sum())
         df = pd.DataFrame(data, columns=columns)
-        for feature in features:
-            feature_name = feature['name']
-            df[feature_name]= df[feature_name].astype(feature['type'])
+        print(df.isna().sum())
+        # for feature in features:
+            # feature_name = feature['name']
+            # df[feature_name]= df[feature_name].astype(feature['type'])
 
         # Target Transformations
         if cols == self.num_of_columns:
@@ -50,7 +52,6 @@ class WineQualityProcessor():
         df['free_sulfur_dioxide_log'] = np.log(df['free_sulfur_dioxide'])
         df['total_sulfur_dioxide_log'] = np.log(df['total_sulfur_dioxide'])
         df['residual_sugar_log'] = np.log(df['residual_sugar'])
-
         return df
 
 

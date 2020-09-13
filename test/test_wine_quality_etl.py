@@ -3,7 +3,7 @@ from pipelines.wine_quality_etl import parse_args
 class TestWineQualityETL:
     def test_argparser_default_data_source(self):
         args = parse_args()
-        assert args['data'] == 'lake/wine_quality/winequality-white.csv'
+        assert args['data'] == 'lake/wine_quality/winequality.csv'
 
     def test_argparser_valid_data_source(self):
         args = parse_args(['-s', 'specific/path/to/data.csv'])

@@ -6,17 +6,8 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
-from models.io import read_table, store_model, is_valid_model_filepath
+from models.io import load_table, store_model, is_valid_model_filepath
 from models.evaluators import evaluate_regression
-
-def load_data(database, table):
-    df = read_table(database, table)
-    features = ['fixed acidity', 'volatile acidity', 'citric acid',
-                'residual sugar', 'chlorides', 'free sulfur dioxide',
-                'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
-    X = df[features]
-    y = df['quality']
-    return X, y
 
 def parse_args(args):
     if args == None:
@@ -48,16 +39,22 @@ if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
  
     print('≫ Loading data')
-    X, y = load_data(args['database'], args['table'])
+    df = load_table(args['database'], args['table'])
 
-    print('≫ Feature Engineering')
+    print('≫ Model Specific Transformations')
 
     # Remove Outliers
     # Polynomial Data
 
+    features = [
+        'fixed acidity', 'volatile acidity', 'citric acid',
+        'residual sugar', 'chlorides', 'free sulfur dioxide',
+        'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol'
+    ]
+    X, y = df[features], df['quality']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
+    
     print('≫ Training Model')
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
-                                                        random_state=25)
     linreg = LinearRegression()
     linreg.fit(X_train, y_train)
 

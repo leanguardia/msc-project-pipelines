@@ -24,7 +24,7 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from pipelines.etl_forest_fires import ForestFiresProcessor
+from pipelines.forest_fires_etl import ForestFiresProcessor
 
 target_name = 'area'
 input_names = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain']
