@@ -38,16 +38,21 @@ class WineQualityProcessor():
             columns  = columns[:-1]
             features = features[:-1]
 
-        # print(data.isna().sum())
         df = pd.DataFrame(data, columns=columns)
-        # print(df.isna().sum())
+
+        # Data Types
         for feature in features:
             feature_name = feature['name']
             df[feature_name]= df[feature_name].astype(feature['type'])
 
         # Target Transformations
         if cols == self.num_of_columns:
-            df['quality_cat'] = pd.cut(df['quality'], bins=[0,5,7,10], labels=[0,1,2]).astype(np.uint8)
+
+            if (df['quality'] < 0).any() or (df['quality'] > 10).any():
+                raise ValueError(f"Value out of range 'quality'")
+
+            df['quality_cat'] = pd.cut(df['quality'], bins=[0,5,7,10],
+                        labels=[0,1,2], include_lowest=True).astype(np.uint8)
 
         df['free_sulfur_dioxide_log'] = np.log(df['free_sulfur_dioxide'])
         df['total_sulfur_dioxide_log'] = np.log(df['total_sulfur_dioxide'])

@@ -93,6 +93,7 @@ class TestWineQualityProcessor(TestCase):
         self.assertIsInstance(row['pH'], np.float64)
         self.assertIsInstance(row['sulphates'], np.float64)
         self.assertIsInstance(row['alcohol'], np.float64)
+        self.assertIsInstance(row['type'], np.object)
         self.assertIsInstance(row['quality'], np.int64)
 
     def test_transform_quality_to_category(self):
@@ -112,3 +113,27 @@ class TestWineQualityProcessor(TestCase):
     def test_transform_residual_sugar(self):
         row = self.processor.transform(inputs).loc[0]
         self.assertEqual(row['residual_sugar_log'], np.log(20.7))
+
+    def test_valid_quality_lower_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[-1] = 0
+        row = self.processor.transform(invalid_inputs).loc[0]
+        self.assertEqual(row['quality'], 0)
+
+    def test_valid_quality_upper_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[-1] = 10
+        row = self.processor.transform(invalid_inputs).loc[0]
+        self.assertEqual(row['quality'], 10)
+
+    def test_invalid_quality_lower_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[-1] = -1
+        with pytest.raises(ValueError, match="Value out of range 'quality'"):
+            self.processor.transform(invalid_inputs).loc[0]
+
+    def test_invalid_quality_upper_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[-1] = 11
+        with pytest.raises(ValueError, match="Value out of range 'quality'"):
+            self.processor.transform(invalid_inputs).loc[0]

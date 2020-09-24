@@ -42,6 +42,10 @@ features = [
     dict(
         name='alcohol',
         type=float
+    ),
+    dict(
+        name='type',
+        type=str
     ), 
     dict(
         name='quality',
