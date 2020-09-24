@@ -7,9 +7,9 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.externals import joblib
 
 import pipelines
-from pipelines.etl_forest_fires import ForestFireProcessor
+from pipelines.forest_fires_etl import ForestFiresProcessor
 from pipelines.predictors import RegressionPredictor
-from pipelines.etl_wine_quality import WineQualityProcessor
+from pipelines.wine_quality_etl import WineQualityProcessor
 from app.form_parser import parse_wine_quality_params, parse_abalone_params, parse_adult_params
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
@@ -56,7 +56,7 @@ def adult():
 
 def _process_forest_fire_prediction(args):
     args = _parse_forest_fire_params(args)
-    processor = ForestFireProcessor()
+    processor = ForestFiresProcessor()
     arry = processor.transform(args['X'], args['Y'], args['month'], args['day'],
         args['FFMC'], args['DMC'], args['DC'], args['ISI'],
         args['temp'], args['RH'], args['wind'], args['rain'])
@@ -67,7 +67,6 @@ def _process_wine_quality_prediction(args):
     params = parse_wine_quality_params(args)
     processor = WineQualityProcessor()
     features = processor.transform(params)
-    # TODO MAKE PREDICTOR GENERIC
     predictions = RegressionPredictor(wine_reg).predict(features)
     return predictions[0]
 
