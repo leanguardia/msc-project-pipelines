@@ -28,12 +28,12 @@ class ForestFiresProcessor():
         if cols < self.num_of_features or cols > self.num_of_columns:
             raise ValueError(f"incorrect number of columns")
 
-        if cols == self.num_of_features:
-            columns = self.COLUMNS[:-1]
-            dtypes = self.DTYPES[:-1]
-        else:
+        if cols == self.num_of_columns:
             columns = self.COLUMNS
             dtypes = self.DTYPES
+        else:
+            columns = self.COLUMNS[:-1]
+            dtypes = self.DTYPES[:-1]
 
         df = pd.DataFrame(data, columns=columns)
         for col, dtype in zip(columns, dtypes):

@@ -9,7 +9,7 @@ from pipelines.wine_quality_schema import features
 class WineQualityProcessor():
     COLUMNS = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar',
                'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density',
-               'pH', 'sulphates', 'alcohol', 'quality', 'type']
+               'pH', 'sulphates', 'alcohol', 'type', 'quality']
 
     def __init__(self):
         self.num_of_columns = len(self.COLUMNS) 
@@ -38,12 +38,12 @@ class WineQualityProcessor():
             columns  = columns[:-1]
             features = features[:-1]
 
-        print(data.isna().sum())
+        # print(data.isna().sum())
         df = pd.DataFrame(data, columns=columns)
-        print(df.isna().sum())
-        # for feature in features:
-            # feature_name = feature['name']
-            # df[feature_name]= df[feature_name].astype(feature['type'])
+        # print(df.isna().sum())
+        for feature in features:
+            feature_name = feature['name']
+            df[feature_name]= df[feature_name].astype(feature['type'])
 
         # Target Transformations
         if cols == self.num_of_columns:
@@ -59,7 +59,7 @@ def parse_args(args=[]):
     parser = argparse.ArgumentParser(
         description='ETL Preparation Pipeline for Wine Quality data.')
 
-    default_data = 'lake/wine_quality/winequality-white.csv'
+    default_data = 'lake/wine_quality/winequality.csv'
     parser.add_argument('-s', '--source', default=default_data, dest='data',
         help=f'filepath for data source (default: {default_data})')
 
