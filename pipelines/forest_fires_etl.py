@@ -6,41 +6,23 @@ import numpy as np
 from sqlalchemy import create_engine
 
 from pipelines.transformation import dummify
+from pipelines.schema import build_df, forest_fires_schema
 
 def load_data(filepath):
     df = pd.read_csv(filepath)
     return df
 
 class ForestFiresProcessor():
-
-    COLUMNS = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain','area']
-    DTYPES  = [int,int,str,str,float,float,float,float,float,float,float,float,float]
-
     def __init__(self):
-        self.num_of_columns = len(self.COLUMNS) 
-        self.num_of_features = self.num_of_columns - 1
+        self.schema = forest_fires_schema
 
     def transform(self, data):
-        if not type(data) == pd.DataFrame:
-            data = np.array(data, ndmin=2)
-        
-        _rows, cols = data.shape        
-        if cols < self.num_of_features or cols > self.num_of_columns:
-            raise ValueError(f"incorrect number of columns")
+        df = build_df(data, forest_fires_schema)
 
-        if cols == self.num_of_columns:
-            columns = self.COLUMNS
-            dtypes = self.DTYPES
-        else:
-            columns = self.COLUMNS[:-1]
-            dtypes = self.DTYPES[:-1]
-
-        df = pd.DataFrame(data, columns=columns)
-        for col, dtype in zip(columns, dtypes):
-            df[col]= df[col].astype(dtype)
+        _rows, cols = df.shape
 
         # Target Transformations
-        if cols == self.num_of_columns:
+        if cols == self.schema.n_columns():
             df['area_log'] = np.log1p(df['area'])
         
         # Feature Transformations

@@ -1,13 +1,15 @@
 import pandas as pd
 import numpy as np
 
+from pipelines.schemas_metadata import forest_fires_features_meta
+
 class Schema:
     
-    def __init__(self, schema_dict):
-        self.schema_dict = schema_dict
+    def __init__(self, features_list):
+        self.features_list = features_list
 
     def columns(self):
-        return list(map(lambda column: column['name'], self.schema_dict))
+        return list(map(lambda column: column['name'], self.features_list))
 
     def n_columns(self):
         return len(self.columns())
@@ -19,13 +21,13 @@ class Schema:
         return self.n_columns()-1
 
     def target(self):
-        for feature_dict in self.schema_dict:
+        for feature_dict in self.features_list:
             if feature_dict['type'] == 'target':
                 return feature_dict['name']
         raise ValueError('Target variable not found.')
 
     def dtypes(self):
-        return [dtype['dtype'] for dtype in self.schema_dict]
+        return [dtype['dtype'] for dtype in self.features_list]
     
             
 def build_df(data, schema):
@@ -49,3 +51,5 @@ def build_df(data, schema):
         df[col]= df[col].astype(dtype)
 
     return df
+
+forest_fires_schema = Schema(forest_fires_features_meta)

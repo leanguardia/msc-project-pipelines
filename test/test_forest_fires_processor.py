@@ -49,42 +49,6 @@ class TestForestFiresProcessor(TestCase):
     def setUp(self):
         self.processor = ForestFiresProcessor()
 
-    def test_transform_list(self):
-        transformed = self.processor.transform(inputs)
-        assert transformed.equals(df_features)
-
-    def test_transform_wrapped_list(self):
-        transformed = self.processor.transform([inputs])
-        assert transformed.equals(df_features)
-
-    def test_transform_narray_one_dim(self):
-        transformed = self.processor.transform(np_inputs)
-        assert transformed.equals(df_features)
-    
-    def test_transform_wrapped_narray_one_dim(self):
-        transformed = self.processor.transform([np_inputs])
-        assert transformed.equals(df_features)
-
-    def test_transform_narray_two_dims(self):
-        transformed = self.processor.transform(np_inputs_2d)
-        assert transformed.equals(df_features)
-
-    def test_transform_df(self):
-        transformed = self.processor.transform(df_inputs)
-        assert transformed.equals(df_features)
-
-    def test_transform_requires_minimum_number_of_features(self):
-        with pytest.raises(ValueError, match="incorrect number of columns"):
-            self.processor.transform(inputs[:6])
-
-    def test_transform_requires_maximum_number_of_features(self):
-        with pytest.raises(ValueError, match='incorrect number of columns'):
-            self.processor.transform(inputs * 2)
-
-    def test_transform_features_only(self):
-        transformed = self.processor.transform([X])
-        assert transformed.equals(df_features[input_names + new_feature_names[1:]])
-
     def test_raw_features_inputs(self):
         row = self.processor.transform(inputs).loc[0]
         self.assertEqual(row['X'], 8)

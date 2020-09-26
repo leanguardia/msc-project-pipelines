@@ -1,0 +1,15 @@
+forest_fires_features_meta = [
+    dict(name='X', dtype=int, type='input'),
+    dict(name='Y', dtype=int, type='input'),
+    dict(name='month', dtype=str, type='input'),
+    dict(name='day', dtype=str, type='input'),
+    dict(name='FFMC', dtype=float, type='input'),
+    dict(name='DMC', dtype=float, type='input'),
+    dict(name='DC', dtype=float, type='input'),
+    dict(name='ISI', dtype=float, type='input'),
+    dict(name='temp', dtype=float, type='input'),
+    dict(name='RH', dtype=float, type='input'),
+    dict(name='wind', dtype=float, type='input'),
+    dict(name='rain', dtype=float, type='input'),
+    dict(name='area', dtype=float, type='target'),
+]
