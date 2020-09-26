@@ -19,8 +19,8 @@ class ForestFiresProcessor():
     def transform(self, data):
         df = build_df(data, forest_fires_schema)
 
-        for validation in forest_fires_schema.validations():
-            validation.call(df)
+        for validator in forest_fires_schema.validators():
+            validator.validate(df)
 
         if not (df['month'].isin(['jan','feb','mar','may','jun','jul','aug','sep','oct','nov','dec'])).all():
             raise ValueError("Invalid 'month'")

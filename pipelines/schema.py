@@ -28,17 +28,17 @@ class Schema:
     def dtypes(self):
         return [dtype['dtype'] for dtype in self.features_list]
 
-    def validations(self):
-        validations = []
+    def validators(self):
+        validators = []
         for feat in self.features_list:
             if 'range' in feat:
                 mini, maxi = feat['range']
-                validations.append(
+                validators.append(
                     RangeValidator(feat['name'], mini, maxi)
                 )
-            # if 'elements' in feat:
-            #     validations.append(dict(column=feat['name'], elements=feat['elements']))
-        return validations
+            if 'elements' in feat:
+                validators.append(dict(column=feat['name'], elements=feat['elements']))
+        return validators
 
 
 class RangeValidator:
@@ -47,7 +47,7 @@ class RangeValidator:
         self.mini = mini
         self.maxi = maxi
     
-    def call(self, df):
+    def validate(self, df):
         if df[self.column].apply(lambda val: val < self.mini or val > self.maxi).any():
             raise ValueError(f"'{self.column}' out of range")
         pass
