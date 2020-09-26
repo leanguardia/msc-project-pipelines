@@ -25,23 +25,23 @@ class Schema:
         raise ValueError('Target variable not found.')
     
             
-# def build_df(data, schema):
-#     if not type(data) == pd.DataFrame:
-#             data = np.array(data, ndmin=2)
+def build_df(data, schema):
+    if not type(data) == pd.DataFrame:
+        data = np.array(data, ndmin=2)
         
-#     _rows, cols = data.shape
-#     if cols < self.num_of_features or cols > self.num_of_columns:
-#         raise ValueError(f"incorrect number of columns")
+    # _rows, cols = data.shape
+    # if cols < schema.n_columns() or cols > schema.n_columns():
+    #     raise ValueError(f"incorrect number of columns")
 
-#     if cols == self.num_of_columns:
-#         columns = self.COLUMNS
-#         dtypes = self.DTYPES
-#     else:
-#         columns = self.COLUMNS[:-1]
-#         dtypes = self.DTYPES[:-1]
+    # if cols == self.num_of_columns:
+    #     columns = self.COLUMNS
+    #     dtypes = self.DTYPES
+    # else:
+    #     columns = self.COLUMNS[:-1]
+    #     dtypes = self.DTYPES[:-1]
 
-#     df = pd.DataFrame(data, columns=columns)
-#     for col, dtype in zip(columns, dtypes):
-#         df[col]= df[col].astype(dtype)
+    df = pd.DataFrame(data, columns=schema.columns())
+    # for col, dtype in zip(columns, dtypes):
+        # df[col]= df[col].astype(dtype)
 
-#     return df
+    return df
