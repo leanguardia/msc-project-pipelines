@@ -7,32 +7,40 @@ from pipelines.schema import Schema, build_df
 
 features_list = [
     dict(
-        name='feature1',
+        name = 'feature1',
         dtype = int,
-        type = 'input'
+        type = 'input',
+        range=(1, 10)
     ),
     dict(
-        name='feature2',
+        name = 'feature2',
         dtype = float,
-        type = 'input'
+        type = 'input',
+        range = (0.0, 99.9)
     ),
     dict(
-        name='feature3',
+        name = 'feature3',
         dtype = str,
         type = 'input'
     ),
     dict(
-        name='target',
+        name = 'feature4',
+        dtype = str,
+        type = 'input',
+        elements = ['a', 'e', 'i', 'o', 'u']
+    ),
+    dict(
+        name = 'target',
         dtype = str,
         type = 'target'
     )
 ]
 
-names  = ['feature1', 'feature2', 'feature3', 'target']
-inputs = [1, 2.001, 'feature_3', 'target_val']
+names  = ['feature1', 'feature2', 'feature3', 'feature4', 'target']
+inputs = [1, 2.001, 'feature_3', 'u', 'target_val']
 np_inputs = np.array(inputs)
 np_inputs2d = np_inputs.reshape(1, len(np_inputs))
-input_types = [int, float, str, str]
+input_types = [int, float, str, str, str]
 
 class TestSchema(unittest.TestCase):
     def setUp(self):
@@ -42,13 +50,13 @@ class TestSchema(unittest.TestCase):
         assert self.schema.columns() == names
 
     def test_num_of_columns(self):
-        assert self.schema.n_columns() == 4
+        assert self.schema.n_columns() == 5
 
     def test_schema_inputs(self):
         assert self.schema.inputs() == names[:-1]
 
     def test_num_of_inputs(self):
-        assert self.schema.n_inputs() == 3
+        assert self.schema.n_inputs() == 4
 
     def test_schema_target(self):
         assert self.schema.target() == 'target'
@@ -60,6 +68,14 @@ class TestSchema(unittest.TestCase):
 
     def test_types(self):
         assert self.schema.dtypes() == input_types
+
+    # def test_ranged_features(self):
+    #     assert self.schema.validations() == [
+    #         dict(type='range', column='feature1', range=(1,9)),
+    #         dict(type='range', column='feature2', range=(0.0,99.9)),
+    #         dict(type='categorical', column='vocals', elements=['a','e','i','o','u']),
+    #     ]
+
 
 
 class TestBuildDataFrame(unittest.TestCase):
@@ -73,7 +89,7 @@ class TestBuildDataFrame(unittest.TestCase):
 
     def test_build_shape(self):
         built_df = build_df(inputs, self.schema)
-        assert built_df.shape == (1, 4)
+        assert built_df.shape == (1, 5)
 
     def test_build_from_list(self):
         built_df  = build_df(inputs, self.schema)
