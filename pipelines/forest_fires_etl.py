@@ -25,7 +25,7 @@ class ForestFiresProcessor():
         _rows, cols = df.shape
 
         # Target Transformations
-        if cols == self.schema.n_columns():
+        if cols == self.schema.n_inputs() + 1:
             df['area_log'] = np.log1p(df['area'])
         
         # Feature Transformations

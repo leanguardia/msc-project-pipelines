@@ -8,17 +8,14 @@ class Schema:
     def __init__(self, features_list):
         self.features_list = features_list
 
-    def columns(self):
+    def features(self):
         return list(map(lambda column: column['name'], self.features_list))
 
-    def n_columns(self):
-        return len(self.columns())
-
     def inputs(self):
-        return self.columns()[:-1]
+        return self.features()[:-1]
 
     def n_inputs(self):
-        return self.n_columns()-1
+        return len(self.inputs())
 
     def target(self):
         for feature_dict in self.features_list:
@@ -52,10 +49,10 @@ def build_df(data, schema):
         
     _rows, cols = data.shape
 
-    if cols < schema.n_inputs() or cols > schema.n_columns():
+    if cols < schema.n_inputs() or cols > schema.n_inputs() + 1:
         raise ValueError(f"incorrect number of columns")
 
-    columns = schema.columns()
+    columns = schema.features()
     dtypes = schema.dtypes()
     
     if cols == schema.n_inputs():
@@ -63,7 +60,7 @@ def build_df(data, schema):
         dtypes = dtypes[:-1]
 
     df = pd.DataFrame(data, columns=columns)
-    for col, dtype in zip(schema.columns(), dtypes):
+    for col, dtype in zip(schema.features(), dtypes):
         df[col]= df[col].astype(dtype)
 
     return df

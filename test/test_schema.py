@@ -6,7 +6,7 @@ import numpy as np
 from pipelines.schema import Schema, build_df
 from pipelines.validators import RangeValidator, CategoryValidator
 
-cols_metadata = [
+features_metadata = [
     dict(
         name = 'feature1',
         dtype = int,
@@ -45,13 +45,10 @@ input_types = [int, float, str, str, str]
 
 class TestSchema(unittest.TestCase):
     def setUp(self):
-        self.schema = Schema(cols_metadata)
+        self.schema = Schema(features_metadata)
 
-    def test_schema_columns(self):
-        assert self.schema.columns() == names
-
-    def test_num_of_columns(self):
-        assert self.schema.n_columns() == 5
+    def test_schema_features(self):
+        assert self.schema.features() == names
 
     def test_schema_inputs(self):
         assert self.schema.inputs() == names[:-1]
@@ -63,7 +60,7 @@ class TestSchema(unittest.TestCase):
         assert self.schema.target() == 'target'
 
     def test_schema_target_not_found(self):
-        failed_schema = Schema(cols_metadata[:-1])
+        failed_schema = Schema(features_metadata[:-1])
         with pytest.raises(ValueError, match='Target variable not found.'):
              assert failed_schema.target()
 
@@ -78,10 +75,10 @@ class TestSchema(unittest.TestCase):
 
 class TestBuildDataFrame(unittest.TestCase):
     def setUp(self):
-        self.schema = Schema(cols_metadata)
-        self.df = pd.DataFrame([inputs], columns=self.schema.columns())
+        self.schema = Schema(features_metadata)
+        self.df = pd.DataFrame([inputs], columns=self.schema.features())
 
-    def test_build_columns(self):
+    def test_build_features(self):
         built_df = build_df(inputs, self.schema)
         assert built_df.columns.to_list() == names
 
