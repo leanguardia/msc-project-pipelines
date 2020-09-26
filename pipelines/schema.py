@@ -48,18 +48,19 @@ class Schema:
 
 
 def build_df(data, schema):
+    print(data)
     if not type(data) == pd.DataFrame:
         data = np.array(data, ndmin=2)
         
     _rows, cols = data.shape
 
-    if cols < schema.n_inputs() or cols > schema.n_inputs() + 1:
+    if cols < schema.n_inputs() - 1 or cols > schema.n_inputs():
         raise ValueError(f"incorrect number of columns")
 
-    columns = schema.features()
-    dtypes = schema.dtypes()
-    
-    if cols == schema.n_inputs():
+    columns = schema.features(which='input')
+    dtypes = schema.dtypes(which='input')
+
+    if cols + 1 == schema.n_inputs():
         columns = columns[:-1]
         dtypes = dtypes[:-1]
 

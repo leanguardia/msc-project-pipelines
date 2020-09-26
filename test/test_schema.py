@@ -87,49 +87,49 @@ class TestSchema(unittest.TestCase):
         for validator, vtype in zip(validators, validator_types):
             assert isinstance(validator, vtype)
 
-# class TestBuildDataFrame(unittest.TestCase):
-#     def setUp(self):
-#         self.schema = Schema(features_metadata)
-#         columns = self.schema.inputs() + ['target']
-#         self.df = pd.DataFrame([inputs], columns=columns)
+class TestBuildDataFrame(unittest.TestCase):
+    def setUp(self):
+        self.schema = Schema(features_metadata)
+        columns = self.schema.inputs()
+        self.df = pd.DataFrame([inputs], columns=columns)
 
-#     def test_build_features(self):
-#         built_df = build_df(inputs, self.schema)
-#         assert built_df.columns.to_list() == input_names
+    def test_build_features(self):
+        built_df = build_df(inputs, self.schema)
+        assert built_df.columns.to_list() == input_names
 
-#     def test_build_shape(self):
-#         built_df = build_df(inputs, self.schema)
-#         assert built_df.shape == (1, 5)
+    def test_build_shape(self):
+        built_df = build_df(inputs, self.schema)
+        assert built_df.shape == (1, 5)
 
-#     def test_build_from_list(self):
-#         built_df  = build_df(inputs, self.schema)
-#         assert built_df.equals(self.df)
+    def test_build_from_list(self):
+        built_df  = build_df(inputs, self.schema)
+        assert built_df.equals(self.df)
 
-#     def test_build_from_wrapped_list(self):
-#         built_df = build_df([inputs], self.schema)
-#         assert built_df.equals(self.df)
+    def test_build_from_wrapped_list(self):
+        built_df = build_df([inputs], self.schema)
+        assert built_df.equals(self.df)
 
-#     def test_build_from_narray_one_dim(self):
-#         built_df = build_df(np_inputs, self.schema)
-#         assert built_df.equals(self.df)
+    def test_build_from_narray_one_dim(self):
+        built_df = build_df(np_inputs, self.schema)
+        assert built_df.equals(self.df)
     
-#     def test_build_from_wrapped_narray_one_dim(self):
-#         built_df = build_df([np_inputs], self.schema)
-#         assert built_df.equals(self.df)
+    def test_build_from_wrapped_narray_one_dim(self):
+        built_df = build_df([np_inputs], self.schema)
+        assert built_df.equals(self.df)
 
-#     def test_build_from_narray_two_dims(self):
-#         built_df = build_df(np_inputs2d, self.schema)
-#         assert built_df.equals(self.df)
+    def test_build_from_narray_two_dims(self):
+        built_df = build_df(np_inputs2d, self.schema)
+        assert built_df.equals(self.df)
 
-#     def test_transform_requires_minimum_number_of_features(self):
-#         with pytest.raises(ValueError, match="incorrect number of columns"):
-#             build_df(inputs[:2], self.schema)
+    def test_transform_requires_minimum_number_of_features(self):
+        with pytest.raises(ValueError, match="incorrect number of columns"):
+            build_df(inputs[:2], self.schema)
 
-#     def test_transform_requires_maximum_number_of_features(self):
-#         with pytest.raises(ValueError, match='incorrect number of columns'):
-#             build_df(inputs * 2, self.schema)
+    def test_transform_requires_maximum_number_of_features(self):
+        with pytest.raises(ValueError, match='incorrect number of columns'):
+            build_df(inputs * 2, self.schema)
 
-#     def test_transform_features_only(self):
-#         df_inputs = self.df[input_names[:-1]].copy()
-#         built_df = build_df(inputs[:-1], self.schema)
-#         assert built_df.equals(df_inputs)
+    def test_transform_features_only(self):
+        df_inputs = self.df[input_names[:-1]].copy()
+        built_df = build_df(inputs[:-1], self.schema)
+        assert built_df.equals(df_inputs)
