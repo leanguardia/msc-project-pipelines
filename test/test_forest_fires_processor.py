@@ -24,7 +24,7 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from pipelines.forest_fires_etl import ForestFiresProcessor
+from pipelines.forest_fires_etl import ForestFiresPreparer
 
 target_name = 'area'
 input_names = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain']
@@ -45,12 +45,12 @@ df_features['thu'] = df_features['thu'].astype(np.uint8)
 df_features['rain_cat'] = df_features['rain_cat'].astype(np.uint8)
 
 
-class TestForestFiresProcessor(TestCase):
+class TestForestFiresPreparer(TestCase):
     def setUp(self):
-        self.processor = ForestFiresProcessor()
+        self.preparer = ForestFiresPreparer()
 
     def test_raw_features_inputs(self):
-        row = self.processor.transform(inputs).loc[0]
+        row = self.preparer.transform(inputs).loc[0]
         self.assertEqual(row['X'], 8)
         self.assertEqual(row['Y'], 6)
         self.assertEqual(row['month'], 'sep')
@@ -66,7 +66,7 @@ class TestForestFiresProcessor(TestCase):
         self.assertEqual(row['area'], 1.12)
 
     def test_raw_features_types(self):
-        row = self.processor.transform(inputs).loc[0]
+        row = self.preparer.transform(inputs).loc[0]
         self.assertIsInstance(row['X'], np.int64)
         self.assertIsInstance(row['Y'], np.int64)
         self.assertIsInstance(row['month'], str)
@@ -82,36 +82,36 @@ class TestForestFiresProcessor(TestCase):
         self.assertIsInstance(row['area'], np.float64)
 
     def test_transform_area_to_log(self):
-        row = self.processor.transform(inputs).loc[0]
+        row = self.preparer.transform(inputs).loc[0]
         self.assertEqual(row['area_log'], np.log1p(1.12))
 
     def test_transform_FFMC_to_log(self):
-        row = self.processor.transform(inputs).loc[0]
+        row = self.preparer.transform(inputs).loc[0]
         self.assertEqual(row['FFMC_log'], np.log1p(93.7))
 
     def test_transform_ISI_to_log(self):
-        row = self.processor.transform(inputs).loc[0]
+        row = self.preparer.transform(inputs).loc[0]
         self.assertEqual(row['ISI_log'], np.log1p(17.9))
 
     def test_transform_rain_to_log(self):
-        row = self.processor.transform(inputs).loc[0]
+        row = self.preparer.transform(inputs).loc[0]
         self.assertEqual(row['rain_log'], np.log1p(0.4))
 
     def test_transform_rain_to_category(self):
-        row = self.processor.transform(inputs).loc[0]
+        row = self.preparer.transform(inputs).loc[0]
         self.assertEqual(row['rain_cat'], 1)
 
     def test_transform_dummy_month(self):
-        feature_cols = self.processor.transform([X]).columns.to_list()
+        feature_cols = self.preparer.transform([X]).columns.to_list()
         self.assertIn('sep', feature_cols)
 
     def test_transform_dummy_day(self):
-        feature_cols = self.processor.transform([X]).columns.to_list()
+        feature_cols = self.preparer.transform([X]).columns.to_list()
         self.assertIn('thu', feature_cols)
 
 class TestForesFiresValidations(TestCase):
     def setUp(self):
-        self.preparer = ForestFiresProcessor()
+        self.preparer = ForestFiresPreparer()
 
     def test_X_invalid_lower_bound(self):
         invalid_inputs = np_inputs.copy()
