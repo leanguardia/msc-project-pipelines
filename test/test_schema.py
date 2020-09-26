@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 
 from pipelines.schema import Schema, build_df
+from pipelines.validators import RangeValidator, CategoryValidator
 
 features_list = [
     dict(
@@ -27,7 +28,7 @@ features_list = [
         name = 'feature4',
         dtype = str,
         type = 'input',
-        elements = ['a', 'e', 'i', 'o', 'u']
+        categories = ['a', 'e', 'i', 'o', 'u']
     ),
     dict(
         name = 'target',
@@ -69,14 +70,11 @@ class TestSchema(unittest.TestCase):
     def test_types(self):
         assert self.schema.dtypes() == input_types
 
-    # def test_ranged_features(self):
-    #     assert self.schema.validations() == [
-    #         dict(type='range', column='feature1', range=(1,9)),
-    #         dict(type='range', column='feature2', range=(0.0,99.9)),
-    #         dict(type='categorical', column='vocals', elements=['a','e','i','o','u']),
-    #     ]
-
-
+    def test_build_respective_validators(self):
+        validator_types = [RangeValidator, RangeValidator, CategoryValidator]
+        validators = self.schema.validators()
+        for validator, vtype in zip(validators, validator_types):
+            assert isinstance(validator, vtype)
 
 class TestBuildDataFrame(unittest.TestCase):
     def setUp(self):
