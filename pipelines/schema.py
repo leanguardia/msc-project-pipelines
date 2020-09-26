@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 
 from pipelines.schemas_metadata import forest_fires_features_meta
+from pipelines.validators import RangeValidator, CategoryValidator
 
 class Schema:
     def __init__(self, features_list):
@@ -12,7 +13,7 @@ class Schema:
 
     def n_columns(self):
         return len(self.columns())
-    
+
     def inputs(self):
         return self.columns()[:-1]
 
@@ -45,28 +46,6 @@ class Schema:
         return CategoryValidator(feature['name'], feature['categories'])
 
 
-
-class RangeValidator:
-    def __init__(self, column, mini, maxi):
-        self.column = column
-        self.mini = mini
-        self.maxi = maxi
-    
-    def validate(self, df):
-        is_out_of_range = lambda val: val < self.mini or val > self.maxi
-        if df[self.column].apply(is_out_of_range).any():
-            raise ValueError(f"'{self.column}' out of range")
-
-class CategoryValidator:
-    def __init__(self, column, categories):
-        self.column = column
-        self.categories = categories
-    
-    def validate(self, df):
-        if not (df[self.column].isin(self.categories)).all():
-            raise ValueError(f"Invalid '{self.column}'")
-
-            
 def build_df(data, schema):
     if not type(data) == pd.DataFrame:
         data = np.array(data, ndmin=2)

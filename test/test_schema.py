@@ -6,7 +6,7 @@ import numpy as np
 from pipelines.schema import Schema, build_df
 from pipelines.validators import RangeValidator, CategoryValidator
 
-features_list = [
+cols_metadata = [
     dict(
         name = 'feature1',
         dtype = int,
@@ -45,7 +45,7 @@ input_types = [int, float, str, str, str]
 
 class TestSchema(unittest.TestCase):
     def setUp(self):
-        self.schema = Schema(features_list)
+        self.schema = Schema(cols_metadata)
 
     def test_schema_columns(self):
         assert self.schema.columns() == names
@@ -63,7 +63,7 @@ class TestSchema(unittest.TestCase):
         assert self.schema.target() == 'target'
 
     def test_schema_target_not_found(self):
-        failed_schema = Schema(features_list[:-1])
+        failed_schema = Schema(cols_metadata[:-1])
         with pytest.raises(ValueError, match='Target variable not found.'):
              assert failed_schema.target()
 
@@ -78,7 +78,7 @@ class TestSchema(unittest.TestCase):
 
 class TestBuildDataFrame(unittest.TestCase):
     def setUp(self):
-        self.schema = Schema(features_list)
+        self.schema = Schema(cols_metadata)
         self.df = pd.DataFrame([inputs], columns=self.schema.columns())
 
     def test_build_columns(self):
