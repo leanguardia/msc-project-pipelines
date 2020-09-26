@@ -24,7 +24,7 @@ class Schema:
                 return feature_dict['name']
         raise ValueError('Target variable not found.')
 
-    def types(self):
+    def dtypes(self):
         return [dtype['dtype'] for dtype in self.schema_dict]
     
             
@@ -42,9 +42,8 @@ def build_df(data, schema):
     # else:
     #     columns = self.COLUMNS[:-1]
     #     dtypes = self.DTYPES[:-1]
-
     df = pd.DataFrame(data, columns=schema.columns())
-    # for col, dtype in zip(columns, dtypes):
-        # df[col]= df[col].astype(dtype)
+    for col, dtype in zip(schema.columns(), schema.dtypes()):
+        df[col]= df[col].astype(dtype)
 
     return df
