@@ -12,11 +12,11 @@ def load_data(filepath):
     df = pd.read_csv(filepath)
     return df
 
-class ForestFiresProcessor():
+class ForestFiresPreparer():
     def __init__(self):
         self.schema = forest_fires_schema
 
-    def transform(self, data):
+    def prepare(self, data):
         df = build_df(data, forest_fires_schema)
 
         for validator in forest_fires_schema.validators(which='input'):
@@ -41,9 +41,6 @@ class ForestFiresProcessor():
             validator.validate(df)
 
         return df
-
-    def call(self, data):
-        self.transform(data)
 
 
 def parse_args(args=[]):
@@ -80,8 +77,8 @@ if __name__ == "__main__":
     df = load_data(data_source)
     
     print("≫ Transforming Data")
-    processor = ForestFiresProcessor()
-    df = processor.transform(df)
+    preparer = ForestFiresPreparer()
+    df = preparer.prepare(df)
 
     print("≫ Loading Data")
     database = args['database']

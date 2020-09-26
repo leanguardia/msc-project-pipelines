@@ -16,7 +16,7 @@
 
 # 13. area - the burned area of the forest (in ha): 0.00 to 1090.84
 # (this output variable is very skewed towards 0.0, thus it may make
-# sense to model with the logarithm transform).
+# sense to model with the logarithm prepare).
 
 from unittest import TestCase
 
@@ -50,7 +50,7 @@ class TestForestFiresPreparer(TestCase):
         self.preparer = ForestFiresPreparer()
 
     def test_raw_features_inputs(self):
-        row = self.preparer.transform(inputs).loc[0]
+        row = self.preparer.prepare(inputs).loc[0]
         self.assertEqual(row['X'], 8)
         self.assertEqual(row['Y'], 6)
         self.assertEqual(row['month'], 'sep')
@@ -66,7 +66,7 @@ class TestForestFiresPreparer(TestCase):
         self.assertEqual(row['area'], 1.12)
 
     def test_raw_features_types(self):
-        row = self.preparer.transform(inputs).loc[0]
+        row = self.preparer.prepare(inputs).loc[0]
         self.assertIsInstance(row['X'], np.int64)
         self.assertIsInstance(row['Y'], np.int64)
         self.assertIsInstance(row['month'], str)
@@ -81,33 +81,45 @@ class TestForestFiresPreparer(TestCase):
         self.assertIsInstance(row['rain'], np.float64)
         self.assertIsInstance(row['area'], np.float64)
 
-    def test_transform_area_to_log(self):
-        row = self.preparer.transform(inputs).loc[0]
+    def test_prepare_area_to_log(self):
+        row = self.preparer.prepare(inputs).loc[0]
         self.assertEqual(row['area_log'], np.log1p(1.12))
 
-    def test_transform_FFMC_to_log(self):
-        row = self.preparer.transform(inputs).loc[0]
+    def test_prepare_FFMC_to_log(self):
+        row = self.preparer.prepare(inputs).loc[0]
         self.assertEqual(row['FFMC_log'], np.log1p(93.7))
 
-    def test_transform_ISI_to_log(self):
-        row = self.preparer.transform(inputs).loc[0]
+    def test_prepare_ISI_to_log(self):
+        row = self.preparer.prepare(inputs).loc[0]
         self.assertEqual(row['ISI_log'], np.log1p(17.9))
 
-    def test_transform_rain_to_log(self):
-        row = self.preparer.transform(inputs).loc[0]
+    def test_prepare_rain_to_log(self):
+        row = self.preparer.prepare(inputs).loc[0]
         self.assertEqual(row['rain_log'], np.log1p(0.4))
 
-    def test_transform_rain_to_category(self):
-        row = self.preparer.transform(inputs).loc[0]
+    def test_prepare_rain_to_category(self):
+        row = self.preparer.prepare(inputs).loc[0]
         self.assertEqual(row['rain_cat'], 1)
 
-    def test_transform_dummy_month(self):
-        feature_cols = self.preparer.transform([X]).columns.to_list()
+    def test_prepare_dummy_month(self):
+        feature_cols = self.preparer.prepare([X]).columns.to_list()
         self.assertIn('sep', feature_cols)
 
-    def test_transform_dummy_day(self):
-        feature_cols = self.preparer.transform([X]).columns.to_list()
+    def test_prepare_dummy_day(self):
+        feature_cols = self.preparer.prepare([X]).columns.to_list()
         self.assertIn('thu', feature_cols)
+
+# class TestForestFiresPartialPreparer(TestCase):
+#     def setUp(self):
+#         selected_features = ['Y', 'DMC', 'temp', 'rain_cat']
+#         self.preparer = ForestFiresPreparer(selected_features=selected_features)
+
+#     def test_selected_features_present(self):
+#         row = self.preparer.prepare(inputs[:-1]).loc[0]
+#         self.assertEqual(row['Y'], 6)
+#         self.assertEqual(row['DMC'], 80.9)
+#         self.assertEqual(row['temp'], 23.7)
+#         self.assertEqual(row['rain_cat'], 1.0)
 
 class TestForesFiresValidations(TestCase):
     def setUp(self):
@@ -117,46 +129,46 @@ class TestForesFiresValidations(TestCase):
         invalid_inputs = np_inputs.copy()
         invalid_inputs[0] = 0
         with pytest.raises(ValueError, match="'X' out of range"):
-            self.preparer.call(invalid_inputs)
+            self.preparer.prepare(invalid_inputs)
 
     def test_X_valid_upper_bound(self):
         invalid_inputs = np_inputs.copy()
         invalid_inputs[0] = 10
         with pytest.raises(ValueError, match="'X' out of range"):
-            self.preparer.call(invalid_inputs)
+            self.preparer.prepare(invalid_inputs)
 
     def test_Y_invalid_lower_bound(self):
         invalid_inputs = np_inputs.copy()
         invalid_inputs[1] = 0
         with pytest.raises(ValueError, match="'Y' out of range"):
-            self.preparer.call(invalid_inputs)
+            self.preparer.prepare(invalid_inputs)
 
     def test_Y_valid_upper_bound(self):
         invalid_inputs = np_inputs.copy()
         invalid_inputs[1] = 10
         with pytest.raises(ValueError, match="'Y' out of range"):
-            self.preparer.call(invalid_inputs)
+            self.preparer.prepare(invalid_inputs)
 
     def test_month_values(self):
         months = ['jan','feb','mar','may','jun','jul','aug','sep','oct','nov','dec']
         for month in months:
             inputs[2] = month
-            self.preparer.call(inputs)
+            self.preparer.prepare(inputs)
 
     def test_month_invalid(self):
         invalid_inputs = np_inputs.copy()
         invalid_inputs[2] = 'Jan'
         with pytest.raises(ValueError, match="Invalid 'month'"):
-            self.preparer.call(invalid_inputs)
+            self.preparer.prepare(invalid_inputs)
 
     def test_day_values(self):
         days = ['mon','tue','wed','thu','fri','sat','sun']
         for day in days:
             inputs[3] = day
-            self.preparer.call(inputs)
+            self.preparer.prepare(inputs)
 
     def test_day_invalid(self):
         invalid_inputs = np_inputs.copy()
         invalid_inputs[3] = 'Monday'
         with pytest.raises(ValueError, match="Invalid 'day'"):
-            self.preparer.call(invalid_inputs)
+            self.preparer.prepare(invalid_inputs)
