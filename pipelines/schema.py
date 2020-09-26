@@ -4,7 +4,15 @@ class Schema:
         self.schema_dict = schema_dict
 
     def columns(self):
-        return list(self.schema_dict.keys())
+        return list(map(lambda column: column['name'], self.schema_dict))
     
     def inputs(self):
-        return list(self.schema_dict.keys())[:-1]
+        return self.columns()[:-1]
+
+    def target(self):
+        for feature_dict in self.schema_dict:
+            if feature_dict['type'] == 'target':
+                return feature_dict['name']
+        raise ValueError('Target variable not found.')
+    
+            
