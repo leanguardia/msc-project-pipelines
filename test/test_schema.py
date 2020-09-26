@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 from pipelines.schema import Schema, build_df
-from pipelines.validators import RangeValidator, CategoryValidator
+from pipelines.validators import RangeValidator, CategoryValidator, PositiveValidator
 
 features_metadata = [
     dict(
@@ -38,6 +38,7 @@ features_metadata = [
     dict(
         name = 'feature1_log',
         dtype = str,
+        positive = True
     )
 ]
 
@@ -81,11 +82,15 @@ class TestSchema(unittest.TestCase):
     def test_types(self):
         assert self.schema.dtypes(which='input') == input_types
 
-    def test_build_respective_validators(self):
+    def test_build_validators_for_inputs(self):
         validator_types = [RangeValidator, RangeValidator, CategoryValidator]
-        validators = self.schema.validators()
+        validators = self.schema.validators(which='input')
         for validator, vtype in zip(validators, validator_types):
             assert isinstance(validator, vtype)
+
+    def test_build_validators_for_engineered(self):
+        validators = self.schema.validators(which='engineered')
+        assert isinstance(validators[0], PositiveValidator)
 
 class TestBuildDataFrame(unittest.TestCase):
     def setUp(self):

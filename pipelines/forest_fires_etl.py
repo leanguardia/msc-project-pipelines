@@ -19,7 +19,7 @@ class ForestFiresProcessor():
     def transform(self, data):
         df = build_df(data, forest_fires_schema)
 
-        for validator in forest_fires_schema.validators():
+        for validator in forest_fires_schema.validators(which='input'):
             validator.validate(df)
 
         _rows, cols = df.shape
