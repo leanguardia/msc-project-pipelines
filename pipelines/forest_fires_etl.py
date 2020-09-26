@@ -25,7 +25,7 @@ class ForestFiresProcessor():
         _rows, cols = df.shape
 
         # Target Transformations
-        if cols == self.schema.n_inputs() + 1:
+        if cols == self.schema.n_inputs():
             df['area_log'] = np.log1p(df['area'])
         
         # Feature Transformations
@@ -36,6 +36,9 @@ class ForestFiresProcessor():
 
         df = dummify(df, 'month')
         df = dummify(df, 'day')
+
+        for validator in forest_fires_schema.validators(which='engineered'):
+            validator.validate(df)
 
         return df
 

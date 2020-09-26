@@ -82,6 +82,12 @@ class TestSchema(unittest.TestCase):
     def test_types(self):
         assert self.schema.dtypes(which='input') == input_types
 
+    def test_build_validators(self):
+        validator_types = [RangeValidator, RangeValidator, CategoryValidator, PositiveValidator]
+        validators = self.schema.validators(which='all')
+        for validator, vtype in zip(validators, validator_types):
+            assert isinstance(validator, vtype)
+    
     def test_build_validators_for_inputs(self):
         validator_types = [RangeValidator, RangeValidator, CategoryValidator]
         validators = self.schema.validators(which='input')

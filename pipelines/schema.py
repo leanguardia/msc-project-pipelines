@@ -34,8 +34,10 @@ class Schema:
         validators = []
         if which=='input': 
             filtered_list = [feature for feature in self.features_list if self._is_input(feature)]
-        if which=='engineered':
+        elif which=='engineered':
             filtered_list = [feature for feature in self.features_list if not self._is_input(feature)]
+        else: 
+            filtered_list = self.features_list
     
         for feature in filtered_list:
             if 'range' in feature:

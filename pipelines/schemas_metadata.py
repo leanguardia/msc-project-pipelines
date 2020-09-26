@@ -14,4 +14,5 @@ forest_fires_features_meta = [
     dict(name='wind', dtype=float, type='input'),
     dict(name='rain', dtype=float, type='input'),
     dict(name='area', dtype=float, type='target'),
+    dict(name='rain_log', dtype=float, positive=True),
 ]
