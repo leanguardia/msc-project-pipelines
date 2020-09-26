@@ -7,33 +7,34 @@ from pipelines.schema import Schema, build_df
 features_list = [
     dict(
         name='feature0',
-        datatype = bool,
+        dtype = bool,
         type = 'input'
     ),
     dict(
         name='feature1',
-        datatype = int,
+        dtype = int,
         type = 'input'
     ),
     dict(
         name='feature2',
-        datatype = float,
+        dtype = float,
         type = 'input'
     ),
     dict(
         name='feature3',
-        datatype = str,
+        dtype = str,
         type = 'input'
     ),
     dict(
         name='target',
-        datatype = str,
+        dtype = str,
         type = 'target'
     )
 ]
 
 names  = ['feature0', 'feature1', 'feature2', 'feature3', 'target']
 inputs = [False, 1, 2.001, 'feature_3', 'target_vel']
+input_types = [bool, int, float, str, str]
 
 class TestSchema(unittest.TestCase):
     def setUp(self):
@@ -59,6 +60,9 @@ class TestSchema(unittest.TestCase):
         with pytest.raises(ValueError, match='Target variable not found.'):
              assert failed_schema.target()
 
+    def test_types(self):
+        assert self.schema.types() == input_types
+
 
 class TestBuildDataFrame(unittest.TestCase):
     def setUp(self):
@@ -74,7 +78,7 @@ class TestBuildDataFrame(unittest.TestCase):
         assert built_df.shape == (1, 5)
 
     # def test_build_from_list(self):
-    #     built_df  = build_df([inputs], self.schema)
+    #     built_df  = build_df(inputs, self.schema)
     #     assert built_df.equals(self.df)
 
     # def test_build_from_wrapped_list(self):

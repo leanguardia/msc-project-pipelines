@@ -23,6 +23,9 @@ class Schema:
             if feature_dict['type'] == 'target':
                 return feature_dict['name']
         raise ValueError('Target variable not found.')
+
+    def types(self):
+        return [dtype['dtype'] for dtype in self.schema_dict]
     
             
 def build_df(data, schema):
