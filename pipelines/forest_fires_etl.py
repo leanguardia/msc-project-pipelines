@@ -22,12 +22,6 @@ class ForestFiresProcessor():
         for validator in forest_fires_schema.validators():
             validator.validate(df)
 
-        if not (df['month'].isin(['jan','feb','mar','may','jun','jul','aug','sep','oct','nov','dec'])).all():
-            raise ValueError("Invalid 'month'")
-
-        if not (df['day'].isin(['mon','tue','wed','thu','fri','sat','sun'])).all():
-            raise ValueError("Invalid 'day'")
-
         _rows, cols = df.shape
 
         # Target Transformations

@@ -30,15 +30,20 @@ class Schema:
 
     def validators(self):
         validators = []
-        for feat in self.features_list:
-            if 'range' in feat:
-                mini, maxi = feat['range']
-                validators.append(
-                    RangeValidator(feat['name'], mini, maxi)
-                )
-            if 'elements' in feat:
-                validators.append(dict(column=feat['name'], elements=feat['elements']))
+        for feature in self.features_list:
+            if 'range' in feature:
+                validators.append(self._build_range_validator(feature))
+            if 'categories' in feature:
+                validators.append(self._build_category_validator(feature))
         return validators
+
+    def _build_range_validator(self, feature):
+        mini, maxi = feature['range']
+        return RangeValidator(feature['name'], mini, maxi)
+
+    def _build_category_validator(self, feature):
+        return CategoryValidator(feature['name'], feature['categories'])
+
 
 
 class RangeValidator:
@@ -48,10 +53,19 @@ class RangeValidator:
         self.maxi = maxi
     
     def validate(self, df):
-        if df[self.column].apply(lambda val: val < self.mini or val > self.maxi).any():
+        is_out_of_range = lambda val: val < self.mini or val > self.maxi
+        if df[self.column].apply(is_out_of_range).any():
             raise ValueError(f"'{self.column}' out of range")
-        pass
+
+class CategoryValidator:
+    def __init__(self, column, categories):
+        self.column = column
+        self.categories = categories
     
+    def validate(self, df):
+        if not (df[self.column].isin(self.categories)).all():
+            raise ValueError(f"Invalid '{self.column}'")
+
             
 def build_df(data, schema):
     if not type(data) == pd.DataFrame:
