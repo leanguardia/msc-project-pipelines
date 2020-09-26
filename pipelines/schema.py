@@ -4,7 +4,6 @@ import numpy as np
 from pipelines.schemas_metadata import forest_fires_features_meta
 
 class Schema:
-    
     def __init__(self, features_list):
         self.features_list = features_list
 
@@ -28,6 +27,30 @@ class Schema:
 
     def dtypes(self):
         return [dtype['dtype'] for dtype in self.features_list]
+
+    def validations(self):
+        validations = []
+        for feat in self.features_list:
+            if 'range' in feat:
+                mini, maxi = feat['range']
+                validations.append(
+                    RangeValidator(feat['name'], mini, maxi)
+                )
+            # if 'elements' in feat:
+            #     validations.append(dict(column=feat['name'], elements=feat['elements']))
+        return validations
+
+
+class RangeValidator:
+    def __init__(self, column, mini, maxi):
+        self.column = column
+        self.mini = mini
+        self.maxi = maxi
+    
+    def call(self, df):
+        if df[self.column].apply(lambda val: val < self.mini or val > self.maxi).any():
+            raise ValueError(f"'{self.column}' out of range")
+        pass
     
             
 def build_df(data, schema):

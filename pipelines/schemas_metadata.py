@@ -1,6 +1,10 @@
 forest_fires_features_meta = [
-    dict(name='X', dtype=int, type='input'),
-    dict(name='Y', dtype=int, type='input'),
+    dict(name='X', dtype=int, type='input', range=(1,9)),
+    dict(name='Y', dtype=int, type='input', range=(1,9)),
+    # dict(name='month', dtype=str, type='input', 
+    #     categories=['jan','feb','mar','may','jun','jul','aug','sep','oct','nov','dec']),
+    # dict(name='day', dtype=str, type='input',
+    #     categories=['mon','tue','wed','thu','fri','sat','sun']),
     dict(name='month', dtype=str, type='input'),
     dict(name='day', dtype=str, type='input'),
     dict(name='FFMC', dtype=float, type='input'),

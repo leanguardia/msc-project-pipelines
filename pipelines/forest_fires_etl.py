@@ -19,11 +19,8 @@ class ForestFiresProcessor():
     def transform(self, data):
         df = build_df(data, forest_fires_schema)
 
-        if (df['X'].apply(lambda val: val < 1 or val > 9)).any():
-            raise ValueError("'X' out of range")
-
-        if (df['Y'].apply(lambda val: val < 1 or val > 9)).any():
-            raise ValueError("'Y' out of range")
+        for validation in forest_fires_schema.validations():
+            validation.call(df)
 
         if not (df['month'].isin(['jan','feb','mar','may','jun','jul','aug','sep','oct','nov','dec'])).all():
             raise ValueError("Invalid 'month'")
