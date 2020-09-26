@@ -32,18 +32,20 @@ def build_df(data, schema):
     if not type(data) == pd.DataFrame:
         data = np.array(data, ndmin=2)
         
-    # _rows, cols = data.shape
-    # if cols < schema.n_columns() or cols > schema.n_columns():
-    #     raise ValueError(f"incorrect number of columns")
+    _rows, cols = data.shape
+    print(data.shape, schema.n_inputs(), schema.n_columns())
+    if cols < schema.n_inputs() or cols > schema.n_columns():
+        raise ValueError(f"incorrect number of columns")
 
-    # if cols == self.num_of_columns:
-    #     columns = self.COLUMNS
-    #     dtypes = self.DTYPES
-    # else:
-    #     columns = self.COLUMNS[:-1]
-    #     dtypes = self.DTYPES[:-1]
-    df = pd.DataFrame(data, columns=schema.columns())
-    for col, dtype in zip(schema.columns(), schema.dtypes()):
+    columns = schema.columns()
+    dtypes = schema.dtypes()
+    
+    if cols == schema.n_inputs():
+        columns = columns[:-1]
+        dtypes = dtypes[:-1]
+
+    df = pd.DataFrame(data, columns=columns)
+    for col, dtype in zip(schema.columns(), dtypes):
         df[col]= df[col].astype(dtype)
 
     return df

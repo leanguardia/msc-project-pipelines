@@ -95,15 +95,15 @@ class TestBuildDataFrame(unittest.TestCase):
         built_df = build_df(np_inputs2d, self.schema)
         assert built_df.equals(self.df)
 
-    # def test_transform_requires_minimum_number_of_features(self):
-    #     with pytest.raises(ValueError, match="incorrect number of columns"):
-    #         build_df(inputs[:6], self.schema)
+    def test_transform_requires_minimum_number_of_features(self):
+        with pytest.raises(ValueError, match="incorrect number of columns"):
+            build_df(inputs[:2], self.schema)
 
-    # def test_transform_requires_maximum_number_of_features(self):
-    #     with pytest.raises(ValueError, match='incorrect number of columns'):
-    #         build_df(inputs * 2, self.schema)
+    def test_transform_requires_maximum_number_of_features(self):
+        with pytest.raises(ValueError, match='incorrect number of columns'):
+            build_df(inputs * 2, self.schema)
 
-    # def test_transform_features_only(self):
-    #     transformed = build_df([X], self.schema)
-    #     assert transformed.equals(df_features[input_names + new_feature_names[1:]])
-
+    def test_transform_features_only(self):
+        df_inputs = self.df[names[:-1]].copy()
+        built_df = build_df(inputs[:-1], self.schema)
+        assert built_df.equals(df_inputs)
