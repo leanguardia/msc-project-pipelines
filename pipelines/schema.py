@@ -8,11 +8,13 @@ class Schema:
     def __init__(self, features_list):
         self.features_list = features_list
 
-    def features(self):
-        return list(map(lambda column: column['name'], self.features_list))
+    def features(self, which='all'):
+        if which == 'input':
+            return [feature['name'] for feature in self.features_list if ('type' in feature) and (feature['type'] == 'input' or feature['type'] == 'target')]
+        return [feature['name'] for feature in self.features_list]
 
     def inputs(self):
-        return self.features()[:-1]
+        return self.features(which='input')
 
     def n_inputs(self):
         return len(self.inputs())
@@ -23,8 +25,10 @@ class Schema:
                 return feature_dict['name']
         raise ValueError('Target variable not found.')
 
-    def dtypes(self):
-        return [dtype['dtype'] for dtype in self.features_list]
+    def dtypes(self, which='all'):
+        if which == 'input':
+            return [feature['dtype'] for feature in self.features_list if ('type' in feature) and (feature['type'] == 'input' or feature['type'] == 'target')] 
+        return [feature['dtype'] for feature in self.features_list]
 
     def validators(self):
         validators = []
