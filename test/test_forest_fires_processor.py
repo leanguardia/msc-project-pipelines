@@ -108,3 +108,31 @@ class TestForestFiresProcessor(TestCase):
     def test_transform_dummy_day(self):
         feature_cols = self.processor.transform([X]).columns.to_list()
         self.assertIn('thu', feature_cols)
+
+class TestForesFiresValidations(TestCase):
+    def setUp(self):
+        self.preparer = ForestFiresProcessor()
+
+    def test_X_invalid_lower_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[0] = 0
+        with pytest.raises(ValueError, match="'X' out of range"):
+            self.preparer.call(invalid_inputs)
+
+    def test_X_valid_upper_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[0] = 10
+        with pytest.raises(ValueError, match="'X' out of range"):
+            self.preparer.call(invalid_inputs)
+
+    def test_Y_invalid_lower_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[1] = 0
+        with pytest.raises(ValueError, match="'Y' out of range"):
+            self.preparer.call(invalid_inputs)
+
+    def test_Y_valid_upper_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[1] = 10
+        with pytest.raises(ValueError, match="'Y' out of range"):
+            self.preparer.call(invalid_inputs)

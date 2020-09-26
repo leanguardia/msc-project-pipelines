@@ -19,6 +19,12 @@ class ForestFiresProcessor():
     def transform(self, data):
         df = build_df(data, forest_fires_schema)
 
+        if (df['X'].apply(lambda val: val < 1 or val > 9)).any():
+            raise ValueError("'X' out of range")
+
+        if (df['Y'].apply(lambda val: val < 1 or val > 9)).any():
+            raise ValueError("'Y' out of range")
+
         _rows, cols = df.shape
 
         # Target Transformations
@@ -35,6 +41,9 @@ class ForestFiresProcessor():
         df = dummify(df, 'day')
 
         return df
+
+    def call(self, data):
+        self.transform(data)
 
 
 def parse_args(args=[]):

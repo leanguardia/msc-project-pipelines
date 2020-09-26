@@ -35,7 +35,7 @@ def build_df(data, schema):
         data = np.array(data, ndmin=2)
         
     _rows, cols = data.shape
-    print(data.shape, schema.n_inputs(), schema.n_columns())
+
     if cols < schema.n_inputs() or cols > schema.n_columns():
         raise ValueError(f"incorrect number of columns")
 
