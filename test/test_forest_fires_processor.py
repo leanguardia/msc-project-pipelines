@@ -136,3 +136,27 @@ class TestForesFiresValidations(TestCase):
         invalid_inputs[1] = 10
         with pytest.raises(ValueError, match="'Y' out of range"):
             self.preparer.call(invalid_inputs)
+
+    def test_month_values(self):
+        months = ['jan','feb','mar','may','jun','jul','aug','sep','oct','nov','dec']
+        for month in months:
+            inputs[2] = month
+            self.preparer.call(inputs)
+
+    def test_month_invalid(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[2] = 'Jan'
+        with pytest.raises(ValueError, match="Invalid 'month'"):
+            self.preparer.call(invalid_inputs)
+
+    def test_day_values(self):
+        days = ['mon','tue','wed','thu','fri','sat','sun']
+        for day in days:
+            inputs[3] = day
+            self.preparer.call(inputs)
+
+    def test_day_invalid(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[3] = 'Monday'
+        with pytest.raises(ValueError, match="Invalid 'day'"):
+            self.preparer.call(invalid_inputs)
