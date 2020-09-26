@@ -42,11 +42,14 @@ features_metadata = [
     )
 ]
 
-input_names  = ['feature1', 'feature2', 'feature3', 'feature4', 'target']
+only_inputs = ['feature1', 'feature2', 'feature3', 'feature4']
+target_names = ['target']
+input_names  = only_inputs + target_names
 input_types = [int, float, str, str, str]
 inputs = [1, 2.001, 'feature_3', 'u', 'target_val']
 
-feature_names = input_names + ['feature1_log']
+engineered_names = ['feature1_log']
+feature_names = input_names + engineered_names
 
 np_inputs = np.array(inputs)
 np_inputs2d = np_inputs.reshape(1, len(np_inputs))
@@ -60,6 +63,9 @@ class TestSchema(unittest.TestCase):
     
     def test_schema_all_features(self):
         assert self.schema.features(which='all') == feature_names
+
+    def test_schema_features_no_target(self):
+        assert self.schema.features(which='features') == only_inputs + engineered_names
 
     def test_schema_all_features_is_default(self):
         assert self.schema.features() == feature_names

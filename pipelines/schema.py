@@ -11,6 +11,8 @@ class Schema:
     def features(self, which='all'):
         if which == 'input':
             return [feature['name'] for feature in self.features_list if self._is_input(feature)]
+        if which == 'features':
+            return [feature['name'] for feature in self.features_list if not self._is_target(feature)]
         return [feature['name'] for feature in self.features_list]
 
     def inputs(self):
@@ -21,7 +23,7 @@ class Schema:
 
     def target(self):
         for feature_dict in self.features_list:
-            if feature_dict['type'] == 'target':
+            if self._is_target(feature_dict):
                 return feature_dict['name']
         raise ValueError('Target variable not found.')
 
@@ -50,6 +52,9 @@ class Schema:
 
     def _is_input(self, feature):
         return ('type' in feature) and (feature['type'] == 'input' or feature['type'] == 'target')
+
+    def _is_target(self, feature):
+        return ('type' in feature) and (feature['type'] == 'target')
 
     def _build_range_validator(self, feature):
         mini, maxi = feature['range']
