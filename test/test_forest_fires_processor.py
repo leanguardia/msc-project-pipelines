@@ -109,17 +109,25 @@ class TestForestFiresPreparer(TestCase):
         feature_cols = self.preparer.prepare([X]).columns.to_list()
         self.assertIn('thu', feature_cols)
 
-# class TestForestFiresPartialPreparer(TestCase):
-#     def setUp(self):
-#         selected_features = ['Y', 'DMC', 'temp', 'rain_cat']
-#         self.preparer = ForestFiresPreparer(selected_features=selected_features)
+class TestForestFiresPartialPreparer(TestCase):
+    def setUp(self):
+        feature_subset = ['Y','DMC','ISI','temp','rain_cat']
+        self.preparer = ForestFiresPreparer(feature_subset=feature_subset)
 
-#     def test_selected_features_present(self):
-#         row = self.preparer.prepare(inputs[:-1]).loc[0]
-#         self.assertEqual(row['Y'], 6)
-#         self.assertEqual(row['DMC'], 80.9)
-#         self.assertEqual(row['temp'], 23.7)
-#         self.assertEqual(row['rain_cat'], 1.0)
+    def test_selected_features_present(self):
+        row = self.preparer.prepare(inputs[:-1]).loc[0]
+        self.assertEqual(row['Y'], 6)
+        self.assertEqual(row['DMC'], 80.9)
+        self.assertEqual(row['ISI'], 17.9)
+        self.assertEqual(row['temp'], 23.7)
+        self.assertEqual(row['rain_cat'], 1.0)
+
+    def test_rest_of_features_absent(self):
+        row = self.preparer.prepare(inputs[:-1]).loc[0]
+        absent_features = ['X','month','day','FFMC','DMC','DC','RH','wind','rain']
+        with pytest.raises(KeyError):
+            for absent_feature in absent_features:
+                row[absent_feature]
 
 class TestForesFiresValidations(TestCase):
     def setUp(self):
