@@ -14,10 +14,10 @@
 
 {% block nav_items %}
 <li class="nav-item"><a class="nav-link" href="/forestfires">Forest Fires</a></li>
-<li class="nav-item active">
-  <a class="nav-link" href="/winequality">Wine Quality<span class="sr-only">(current)</span></a>
-</li>
 <li class="nav-item"><a class="nav-link" href="/abalone">Abalone</a></li>
+  <li class="nav-item active">
+    <a class="nav-link" href="/winequality">Wine Quality<span class="sr-only">(current)</span></a>
+  </li>
 <li class="nav-item"><a class="nav-link" href="/adult">Adult</a></li>
 {% endblock %}
   
@@ -31,7 +31,7 @@
         <h4>Wine Quality <small>(Cortez et al)</small></h4>
       </div>
       <div class="col-8">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt, quos fugiat exercitationem quam quia dicta, ducimus voluptatibus aliquam repellendus veniam.</p>
+        <p>The goal is to model wine quality based on physicochemical tests from white wine of the north of Portugal.</p>
       </div>
     </div>
   </div>
@@ -42,7 +42,8 @@
   <div class="row py-4">
     <div class="col-3">
       <h5 class="mb-3">Data</h5>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt, quos fugiat exercitationem quam quia dicta, ducimus voluptatibus aliquam repellendus veniam, accusantium eveniet omnis eius unde voluptatem numquam itaque facere?</p>
+      <p>"The two datasets are related to red and white variants of the Portuguese "Vinho Verde" wine". Due to privacy and logistic issues, only physicochemical (inputs) and sensory (the output) variables are available (e.g. there is no data about grape types, wine brand, wine selling price, etc.).</p>
+      <p class="text-muted">- UCI Machine Learning Repository</p>
     </div>
     <div class="col-9">
       <form action="/winequality" method="get">

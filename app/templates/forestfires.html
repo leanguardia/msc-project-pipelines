@@ -8,8 +8,8 @@
 <li class="nav-item active">
   <a class="nav-link" href="/forestfires">Forest Fires<span class="sr-only">(current)</span></a>
 </li>
-<li class="nav-item"><a class="nav-link" href="/winequality">Wine Quality</a></li>
 <li class="nav-item"><a class="nav-link" href="/abalone">Abalone</a></li>
+<li class="nav-item"><a class="nav-link" href="/winequality">Wine Quality</a></li>
 <li class="nav-item"><a class="nav-link" href="/adult">Adult</a></li>
 {% endblock %}
 
@@ -23,7 +23,7 @@
         <h4>Forest Fires <small>(Cortez and Morais)</small></h4>
       </div>
       <div class="col-8">
-        <p>Meteorological and spatiotemporal data for forest fires in Portugal’s Montesinho Natural Park registered between 2000 and 2003.</p>
+        <p>Predict the burned area of forest fires, in the northeast region of Portugal, by using meteorological and other data.</p>
       </div>
     </div>
   </div>
@@ -34,7 +34,8 @@
   <div class="row py-4">
     <div class="col-3">
       <h5 class="mb-3">Data</h5>
-      <p>We also have DMC, DC, ISI and FFMC are components of the Canadian Forest Fire Weather Index (FWI) System, which measures the effects of fuel moisture and wind on fire behavior. These have been calculated using consecutive daily observations of temperature, relative humidity, wind speed, and 24-hour rainfall - i.e. these are time-lagged and not instantaneous values, unlike the four weather variables. Roughly, the higher these components, the more the expected severity of the fire. Spatiotemporal data includes the month and day of the week that the incident occurred, and X and Y co-ordinates of the incident with respect to the park. Smaller fires are much more frequent. This is the case in this dataset, as well as with incidences of wildfires around the world, making this a difficult regression problem.</p>
+      <p>"Meteorological and spatiotemporal data for forest fires in Portugal’s Montesinho Natural Park registered between 2000 and 2003".</p>
+      <p class="text-muted">- UCI Machine Learning Repository</p>
     </div>
     <div class="col-9">
       <form action="/forestfires" method="get">

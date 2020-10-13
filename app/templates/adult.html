@@ -6,8 +6,8 @@
 
 {% block nav_items %}
 <li class="nav-item"><a class="nav-link" href="/forestfires">Forest Fires</a></li>
-<li class="nav-item"><a class="nav-link" href="/winequality">Wine Quality</a></li>
 <li class="nav-item"><a class="nav-link" href="/abalone">Abalone</a></li>
+<li class="nav-item"><a class="nav-link" href="/winequality">Wine Quality</a></li>
 <li class="nav-item active">
   <a class="nav-link" href="/adult">Adult<span class="sr-only">(current)</span></a>
 </li>
@@ -20,10 +20,11 @@
   <div class="container">
     <div class="row">
       <div class="col-4">
-        <h4>Adult<small>A. Asuncion & D. J. Newman</small></h4>
+        <h4>Adult <small>A. Asuncion & D. J. Newman</small></h4>
       </div>
       <div class="col-8">
-        <p>The “Adult” database was extracted from the census bureau database found at http://www.census.gov/ in 1994 by Ronny Kohavi and Barry Becker, Data Mining and Visualization, Silicon Graphics. It was originally used to predict whether income exceeds USD 50K/yr based on census data.</p>
+        <p>Predict whether income exceeds $50K/yr based on census data. Also known as "Census Income" dataset.
+        </p>
       </div>
     </div>
   </div>
@@ -34,8 +35,9 @@
   <div class="row py-4">
     <div class="col-3">
       <h5 class="mb-3">Data</h5>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-      <ul>
+      <p>The “Adult” database was extracted from the census bureau database found at http://www.census.gov/ in 1994 by Ronny Kohavi and Barry Becker, Data Mining and Visualization, Silicon Graphics.</p>
+      <p class="text-muted">- UCI Machine Learning Repository</p>
+      <!-- <ul>
         <li>Age</li>
         <li>Workclass</li>
         <li>Final Weight: Estimated number of represented people in census</li>
@@ -49,7 +51,7 @@
         <li>Capital loss</li>
         <li>Hours per week</li>
         <li>Native Country</li>
-      </ul>
+      </ul> -->
     </div>
     <div class="col-9">
       <form action="/adult" method="get">

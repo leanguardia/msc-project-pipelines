@@ -6,8 +6,8 @@
 
 {% block nav_items %}
 <li class="nav-item"><a class="nav-link" href="/forestfires">Forest Fires</a></li>
-<li class="nav-item"><a class="nav-link" href="/winequality">Wine Quality</a></li>
 <li class="nav-item active"><a class="nav-link" href="/abalone">Abalone<span class="sr-only">(current)</span></a></li>
+<li class="nav-item"><a class="nav-link" href="/winequality">Wine Quality</a></li>
 <li class="nav-item"><a class="nav-link" href="/adult">Adult</a></li>
 {% endblock %}
 
@@ -21,7 +21,7 @@
         <h4>Abalone's Age <small>(Warwick et al)</small></h4>
       </div>
       <div class="col-8">
-        <p>We want to estimate the age of abalones based in a number of measurements.</p>
+        <p>Predict the age of abalone from physical measurements.</p>
       </div>
     </div>
   </div>
@@ -32,17 +32,18 @@
   <div class="row py-4">
     <div class="col-3">
       <h5 class="mb-3">Data</h5>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        <p>"The age of abalone is determined by cutting the shell through the cone, staining it, and counting the number of rings through a microscope, a boring and time-consuming task. Other measurements, which are easier to obtain, are used to predict the age. Further information, such as weather patterns and location (hence food availability) may be required to solve the problem".</p>
+        <p class="text-muted">- UCI Machine Learning Repository</p>
         <ul>
-          <li>Sex M, F, and I (infant)</li>
-          <li>Length (mm) / Longest shell measurement</li>
-          <li>Diameter (mm) / perpendicular to length</li>
-          <li>Height (mm) / with meat in shell</li>
-          <li>Whole weight (grams) / whole abalone</li>
-          <li>Shucked weight (grams) / weight of meat</li>
-          <li>Viscera weight (grams) / gut weight (after bleeding)</li>
-          <li>Shell weight (grams) / after being dried</li>
-          <li>Rings / integer / -- / +1.5 gives the age in years </li>
+          <li>Sex</li>
+          <li>Length (mm): Longest shell measurement</li>
+          <li>Diameter (mm): perpendicular to length</li>
+          <li>Height (mm): with meat in shell</li>
+          <li>Whole weight (grams): whole abalone</li>
+          <li>Shucked weight (grams): weight of meat</li>
+          <li>Viscera weight (grams): gut weight</li>
+          <li>Shell weight (grams): after being dried</li>
+          <li>Rings: +1.5 gives the age in years </li>
         </ul>
     </div>
     <div class="col-9">
