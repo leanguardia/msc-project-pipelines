@@ -6,6 +6,8 @@ from pipelines.validators import ValidationsRunner, RangeValidator, CategoryVali
 range_validator = RangeValidator('col', 0, 10)
 category_validator = CategoryValidator('col', ['bad', 'regular', 'good'])
 
+df = 'dataframe_mock'
+
 class TestValidationsRunner(TestCase):
     def setUp(self):
         self.runner = ValidationsRunner()
@@ -18,8 +20,6 @@ class TestValidationsRunner(TestCase):
         with pytest.raises(TypeError, match='Parameter should be list of Validators'):
             self.runner.add_validator([3])
 
-    # def test_append_list_of_validators(self):
-    #     self.runner.add_validator([range_validator, category_validator])
+    def test_validate(self):
+        self.runner.validate(df)
 
-    # def test_append_single_validator(self):
-    #     self.runner.add_validator(RangeValidator('column', 0, 10))
