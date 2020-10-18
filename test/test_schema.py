@@ -3,7 +3,7 @@ import unittest
 import pandas as pd
 import numpy as np
 
-from pipelines.schema import Schema, build_df
+from pipelines.schema import Schema
 from pipelines.validators import RangeValidator, CategoryValidator, PositiveValidator
 from fixtures.sample_schema import sample_features_metadata
 

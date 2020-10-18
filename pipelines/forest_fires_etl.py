@@ -6,20 +6,20 @@ import numpy as np
 from sqlalchemy import create_engine
 
 from pipelines.transformation import dummify
-from pipelines.schema import build_df
+from pipelines.preparer import Preparer
 from pipelines.forest_fires_schema import forest_fires_schema
 
 def load_data(filepath):
     df = pd.read_csv(filepath)
     return df
 
-class ForestFiresPreparer():
+class ForestFiresPreparer(Preparer):
     def __init__(self, feature_subset=None):
-        self.schema = forest_fires_schema
+        super(ForestFiresPreparer, self).__init__(forest_fires_schema)
         self.feature_subset = feature_subset
 
     def prepare(self, data):
-        df = build_df(data, forest_fires_schema)
+        df = super(ForestFiresPreparer, self).prepare(data)
 
         for validator in forest_fires_schema.validators(which='input'):
             validator.validate(df)

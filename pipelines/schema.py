@@ -66,26 +66,3 @@ class Schema:
         return PositiveValidator(feature['name'])
 
 
-# TODO: Remove
-def build_df(data, schema):
-    if not type(data) == pd.DataFrame:
-        data = np.array(data, ndmin=2)
-        
-    _rows, cols = data.shape
-
-    if cols < schema.n_inputs() - 1 or cols > schema.n_inputs():
-        raise ValueError(f"incorrect number of columns")
-
-    columns = schema.features(which='input')
-    dtypes = schema.dtypes(which='input')
-
-    if cols + 1 == schema.n_inputs():
-        columns = columns[:-1]
-        dtypes = dtypes[:-1]
-
-    df = pd.DataFrame(data, columns=columns)
-    for col, dtype in zip(schema.features(), dtypes):
-        df[col]= df[col].astype(dtype)
-
-    return df
-
