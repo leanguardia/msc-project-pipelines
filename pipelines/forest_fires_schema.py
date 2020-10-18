@@ -1,3 +1,5 @@
+from pipelines.schema import Schema
+
 forest_fires_features_meta = [
     dict(name='X', dtype=int, type='input', range=(1,9)),
     dict(name='Y', dtype=int, type='input', range=(1,9)),
@@ -20,3 +22,5 @@ forest_fires_features_meta = [
     dict(name='rain_log', dtype=float, positive=True),
     dict(name='rain_cat', dtype=float),
 ]
+
+forest_fires_schema = Schema(forest_fires_features_meta)

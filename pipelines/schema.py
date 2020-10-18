@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 
-from pipelines.schemas_metadata import forest_fires_features_meta
 from pipelines.validators import RangeValidator, CategoryValidator, PositiveValidator
 
 class Schema:
@@ -89,4 +88,3 @@ def build_df(data, schema):
 
     return df
 
-forest_fires_schema = Schema(forest_fires_features_meta)

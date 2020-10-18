@@ -6,7 +6,8 @@ import numpy as np
 from sqlalchemy import create_engine
 
 from pipelines.transformation import dummify
-from pipelines.schema import build_df, forest_fires_schema
+from pipelines.schema import build_df
+from pipelines.forest_fires_schema import forest_fires_schema
 
 def load_data(filepath):
     df = pd.read_csv(filepath)
