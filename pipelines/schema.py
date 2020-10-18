@@ -68,7 +68,6 @@ class Schema:
 
 
 def build_df(data, schema):
-    print(data)
     if not type(data) == pd.DataFrame:
         data = np.array(data, ndmin=2)
         

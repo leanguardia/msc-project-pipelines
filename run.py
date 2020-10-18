@@ -7,7 +7,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.externals import joblib
 
 import pipelines
-from pipelines.forest_fires_etl import ForestFiresProcessor
+from pipelines.forest_fires_etl import ForestFiresPreparer
 from pipelines.predictors import RegressionPredictor
 from pipelines.wine_quality_etl import WineQualityProcessor
 from app.form_parser import parse_wine_quality_params, parse_abalone_params, parse_adult_params
@@ -56,8 +56,8 @@ def adult():
 
 def _process_forest_fire_prediction(args):
     args = _parse_forest_fire_params(args)
-    processor = ForestFiresProcessor()
-    arry = processor.transform(args['X'], args['Y'], args['month'], args['day'],
+    preparer = ForestFiresPreparer()
+    arry = preparer.transform(args['X'], args['Y'], args['month'], args['day'],
         args['FFMC'], args['DMC'], args['DC'], args['ISI'],
         args['temp'], args['RH'], args['wind'], args['rain'])
     predictions = RegressionPredictor(fires_reg).predict([arry])
