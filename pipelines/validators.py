@@ -1,3 +1,8 @@
+class ValidationsRunner():
+    def add_validator(self, validator):
+        if not isinstance(validator, Validator):
+            raise TypeError('Parameter should be a Validator')
+
 class Validator():
     def __init__(self, column):
         self.column = column
