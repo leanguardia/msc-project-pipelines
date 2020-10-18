@@ -1,3 +1,5 @@
+from pipelines.schema import Schema
+
 sample_features_metadata = [
     dict(name = 'feature1',
         dtype = int,
@@ -27,3 +29,5 @@ sample_features_metadata = [
         positive = True
     )
 ]
+
+sample_schema = Schema(sample_features_metadata)
