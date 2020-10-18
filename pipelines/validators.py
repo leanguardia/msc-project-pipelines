@@ -1,7 +1,11 @@
 class ValidationsRunner():
-    def add_validator(self, validator):
-        if not isinstance(validator, Validator):
-            raise TypeError('Parameter should be a Validator')
+    def add_validator(self, validators):
+        is_validator = lambda obj: isinstance(obj, Validator)
+        if not (isinstance(validators, list) and all(map(is_validator, validators))):
+            raise TypeError('Parameter should be list of Validators')
+
+    def _is_validator(self, obj):
+        return isinstance(obj, Validator)
 
 class Validator():
     def __init__(self, column):
