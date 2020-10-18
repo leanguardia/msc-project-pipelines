@@ -2,12 +2,9 @@ import sys
 import argparse
 
 import pandas as pd
-import numpy as np
 from sqlalchemy import create_engine
 
-from pipelines.transformation import dummify
-from pipelines.preparer import Preparer
-from pipelines.forest_fires_schema import forest_fires_schema
+from pipelines.forest_fires_preparers import ForestFiresPreparerETL
 
 def load_data(filepath):
     df = pd.read_csv(filepath)
