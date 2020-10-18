@@ -5,9 +5,8 @@ from pipelines.preparer import Preparer
 from pipelines.forest_fires_schema import forest_fires_schema
 
 class ForestFiresPreparerETL(Preparer):
-    def __init__(self, feature_subset=None):
+    def __init__(self):
         super(ForestFiresPreparerETL, self).__init__(forest_fires_schema)
-        self.feature_subset = feature_subset
 
     def prepare(self, data):
         df = super(ForestFiresPreparerETL, self).prepare(data)
@@ -33,5 +32,4 @@ class ForestFiresPreparerETL(Preparer):
         for validator in forest_fires_schema.validators(which='engineered'):
             validator.validate(df)
 
-        if self.feature_subset: df = df[self.feature_subset]
         return df

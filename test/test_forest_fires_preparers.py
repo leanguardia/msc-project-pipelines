@@ -109,6 +109,7 @@ class TestForestFiresPreparerETL(TestCase):
         feature_cols = self.preparer.prepare([X]).columns.to_list()
         self.assertIn('thu', feature_cols)
 
+# TODO: Replace this for Serving Pipeline
 # class TestForestFiresPartialPreparer(TestCase):
 #     def setUp(self):
 #         feature_subset = ['Y','DMC','ISI','temp','rain_cat']
