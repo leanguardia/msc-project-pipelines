@@ -66,6 +66,7 @@ class Schema:
         return PositiveValidator(feature['name'])
 
 
+# TODO: Remove
 def build_df(data, schema):
     if not type(data) == pd.DataFrame:
         data = np.array(data, ndmin=2)
