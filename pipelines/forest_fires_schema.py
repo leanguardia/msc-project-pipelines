@@ -17,9 +17,9 @@ forest_fires_features_meta = [
     dict(name='rain', dtype=float, type='input', range=(0.0,6.4)),
     dict(name='area', dtype=float, type='target'),
     # dict(name='area_log', type='target', dtype=float),
-    dict(name='FFMC_log', dtype=float, positive=True),
-    dict(name='ISI_log', dtype=float, positive=True),
-    dict(name='rain_log', dtype=float, positive=True),
+    dict(name='FFMC_log', dtype=float, non_negative=True),
+    dict(name='ISI_log', dtype=float, non_negative=True),
+    dict(name='rain_log', dtype=float, non_negative=True),
     dict(name='rain_cat', dtype=float),
 ]
 

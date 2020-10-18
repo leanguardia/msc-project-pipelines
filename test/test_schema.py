@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 from pipelines.schema import Schema
-from pipelines.validators import RangeValidator, CategoryValidator, PositiveValidator
+from pipelines.validators import RangeValidator, CategoryValidator, NonNegativeValidator
 from fixtures.sample_schema import sample_features_metadata
 
 sample_schema = Schema(sample_features_metadata)
@@ -53,7 +53,7 @@ class TestSchema(unittest.TestCase):
         assert sample_schema.dtypes(which='input') == input_types
 
     def test_build_validators(self):
-        validator_types = [RangeValidator, RangeValidator, CategoryValidator, PositiveValidator]
+        validator_types = [RangeValidator, RangeValidator, CategoryValidator, NonNegativeValidator]
         validators = sample_schema.validators(which='all')
         for validator, vtype in zip(validators, validator_types):
             assert isinstance(validator, vtype)
@@ -66,5 +66,5 @@ class TestSchema(unittest.TestCase):
 
     def test_build_validators_for_engineered(self):
         validators = sample_schema.validators(which='engineered')
-        assert isinstance(validators[0], PositiveValidator)
+        assert isinstance(validators[0], NonNegativeValidator)
 

@@ -25,11 +25,10 @@ class CategoryValidator(Validator):
         if not (df[self.column].isin(self.categories)).all():
             raise ValueError(f"Invalid '{self.column}'")
 
-class PositiveValidator(Validator):
+class NonNegativeValidator(Validator):
     def __init__(self, column):
         super().__init__(column)
     
     def validate(self, df):
         if not (df[self.column] >= 0).all():
-            raise ValueError(f"'{self.column}' should be positive")
-
+            raise ValueError(f"'{self.column}' should be non negative")

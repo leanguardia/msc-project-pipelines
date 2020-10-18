@@ -26,7 +26,7 @@ sample_features_metadata = [
     ),
     dict(name = 'feature1_log',
         dtype = str,
-        positive = True
+        non_negative = True
     )
 ]
 
