@@ -13,13 +13,13 @@ def load_data(filepath):
     df = pd.read_csv(filepath)
     return df
 
-class ForestFiresPreparer(Preparer):
+class ForestFiresPreparerETL(Preparer):
     def __init__(self, feature_subset=None):
-        super(ForestFiresPreparer, self).__init__(forest_fires_schema)
+        super(ForestFiresPreparerETL, self).__init__(forest_fires_schema)
         self.feature_subset = feature_subset
 
     def prepare(self, data):
-        df = super(ForestFiresPreparer, self).prepare(data)
+        df = super(ForestFiresPreparerETL, self).prepare(data)
 
         for validator in forest_fires_schema.validators(which='input'):
             validator.validate(df)
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     df = load_data(data_source)
     
     print("≫ Transforming Data")
-    preparer = ForestFiresPreparer()
+    preparer = ForestFiresPreparerETL()
     df = preparer.prepare(df)
 
     print("≫ Loading Data")
