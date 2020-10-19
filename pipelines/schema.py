@@ -47,7 +47,6 @@ class Schema:
                 validators.append(self._build_category_validator(feature))
             if 'non_negative' in feature:
                 validators.append(self._build_non_negative_validator(feature))
-                print("ENTRA!")
         return validators
 
     def _is_input(self, feature):

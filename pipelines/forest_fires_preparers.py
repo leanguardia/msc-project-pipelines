@@ -19,8 +19,7 @@ class ForestFiresPreparerETL(Preparer):
         _rows, cols = df.shape
 
         # Target Transformations
-        if cols == self.schema.n_inputs():
-            df['area_log'] = np.log1p(df['area'])
+        df['area_log'] = np.log1p(df['area'])
         
         # Feature Transformations
         df['FFMC_log'] = np.log1p(df['FFMC'])
@@ -44,3 +43,27 @@ class ForestFiresPreparerETL(Preparer):
         output_validator = ValidationsRunner()
         output_validator.add_validators(self.schema.validators(which='engineered'))
         return output_validator
+
+class ForestFiresPreparer(Preparer):
+    def __init__(self):
+        super(ForestFiresPreparer, self).__init__(forest_fires_schema)
+        # self.input_validator = self._build_input_validations()
+        # self.output_validator = self._build_output_validations()
+
+    def prepare(self, data):
+        df = super(ForestFiresPreparer, self).prepare(data)
+
+        df['rain_cat'] = (df['rain'] > 0).astype(np.uint8)
+
+        df = df[['Y', 'DMC', 'ISI', 'temp', 'rain_cat']].copy()
+
+        return df
+
+    def _build_input_validations(self):
+        input_validator = ValidationsRunner()
+        input_validator.add_validators(self.schema.validators(which='input'))
+        return input_validator
+
+
+
+

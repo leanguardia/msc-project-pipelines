@@ -24,7 +24,7 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from pipelines.forest_fires_preparers import ForestFiresPreparerETL
+from pipelines.forest_fires_preparers import ForestFiresPreparerETL, ForestFiresPreparer
 
 target_name = 'area'
 input_names = ['X','Y','month','day','FFMC','DMC','DC','ISI','temp','RH','wind','rain']
@@ -102,33 +102,32 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertEqual(row['rain_cat'], 1)
 
     def test_prepare_dummy_month(self):
-        feature_cols = self.preparer.prepare([X]).columns.to_list()
+        feature_cols = self.preparer.prepare(inputs).columns.to_list()
         self.assertIn('sep', feature_cols)
 
     def test_prepare_dummy_day(self):
-        feature_cols = self.preparer.prepare([X]).columns.to_list()
+        feature_cols = self.preparer.prepare(inputs).columns.to_list()
         self.assertIn('thu', feature_cols)
 
-# TODO: Replace this for Serving Pipeline
-# class TestForestFiresPartialPreparer(TestCase):
-#     def setUp(self):
-#         feature_subset = ['Y','DMC','ISI','temp','rain_cat']
-#         self.preparer = ForestFiresPreparerETL(feature_subset=feature_subset)
 
-#     def test_selected_features_present(self):
-#         row = self.preparer.prepare(inputs[:-1]).loc[0]
-#         self.assertEqual(row['Y'], 6)
-#         self.assertEqual(row['DMC'], 80.9)
-#         self.assertEqual(row['ISI'], 17.9)
-#         self.assertEqual(row['temp'], 23.7)
-#         self.assertEqual(row['rain_cat'], 1.0)
+class TestForestFiresPreparerServing(TestCase):
+    def setUp(self):
+        self.preparer = ForestFiresPreparer()
 
-#     def test_rest_of_features_absent(self):
-#         row = self.preparer.prepare(inputs[:-1]).loc[0]
-#         absent_features = ['X','month','day','FFMC','DMC','DC','RH','wind','rain']
-#         with pytest.raises(KeyError):
-#             for absent_feature in absent_features:
-#                 row[absent_feature]
+    def test_selected_raw_feature_inputs(self):
+        row = self.preparer.prepare(X).loc[0]
+        self.assertEqual(row['Y'], 6)
+        self.assertEqual(row['DMC'], 80.9)
+        self.assertEqual(row['ISI'], 17.9)
+        self.assertEqual(row['temp'], 23.7)
+        self.assertEqual(row['rain_cat'], 1.0)
+
+    def test_rest_of_features_absent(self):
+        row = self.preparer.prepare(X).loc[0]
+        absent_features = ['X','month','day','FFMC','DMC','DC','RH','wind','rain']
+        with pytest.raises(KeyError):
+            for absent_feature in absent_features:
+                row[absent_feature]
 
 class TestForesFiresValidations(TestCase):
     def setUp(self):
