@@ -3,16 +3,17 @@ import numpy as np
 from pipelines.transformation import dummify
 from pipelines.preparer import Preparer
 from pipelines.forest_fires_schema import forest_fires_schema
+from pipelines.validators import ValidationsRunner
 
 class ForestFiresPreparerETL(Preparer):
     def __init__(self):
         super(ForestFiresPreparerETL, self).__init__(forest_fires_schema)
+        self.input_validator = self._build_input_validations()
 
     def prepare(self, data):
         df = super(ForestFiresPreparerETL, self).prepare(data)
 
-        for validator in forest_fires_schema.validators(which='input'):
-            validator.validate(df)
+        self.input_validator.validate(df)
 
         _rows, cols = df.shape
 
@@ -33,3 +34,9 @@ class ForestFiresPreparerETL(Preparer):
             validator.validate(df)
 
         return df
+
+    def _build_input_validations(self):
+        input_validator = ValidationsRunner()
+        input_validator.add_validators(self.schema.validators(which='input'))
+        return input_validator
+
