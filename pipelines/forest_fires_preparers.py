@@ -9,6 +9,7 @@ class ForestFiresPreparerETL(Preparer):
     def __init__(self):
         super(ForestFiresPreparerETL, self).__init__(forest_fires_schema)
         self.input_validator = self._build_input_validations()
+        self.output_validator = self._build_output_validations()
 
     def prepare(self, data):
         df = super(ForestFiresPreparerETL, self).prepare(data)
@@ -30,8 +31,7 @@ class ForestFiresPreparerETL(Preparer):
         df = dummify(df, 'month')
         df = dummify(df, 'day')
 
-        for validator in forest_fires_schema.validators(which='engineered'):
-            validator.validate(df)
+        self.output_validator.validate(df)
 
         return df
 
@@ -40,3 +40,7 @@ class ForestFiresPreparerETL(Preparer):
         input_validator.add_validators(self.schema.validators(which='input'))
         return input_validator
 
+    def _build_output_validations(self):
+        output_validator = ValidationsRunner()
+        output_validator.add_validators(self.schema.validators(which='engineered'))
+        return output_validator
