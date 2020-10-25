@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pipelines.etl_abalone import parse_args
+from pipelines.abalone_etl import parse_args
 
 class TestAbaloneEtl(TestCase):
     def test_argparser_default_data_source(self):
