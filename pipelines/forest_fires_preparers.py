@@ -46,10 +46,20 @@ class ForestFiresPreparer(Preparer):
         df = super(ForestFiresPreparer, self).prepare(data)
 
         df['rain_cat'] = (df['rain'] > 0).astype(np.uint8)
+        df['ISI_log'] = np.log1p(df['ISI'])
 
-        df = df[['Y', 'DMC', 'ISI', 'temp', 'rain_cat']].copy()
+        df = dummify(df, 'month')
+        df = dummify(df, 'day')
 
-        return df
+        selected_features = ['X', 'Y',
+            'FFMC', 'DMC', 'DC', 'ISI_log',
+            'temp', 'RH','wind', 'rain_cat', 
+            'apr', 'aug', 'dec', 'feb', 'jan',
+            'jun', 'mar', 'may', 'nov', 'oct', 'sep', 
+            'fri', 'mon', 'sat', 'sun', 'thu',
+        ]
+
+        return df[selected_features].copy()
 
     def _build_input_validations(self):
         input_validator = ValidationsRunner()
