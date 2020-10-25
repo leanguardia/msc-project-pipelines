@@ -1,9 +1,12 @@
 import pandas as pd
 import numpy as np
 
+from pipelines.validators import ValidationsRunner
+
 class Preparer():
     def __init__(self, schema):
         self.schema = schema
+        self.input_validator = ValidationsRunner()
 
     def prepare(self, data):
         if not type(data) == pd.DataFrame:
