@@ -24,14 +24,14 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from pipelines.abalone_preparers import AbalonePreparerETL#, AbalonePreparer
+from pipelines.abalone_preparers import AbalonePreparerETL, AbalonePreparer
 
 # target_name = 'rings'
 # input_names = ['sex', 'length', 'diameter', 'height', 'whole_weight', \
 #                'shucked_weight', 'viscera_weight', 'shell_weight']
 inputs      = ['M', 0.455, 0.365, 0.095, 0.514, 0.2245, 0.101, 0.15, 15]
 
-# np_inputs    = np.array(inputs)
+np_inputs    = np.array(inputs)
 # np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
 # df_inputs    = pd.DataFrame([inputs], columns=input_names + [target_name])
 # X = np_inputs[:-1]
@@ -84,9 +84,9 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertEqual(row['F'], 0)
         self.assertEqual(row['I'], 0)
 
-# class TestForestFiresPreparerServing(TestCase):
+# class TestAbalonePreparerServing(TestCase):
 #     def setUp(self):
-#         self.preparer = ForestFiresPreparer()
+#         self.preparer = AbalonePreparer()
 
 #     def test_selected_raw_feature_inputs(self):
 #         row = self.preparer.prepare(X).loc[0]
@@ -108,54 +108,36 @@ class TestForestFiresPreparerETL(TestCase):
 #             for absent_feature in absent_features:
 #                 row[absent_feature]
 
-# class TestForesFiresValidations(TestCase):
-#     def setUp(self):
-#         self.preparer = ForestFiresPreparerETL()
+class TestAbaloneValidations(TestCase):
+    def setUp(self):
+        self.preparer = AbalonePreparerETL()
 
-#     def test_X_invalid_lower_bound(self):
-#         invalid_inputs = np_inputs.copy()
-#         invalid_inputs[0] = 0
-#         with pytest.raises(ValueError, match="'X' out of range"):
-#             self.preparer.prepare(invalid_inputs)
+    def test_diameter_is_positive(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[2] = 0
+        with pytest.raises(ValueError, match="'diameter' should be positive"):
+            self.preparer.prepare(invalid_inputs)
 
-#     def test_X_valid_upper_bound(self):
-#         invalid_inputs = np_inputs.copy()
-#         invalid_inputs[0] = 10
-#         with pytest.raises(ValueError, match="'X' out of range"):
-#             self.preparer.prepare(invalid_inputs)
+    def test_rings_invalid_lower_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[8] = 0
+        with pytest.raises(ValueError, match="'rings' out of range"):
+            self.preparer.prepare(invalid_inputs)
 
-#     def test_Y_invalid_lower_bound(self):
-#         invalid_inputs = np_inputs.copy()
-#         invalid_inputs[1] = 0
-#         with pytest.raises(ValueError, match="'Y' out of range"):
-#             self.preparer.prepare(invalid_inputs)
+    def test_rings_invalid_upper_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[8] = 31
+        with pytest.raises(ValueError, match="'rings' out of range"):
+            self.preparer.prepare(invalid_inputs)
 
-#     def test_Y_valid_upper_bound(self):
-#         invalid_inputs = np_inputs.copy()
-#         invalid_inputs[1] = 10
-#         with pytest.raises(ValueError, match="'Y' out of range"):
-#             self.preparer.prepare(invalid_inputs)
+    def test_sex_values(self):
+        months = ['M', 'F', 'I']
+        for month in months:
+            inputs[0] = month
+            self.preparer.prepare(inputs)
 
-#     def test_month_values(self):
-#         months = ['jan','feb','mar','may','jun','jul','aug','sep','oct','nov','dec']
-#         for month in months:
-#             inputs[2] = month
-#             self.preparer.prepare(inputs)
-
-#     def test_month_invalid(self):
-#         invalid_inputs = np_inputs.copy()
-#         invalid_inputs[2] = 'Jan'
-#         with pytest.raises(ValueError, match="Invalid 'month'"):
-#             self.preparer.prepare(invalid_inputs)
-
-#     def test_day_values(self):
-#         days = ['mon','tue','wed','thu','fri','sat','sun']
-#         for day in days:
-#             inputs[3] = day
-#             self.preparer.prepare(inputs)
-
-#     def test_day_invalid(self):
-#         invalid_inputs = np_inputs.copy()
-#         invalid_inputs[3] = 'Monday'
-#         with pytest.raises(ValueError, match="Invalid 'day'"):
-#             self.preparer.prepare(invalid_inputs)
+    def test_sex_invalid(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[0] = 'Z'
+        with pytest.raises(ValueError, match="Invalid 'sex'"):
+            self.preparer.prepare(invalid_inputs)

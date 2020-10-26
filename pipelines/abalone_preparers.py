@@ -8,13 +8,13 @@ from pipelines.abalone_schema import abalone_schema
 class AbalonePreparerETL(Preparer):
     def __init__(self):
         super(AbalonePreparerETL, self).__init__(abalone_schema)
-#         self.input_validator.add_validators(self.schema.validators(which='input'))
+        self.input_validator.add_validators(self.schema.validators(which='input'))
 #         self.output_validator = ValidationsRunner()
 #         self.output_validator.add_validators(self.schema.validators(which='engineered'))
 
     def prepare(self, data):
         df = super(AbalonePreparerETL, self).prepare(data)
-        # self.input_validator.validate(df)
+        self.input_validator.validate(df)
 
         df['age'] = df['rings'] + 1.5
         df = dummify(df, 'sex', ['M','F','I'])
@@ -24,14 +24,14 @@ class AbalonePreparerETL(Preparer):
         return df
     
 
-# class ForestFiresPreparer(Preparer):
-#     def __init__(self):
-#         super(ForestFiresPreparer, self).__init__(forest_fires_schema)
+# class AbalonePreparer(Preparer):
+    # def __init__(self):
+        # super(AbalonePreparer, self).__init__(abalone_schema)
 #         # self.input_validator = self._build_input_validations()
 #         # self.output_validator = self._build_output_validations()
 
-#     def prepare(self, data):
-#         df = super(ForestFiresPreparer, self).prepare(data)
+    # def prepare(self, data):
+#         df = super(AbalonePreparer, self).prepare(data)
 
 #         df['rain_cat'] = (df['rain'] > 0).astype(np.uint8)
 #         df['ISI_log'] = np.log1p(df['ISI'])
