@@ -6,12 +6,11 @@ def dummify(df, column, categories, **kwargs):
     if not type(df) == pd.DataFrame:
         raise TypeError("df must be a DataFrame")
 
-    zeroes = np.zeros((df.shape[0], len(categories)))
+    zeroes = np.zeros((df.shape[0], len(categories)), dtype=int)
     dummies = pd.DataFrame(zeroes, columns=categories, index=df.index)
-    
-    for row_idx, row in df.iterrows():
-        indexes = dummies.columns.get_indexer(row)
-        dummies.iloc[row_idx, indexes] = 1
+        
+    indexes = dummies.columns.get_indexer(df[column])
+    dummies.iloc[:, indexes] = 1
     
     return pd.concat([df, dummies], axis=1)
 
