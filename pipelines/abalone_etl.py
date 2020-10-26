@@ -1,8 +1,9 @@
 import sys
 import argparse
-
 import pandas as pd
 from sqlalchemy import create_engine
+
+from pipelines.abalone_preparers import AbalonePreparerETL
 
 def parse_args(args=[]):
     parser = argparse.ArgumentParser(
@@ -36,9 +37,9 @@ if __name__ == "__main__":
     input_data = args['data']
     df = pd.read_csv(input_data)
     
-    # print("≫ Transforming Data")
-    # processor = Processor()
-    # df = processor.transform(df)
+    print("≫ Transforming Data")
+    preparer = AbalonePreparerETL()
+    df = preparer.prepare(df)
 
     print("≫ Loading Data")
     database = args['database']

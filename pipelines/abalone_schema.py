@@ -10,7 +10,7 @@ abalone_features_meta = [
     dict(name='shucked_weight', dtype=float, type='input'),
     dict(name='viscera_weight', dtype=float, type='input'),
     dict(name='shell_weight', dtype=float, type='input'),
-    dict(name='rings', dtype=float, type='target'),
+    dict(name='rings', dtype=int, type='target'),
 ]
 
 abalone_schema = Schema(abalone_features_meta)

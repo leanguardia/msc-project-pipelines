@@ -29,7 +29,7 @@ from pipelines.abalone_preparers import AbalonePreparerETL#, AbalonePreparer
 # target_name = 'rings'
 # input_names = ['sex', 'length', 'diameter', 'height', 'whole_weight', \
 #                'shucked_weight', 'viscera_weight', 'shell_weight']
-inputs      = ['M', 0.455, 0.365, 0.095, 0.514, 0.2245, 0.101, 0.15, 15.0]
+inputs      = ['M', 0.455, 0.365, 0.095, 0.514, 0.2245, 0.101, 0.15, 15]
 
 # np_inputs    = np.array(inputs)
 # np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
@@ -72,7 +72,7 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertIsInstance(row['shucked_weight'], np.float64)
         self.assertIsInstance(row['viscera_weight'], np.float64)
         self.assertIsInstance(row['shell_weight'], np.float64)
-        self.assertIsInstance(row['rings'], np.float64)
+        self.assertIsInstance(row['rings'], np.int64)
 
     def test_prepare_age(self):
         row = self.preparer.prepare(inputs).loc[0]
