@@ -28,8 +28,8 @@ class ForestFiresPreparerETL(Preparer):
         df['rain_log'] = np.log1p(df['rain'])
         df['rain_cat'] = (df['rain'] > 0).astype(np.uint8)
 
-        df = dummify(df, 'month')
-        df = dummify(df, 'day')
+        df = dummify(df, 'month', ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'])
+        df = dummify(df, 'day', ['mon','tue','wed','thu','fri','sat','sun'])
 
         self.output_validator.validate(df)
 
@@ -48,8 +48,8 @@ class ForestFiresPreparer(Preparer):
         df['rain_cat'] = (df['rain'] > 0).astype(np.uint8)
         df['ISI_log'] = np.log1p(df['ISI'])
 
-        df = dummify(df, 'month')
-        df = dummify(df, 'day')
+        df = dummify(df, 'month', ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'])
+        df = dummify(df, 'day', ['mon','tue','wed','thu','fri','sat','sun'])
 
         selected_features = ['X', 'Y',
             'FFMC', 'DMC', 'DC', 'ISI_log',

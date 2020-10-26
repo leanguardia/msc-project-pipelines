@@ -110,30 +110,29 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertIn('thu', feature_cols)
 
 
-#     # TODO: Insert Schema to 'dummify' component to build empty grids.
-# class TestForestFiresPreparerServing(TestCase):
-#     def setUp(self):
-#         self.preparer = ForestFiresPreparer()
+class TestForestFiresPreparerServing(TestCase):
+    def setUp(self):
+        self.preparer = ForestFiresPreparer()
 
-#     def test_selected_raw_feature_inputs(self):
-#         row = self.preparer.prepare(X).loc[0]
-#         self.assertEqual(row['X'], 8)
-#         self.assertEqual(row['Y'], 6)
-#         self.assertEqual(row['FFMC'], 93.7)
-#         self.assertEqual(row['DMC'], 80.9)
-#         self.assertEqual(row['DC'], 685.2)
-#         self.assertEqual(row['ISI_log'], 17.9)
-#         self.assertEqual(row['temp'], 23.7)
-#         self.assertEqual(row['RH'], 25)
-#         self.assertEqual(row['wind'], 4.5)
-#         self.assertEqual(row['rain_cat'], 1)
+    def test_selected_raw_feature_inputs(self):
+        row = self.preparer.prepare(X).loc[0]
+        self.assertEqual(row['X'], 8)
+        self.assertEqual(row['Y'], 6)
+        self.assertEqual(row['FFMC'], 93.7)
+        self.assertEqual(row['DMC'], 80.9)
+        self.assertEqual(row['DC'], 685.2)
+        self.assertEqual(round(row['ISI_log'],2), 2.94)
+        self.assertEqual(row['temp'], 23.7)
+        self.assertEqual(row['RH'], 25)
+        self.assertEqual(row['wind'], 4.5)
+        self.assertEqual(row['rain_cat'], 1)
 
-#     def test_rest_of_features_absent(self):
-#         row = self.preparer.prepare(X).loc[0]
-#         absent_features = ['month','day','ISI', 'rain']
-#         with pytest.raises(KeyError):
-#             for absent_feature in absent_features:
-#                 row[absent_feature]
+    def test_rest_of_features_absent(self):
+        row = self.preparer.prepare(X).loc[0]
+        absent_features = ['month','day','ISI', 'rain']
+        with pytest.raises(KeyError):
+            for absent_feature in absent_features:
+                row[absent_feature]
 
 class TestForesFiresValidations(TestCase):
     def setUp(self):
