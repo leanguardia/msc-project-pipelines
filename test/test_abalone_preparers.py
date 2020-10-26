@@ -29,7 +29,7 @@ from pipelines.abalone_preparers import AbalonePreparerETL#, AbalonePreparer
 # target_name = 'rings'
 # input_names = ['sex', 'length', 'diameter', 'height', 'whole_weight', \
 #                'shucked_weight', 'viscera_weight', 'shell_weight']
-inputs      = ['M', 0.455, 0.365, 0.095, 0.514, 0.2245, 0.101, 0.15, 15]
+inputs      = ['M', 0.455, 0.365, 0.095, 0.514, 0.2245, 0.101, 0.15, 15.0]
 
 # np_inputs    = np.array(inputs)
 # np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
@@ -62,21 +62,18 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertEqual(row['shell_weight'], 0.15)
         self.assertEqual(row['rings'], 15)
 
-#     def test_raw_features_types(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertIsInstance(row['X'], np.int64)
-#         self.assertIsInstance(row['Y'], np.int64)
-#         self.assertIsInstance(row['month'], str)
-#         self.assertIsInstance(row['day'], str)
-#         self.assertIsInstance(row['FFMC'], np.float64)
-#         self.assertIsInstance(row['DMC'], np.float64)
-#         self.assertIsInstance(row['DC'], np.float64)
-#         self.assertIsInstance(row['ISI'], np.float64)
-#         self.assertIsInstance(row['temp'], np.float64)
-#         self.assertIsInstance(row['RH'], np.float64)
-#         self.assertIsInstance(row['wind'], np.float64)
-#         self.assertIsInstance(row['rain'], np.float64)
-#         self.assertIsInstance(row['area'], np.float64)
+    def test_raw_features_types(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertIsInstance(row['sex'], str)
+        self.assertIsInstance(row['length'], np.float64)
+        self.assertIsInstance(row['diameter'], np.float64)
+        self.assertIsInstance(row['height'], np.float64)
+        self.assertIsInstance(row['whole_weight'], np.float64)
+        self.assertIsInstance(row['shucked_weight'], np.float64)
+        self.assertIsInstance(row['viscera_weight'], np.float64)
+        self.assertIsInstance(row['shell_weight'], np.float64)
+        self.assertIsInstance(row['rings'], np.float64)
+
 
 #     def test_prepare_area_to_log(self):
 #         row = self.preparer.prepare(inputs).loc[0]
