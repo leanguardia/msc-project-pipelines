@@ -7,13 +7,13 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.externals import joblib
 
 import pipelines
-from pipelines.forest_fires_etl import ForestFiresPreparer
+from pipelines.forest_fires_preparers import ForestFiresPreparer
 from pipelines.predictors import RegressionPredictor
 from pipelines.wine_quality_etl import WineQualityProcessor
 from app.form_parser import parse_wine_quality_params, parse_abalone_params, parse_adult_params
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
-fires_reg = joblib.load("models/regrezz.pkl")
+fires_reg = joblib.load("models/forest_fi.pkl")
 wine_reg = joblib.load("models/wine_reg.pkl")
 abalone_reg = joblib.load("models/cls_abalone.pkl")
 adult_cls = joblib.load("models/cls_adult.pkl")
@@ -57,10 +57,8 @@ def adult():
 def _process_forest_fire_prediction(args):
     args = _parse_forest_fire_params(args)
     preparer = ForestFiresPreparer()
-    arry = preparer.transform(args['X'], args['Y'], args['month'], args['day'],
-        args['FFMC'], args['DMC'], args['DC'], args['ISI'],
-        args['temp'], args['RH'], args['wind'], args['rain'])
-    predictions = RegressionPredictor(fires_reg).predict([arry])
+    arry = preparer.prepare(args)
+    predictions = RegressionPredictor(fires_reg).predict(arry)
     return str(predictions[0])
 
 def _process_wine_quality_prediction(args):
@@ -71,14 +69,13 @@ def _process_wine_quality_prediction(args):
     return predictions[0]
 
 def _parse_forest_fire_params(args):
-    return {
-        'X': float(args['X']), 'Y': float(args['Y']),
-        'month': args['month'], 'day': args['day'],
-        'FFMC': float(args['FFMC']), 'DMC': float(args['DMC']),
-        'DC': float(args['DC']), 'ISI': float(args['ISI']),
-        'temp': float(args['temp']), 'RH': float(args['RH']),
-        'wind': float(args['wind']), 'rain': float(args['rain']),
-    }
+    return [int(args['X']), int(args['Y']),
+            args['month'], args['day'],
+            float(args['FFMC']), float(args['DMC']),
+            float(args['DC']), float(args['ISI']),
+            float(args['temp']), float(args['RH']),
+            float(args['wind']), float(args['rain']),
+    ]
 
 def _process_abalone_prediction(args):
     params = parse_abalone_params(args)

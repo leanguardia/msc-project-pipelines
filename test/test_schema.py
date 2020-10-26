@@ -67,4 +67,6 @@ class TestSchema(unittest.TestCase):
     def test_build_validators_for_engineered(self):
         validators = sample_schema.validators(which='engineered')
         assert isinstance(validators[0], NonNegativeValidator)
+    
+    # TODO: Implement .get_categories('column')
 
