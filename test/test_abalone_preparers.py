@@ -34,7 +34,6 @@ inputs      = ['M', 0.455, 0.365, 0.095, 0.514, 0.2245, 0.101, 0.15, 15]
 np_inputs    = np.array(inputs)
 # np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
 # df_inputs    = pd.DataFrame([inputs], columns=input_names + [target_name])
-# X = np_inputs[:-1]
 
 # new_feature_names  = [f'{target_name}_log', 'FFMC_log', 'ISI_log', 'rain_log', 'rain_cat', 'sep', 'thu']
 # feature_vals  = inputs + [np.log1p(1.12), np.log1p(93.7), np.log1p(17.9), np.log1p(0.4), 1, 1, 1]
@@ -84,29 +83,29 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertEqual(row['F'], 0)
         self.assertEqual(row['I'], 0)
 
-# class TestAbalonePreparerServing(TestCase):
-#     def setUp(self):
-#         self.preparer = AbalonePreparer()
+class TestAbalonePreparerServing(TestCase):
+    def setUp(self):
+        self.preparer = AbalonePreparer()
 
-#     def test_selected_raw_feature_inputs(self):
-#         row = self.preparer.prepare(X).loc[0]
-#         self.assertEqual(row['X'], 8)
-#         self.assertEqual(row['Y'], 6)
-#         self.assertEqual(row['FFMC'], 93.7)
-#         self.assertEqual(row['DMC'], 80.9)
-#         self.assertEqual(row['DC'], 685.2)
-#         self.assertEqual(round(row['ISI_log'],2), 2.94)
-#         self.assertEqual(row['temp'], 23.7)
-#         self.assertEqual(row['RH'], 25)
-#         self.assertEqual(row['wind'], 4.5)
-#         self.assertEqual(row['rain_cat'], 1)
+    def test_selected_raw_feature_inputs(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['length'], 0.455)
+        self.assertEqual(row['diameter'], 0.365)
+        self.assertEqual(row['height'], 0.095)
+        self.assertEqual(row['whole_weight'], 0.514)
+        self.assertEqual(row['shucked_weight'], 0.2245)
+        self.assertEqual(row['viscera_weight'], 0.101)
+        self.assertEqual(row['shell_weight'], 0.15)
+        self.assertEqual(row['M'], 1)
+        self.assertEqual(row['F'], 0)
 
-#     def test_rest_of_features_absent(self):
-#         row = self.preparer.prepare(X).loc[0]
-#         absent_features = ['month','day','ISI', 'rain']
-#         with pytest.raises(KeyError):
-#             for absent_feature in absent_features:
-#                 row[absent_feature]
+    def test_rest_of_features_absent(self):
+        X = np_inputs[:-1]
+        row = self.preparer.prepare(X).loc[0]
+        absent_features = ['rings', 'age', 'I']
+        with pytest.raises(KeyError):
+            for absent_feature in absent_features:
+                row[absent_feature]
 
 class TestAbaloneValidations(TestCase):
     def setUp(self):

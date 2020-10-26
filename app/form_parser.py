@@ -1,3 +1,25 @@
+def parse_forest_fire_params(args):
+    return [
+        int(args['X']), int(args['Y']),
+        args['month'], args['day'],
+        float(args['FFMC']), float(args['DMC']),
+        float(args['DC']), float(args['ISI']),
+        float(args['temp']), float(args['RH']),
+        float(args['wind']), float(args['rain']),
+    ]
+
+def parse_abalone_params(args):
+    return [
+        args['sex'],
+        float(args['length']),
+        float(args['diameter']),
+        float(args['height']),
+        float(args['whole_weight']),
+        float(args['shucked_weight']),
+        float(args['viscera_weight']),
+        float(args['shell_weight']),
+    ]
+
 def parse_wine_quality_params(args):
     return [
         float(args['fixed_acidity']),
@@ -13,20 +35,7 @@ def parse_wine_quality_params(args):
         float(args['alcohol'])
     ]
 
-def parse_abalone_params(args):
-    return [
-        # float(args['sex']),
-        float(args['length']),
-        float(args['diameter']),
-        float(args['height']),
-        float(args['whole_weight']),
-        float(args['shucked_weight']),
-        float(args['viscera_weight']),
-        float(args['shell_weight']),
-    ]
-
 def parse_adult_params(args):
-    print(args)
     return [
         int(args['age']),
         int(args['final_weight']),
