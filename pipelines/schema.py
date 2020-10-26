@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from pipelines.validators import RangeValidator, CategoryValidator, NonNegativeValidator
+from pipelines.validators import RangeValidator, CategoryValidator, NonNegativeValidator, PositiveValidator
 
 class Schema:
     def __init__(self, features_list):
@@ -47,6 +47,8 @@ class Schema:
                 validators.append(self._build_category_validator(feature))
             if 'non_negative' in feature:
                 validators.append(self._build_non_negative_validator(feature))
+            if 'positive' in feature:
+                validators.append(self._build_positive_validator(feature))
         return validators
 
     def _is_input(self, feature):
@@ -64,3 +66,6 @@ class Schema:
 
     def _build_non_negative_validator(self, feature):
         return NonNegativeValidator(feature['name'])
+
+    def _build_positive_validator(self, feature):
+        return PositiveValidator(feature['name'])

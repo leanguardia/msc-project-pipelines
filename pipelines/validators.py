@@ -50,3 +50,11 @@ class NonNegativeValidator(Validator):
     def validate(self, df):
         if not (df[self.column] >= 0).all():
             raise ValueError(f"'{self.column}' should be non negative")
+
+class PositiveValidator(Validator):
+    def __init__(self, column):
+        super().__init__(column)
+    
+    def validate(self, df):
+        if not (df[self.column] > 0).all():
+            raise ValueError(f"'{self.column}' should be positive")
