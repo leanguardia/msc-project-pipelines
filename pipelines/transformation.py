@@ -8,9 +8,10 @@ def dummify(df, column, categories, **kwargs):
 
     zeroes = np.zeros((df.shape[0], len(categories)), dtype=int)
     dummies = pd.DataFrame(zeroes, columns=categories, index=df.index)
-        
-    indexes = dummies.columns.get_indexer(df[column])
-    dummies.iloc[:, indexes] = 1
+    
+    for row_idx, row in df.iterrows():
+        indexes = dummies.columns.get_loc(row[column])
+        dummies.iloc[row_idx, indexes] = 1
     
     return pd.concat([df, dummies], axis=1)
 

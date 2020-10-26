@@ -16,6 +16,13 @@ class TestDummifier(TestCase):
         dummified = dummify(df, 'category', categories=['a', 'b'])
         assert len(dummified.columns) == 3, "New columns should be concatenated"
 
+    def test_dummy_values(self):
+        dummified = dummify(df, 'category', categories=['a', 'b'])
+        dummy_values = [['a',1,0],
+                        ['b',0,1],
+                        ['a',1,0]]
+        assert np.array_equal(dummified.values.tolist(), dummy_values)
+
     def test_includes_present_columns_explicitly(self):
         dummified = dummify(df, 'category', categories=['a', 'b'])
         assert 'a' in dummified, "New column should be added"
