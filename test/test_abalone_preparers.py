@@ -74,35 +74,15 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertIsInstance(row['shell_weight'], np.float64)
         self.assertIsInstance(row['rings'], np.float64)
 
+    def test_prepare_age(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['age'], 15.0 + 1.5)
 
-#     def test_prepare_area_to_log(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertEqual(row['area_log'], np.log1p(1.12))
-
-#     def test_prepare_FFMC_to_log(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertEqual(row['FFMC_log'], np.log1p(93.7))
-
-#     def test_prepare_ISI_to_log(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertEqual(row['ISI_log'], np.log1p(17.9))
-
-#     def test_prepare_rain_to_log(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertEqual(row['rain_log'], np.log1p(0.4))
-
-#     def test_prepare_rain_to_category(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertEqual(row['rain_cat'], 1)
-
-#     def test_prepare_dummy_month(self):
-#         feature_cols = self.preparer.prepare(inputs).columns.to_list()
-#         self.assertIn('sep', feature_cols)
-
-#     def test_prepare_dummy_day(self):
-#         feature_cols = self.preparer.prepare(inputs).columns.to_list()
-#         self.assertIn('thu', feature_cols)
-
+    def test_prepare_dummy_sex(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['M'], 1)
+        self.assertEqual(row['F'], 0)
+        self.assertEqual(row['I'], 0)
 
 # class TestForestFiresPreparerServing(TestCase):
 #     def setUp(self):

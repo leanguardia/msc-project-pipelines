@@ -1,6 +1,6 @@
 import numpy as np
 
-# from pipelines.transformation import dummify
+from pipelines.transformation import dummify
 from pipelines.preparer import Preparer
 from pipelines.abalone_schema import abalone_schema
 # from pipelines.validators import ValidationsRunner
@@ -14,22 +14,10 @@ class AbalonePreparerETL(Preparer):
 
     def prepare(self, data):
         df = super(AbalonePreparerETL, self).prepare(data)
-
         # self.input_validator.validate(df)
 
-        _rows, cols = df.shape
-
-#         # Target Transformations
-#         df['area_log'] = np.log1p(df['area'])
-        
-#         # Feature Transformations
-#         df['FFMC_log'] = np.log1p(df['FFMC'])
-#         df['ISI_log'] = np.log1p(df['ISI'])
-#         df['rain_log'] = np.log1p(df['rain'])
-#         df['rain_cat'] = (df['rain'] > 0).astype(np.uint8)
-
-#         df = dummify(df, 'month', ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'])
-#         df = dummify(df, 'day', ['mon','tue','wed','thu','fri','sat','sun'])
+        df['age'] = df['rings'] + 1.5
+        df = dummify(df, 'sex', ['M','F','I'])
 
 #         self.output_validator.validate(df)
 
