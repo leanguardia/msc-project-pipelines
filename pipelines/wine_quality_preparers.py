@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 # from pipelines.transformation import dummify
 from pipelines.preparer import Preparer
@@ -9,14 +10,14 @@ class WinesPreparerETL(Preparer):
         super(WinesPreparerETL, self).__init__(wines_schema)
         # self.input_validator.add_validators(self.schema.validators(which='input'))
 
-#     def prepare(self, data):
-#         df = super(AbalonePreparerETL, self).prepare(data)
-#         self.input_validator.validate(df)
+    def prepare(self, data):
+        df = super(WinesPreparerETL, self).prepare(data)
+        # self.input_validator.validate(df)
 
-#         df['age'] = df['rings'] + 1.5
-#         df = dummify(df, 'sex', ['M','F','I'])
+        df['quality_cat'] = pd.cut(df['quality'], bins=[0,5,7,10],
+            labels=[0,1,2], include_lowest=True).astype(np.uint8)
 
-#         return df
+        return df
     
 
 # class AbalonePreparer(Preparer):
