@@ -74,26 +74,30 @@ class TestWinesPreparerETL(TestCase):
         row = self.preparer.prepare(inputs).loc[0]
         self.assertEqual(row['residual_sugar_log'], np.log(20.7))
 
-    # def test_valid_quality_lower_bound(self):
-    #     invalid_inputs = np_inputs.copy()
-    #     invalid_inputs[-1] = 0
-    #     row = self.preparer.prepare(invalid_inputs).loc[0]
-    #     self.assertEqual(row['quality'], 0)
+class WinesValidations(TestCase):
+    def setUp(self):
+        self.preparer = WinesPreparerETL()
 
-    # def test_valid_quality_upper_bound(self):
-    #     invalid_inputs = np_inputs.copy()
-    #     invalid_inputs[-1] = 10
-    #     row = self.preparer.prepare(invalid_inputs).loc[0]
-    #     self.assertEqual(row['quality'], 10)
+    def test_valid_quality_lower_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[-1] = 0
+        row = self.preparer.prepare(invalid_inputs).loc[0]
+        self.assertEqual(row['quality'], 0)
 
-    # def test_invalid_quality_lower_bound(self):
-    #     invalid_inputs = np_inputs.copy()
-    #     invalid_inputs[-1] = -1
-    #     with pytest.raises(ValueError, match="Value out of range 'quality'"):
-    #         self.preparer.prepare(invalid_inputs).loc[0]
+    def test_valid_quality_upper_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[-1] = 10
+        row = self.preparer.prepare(invalid_inputs).loc[0]
+        self.assertEqual(row['quality'], 10)
 
-    # def test_invalid_quality_upper_bound(self):
-    #     invalid_inputs = np_inputs.copy()
-    #     invalid_inputs[-1] = 11
-    #     with pytest.raises(ValueError, match="Value out of range 'quality'"):
-    #         self.preparer.prepare(invalid_inputs).loc[0]
+    def test_invalid_quality_lower_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[-1] = -1
+        with pytest.raises(ValueError, match="'quality' out of range"):
+            self.preparer.prepare(invalid_inputs).loc[0]
+
+    def test_invalid_quality_upper_bound(self):
+        invalid_inputs = np_inputs.copy()
+        invalid_inputs[-1] = 11
+        with pytest.raises(ValueError, match="'quality' out of range"):
+            self.preparer.prepare(invalid_inputs).loc[0]
