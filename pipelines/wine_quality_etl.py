@@ -6,19 +6,6 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 
-#         # Target Transformations
-#         if cols == self.num_of_columns:
-
-#             if (df['quality'] < 0).any() or (df['quality'] > 10).any():
-#                 raise ValueError(f"Value out of range 'quality'")
-
-
-#         df['free_sulfur_dioxide_log'] = np.log(df['free_sulfur_dioxide'])
-#         df['total_sulfur_dioxide_log'] = np.log(df['total_sulfur_dioxide'])
-#         df['residual_sugar_log'] = np.log(df['residual_sugar'])
-#         return df
-
-
 def parse_args(args=[]):
     parser = argparse.ArgumentParser(
         description='ETL Preparation Pipeline for Wine Quality data.')

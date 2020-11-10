@@ -62,38 +62,38 @@ class TestWinesPreparerETL(TestCase):
         transformed = self.preparer.prepare(others)
         self.assertEqual(transformed.loc[0]['quality_cat'], 2)
 
-    # def test_transform_free_sulfur_dioxide_to_log(self):
-    #     row = self.processor.transform(inputs).loc[0]
-    #     self.assertEqual(row['free_sulfur_dioxide_log'], np.log(45.0))
+    def test_transform_free_sulfur_dioxide_to_log(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['free_sulfur_dioxide_log'], np.log(45.0))
 
-    # def test_transform_total_sulfur_dioxide_to_log(self):
-    #     row = self.processor.transform(inputs).loc[0]
-    #     self.assertEqual(row['total_sulfur_dioxide_log'], np.log(170.0))
+    def test_transform_total_sulfur_dioxide_to_log(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['total_sulfur_dioxide_log'], np.log(170.0))
 
-    # def test_transform_residual_sugar(self):
-    #     row = self.processor.transform(inputs).loc[0]
-    #     self.assertEqual(row['residual_sugar_log'], np.log(20.7))
+    def test_transform_residual_sugar(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['residual_sugar_log'], np.log(20.7))
 
     # def test_valid_quality_lower_bound(self):
     #     invalid_inputs = np_inputs.copy()
     #     invalid_inputs[-1] = 0
-    #     row = self.processor.transform(invalid_inputs).loc[0]
+    #     row = self.preparer.prepare(invalid_inputs).loc[0]
     #     self.assertEqual(row['quality'], 0)
 
     # def test_valid_quality_upper_bound(self):
     #     invalid_inputs = np_inputs.copy()
     #     invalid_inputs[-1] = 10
-    #     row = self.processor.transform(invalid_inputs).loc[0]
+    #     row = self.preparer.prepare(invalid_inputs).loc[0]
     #     self.assertEqual(row['quality'], 10)
 
     # def test_invalid_quality_lower_bound(self):
     #     invalid_inputs = np_inputs.copy()
     #     invalid_inputs[-1] = -1
     #     with pytest.raises(ValueError, match="Value out of range 'quality'"):
-    #         self.processor.transform(invalid_inputs).loc[0]
+    #         self.preparer.prepare(invalid_inputs).loc[0]
 
     # def test_invalid_quality_upper_bound(self):
     #     invalid_inputs = np_inputs.copy()
     #     invalid_inputs[-1] = 11
     #     with pytest.raises(ValueError, match="Value out of range 'quality'"):
-    #         self.processor.transform(invalid_inputs).loc[0]
+    #         self.preparer.prepare(invalid_inputs).loc[0]

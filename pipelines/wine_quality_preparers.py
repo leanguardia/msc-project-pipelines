@@ -17,6 +17,10 @@ class WinesPreparerETL(Preparer):
         df['quality_cat'] = pd.cut(df['quality'], bins=[0,5,7,10],
             labels=[0,1,2], include_lowest=True).astype(np.uint8)
 
+        df['free_sulfur_dioxide_log'] = np.log(df['free_sulfur_dioxide'])
+        df['total_sulfur_dioxide_log'] = np.log(df['total_sulfur_dioxide'])
+        df['residual_sugar_log'] = np.log(df['residual_sugar'])
+
         return df
     
 
