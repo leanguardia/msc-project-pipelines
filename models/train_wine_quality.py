@@ -66,6 +66,7 @@ if __name__ == "__main__":
                 'kernel': ["rbf"]
             }
         },
+        
         "decision_tree": {
             "model": DecisionTreeClassifier(),
             "params": {
@@ -81,6 +82,7 @@ if __name__ == "__main__":
                 "max_depth": [5,8,9]
             }
         },
+
         "naive_bayes": {
             "model": GaussianNB(),
             "params": {}
@@ -95,18 +97,19 @@ if __name__ == "__main__":
     }
 
     scores=[]
-    for model_name,mp in model_params.items():
-        clf = GridSearchCV(mp["model"], mp["params"], cv=8, return_train_score=False)
+    for model_name, mp in model_params.items():
+        clf = GridSearchCV(mp["model"], mp["params"], cv=6, return_train_score=False)
         clf.fit(X_train, y_train)
         scores.append({
-            "Model" : model_name,
-            "Best_Score": clf.best_score_,
-            "Best_Params": clf.best_params_
+            "model" : model_name,
+            "best_score": clf.best_score_,
+            "best_params": clf.best_params_
         })
 
-    scores_df = pd.DataFrame(scores, columns=['Model',
-                                              'Best_Score',
-                                              'Best_Params'])
+    scores_df = pd.DataFrame(scores, columns=['model',
+                                              'best_score',
+                                              'best_params'])
+    scores_df.sort_values(by='best_score', ascending=False, inplace=True)
     print(scores_df)
 
     # model_filepath = args['model']
