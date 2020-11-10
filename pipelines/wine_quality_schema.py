@@ -13,7 +13,7 @@ wine_features_meta = [
     dict(name='sulphates', dtype=float, type='input'), 
     dict(name='alcohol', dtype=float, type='input'),
     dict(name='type', dtype=str, type='input'), 
-    dict(name='quality', dtype=int, type='target'),
+    dict(name='quality', dtype=int, type='target', range=(0,10)),
 ]
 
 wines_schema = Schema(wine_features_meta)

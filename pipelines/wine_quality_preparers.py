@@ -8,11 +8,11 @@ from pipelines.wine_quality_schema import wines_schema
 class WinesPreparerETL(Preparer):
     def __init__(self):
         super(WinesPreparerETL, self).__init__(wines_schema)
-        # self.input_validator.add_validators(self.schema.validators(which='input'))
+        self.input_validator.add_validators(self.schema.validators(which='input'))
 
     def prepare(self, data):
         df = super(WinesPreparerETL, self).prepare(data)
-        # self.input_validator.validate(df)
+        self.input_validator.validate(df)
 
         df['quality_cat'] = pd.cut(df['quality'], bins=[0,5,7,10],
             labels=[0,1,2], include_lowest=True).astype(np.uint8)
