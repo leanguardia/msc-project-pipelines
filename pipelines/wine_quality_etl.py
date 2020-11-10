@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 
+from pipelines.wine_quality_preparers import WinesPreparerETL
+
 
 def parse_args(args=[]):
     parser = argparse.ArgumentParser(
@@ -29,8 +31,8 @@ if __name__ == "__main__":
     df = pd.read_csv(data_source)
     
     print("≫ Transforming Data")
-    processor = WineQualityProcessor()
-    df = processor.transform(df)
+    preparer = WinesPreparerETL()
+    df = preparer.prepare(df)
 
     print("≫ Loading Data")
     database = args['database']
