@@ -4,7 +4,7 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from pipelines.wine_quality_preparers import WinesPreparerETL
+from pipelines.wine_quality_preparers import WinesPreparerETL, WhiteWinesPreparer
 
 inputs = [7.0, 0.27, 0.36, 20.7, 0.045, 45.0, 170.0, 1.0010, 3.00, 0.45, 8.8, 'red', 6]
 
@@ -74,7 +74,33 @@ class TestWinesPreparerETL(TestCase):
         row = self.preparer.prepare(inputs).loc[0]
         self.assertEqual(row['residual_sugar_log'], np.log(20.7))
 
-class WinesValidations(TestCase):
+class TestWinesPreparerServing(TestCase):
+    def setUp(self):
+        self.preparer = WhiteWinesPreparer()
+
+    def test_selected_raw_feature_inputs(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        assert row['fixed_acidity'] == 7.0
+        assert row['citric_acid'] == 0.36
+        assert row['volatile_acidity'] == 0.27
+        assert row['residual_sugar'] == 20.7
+        assert row['chlorides'] == 0.045
+        assert row['free_sulfur_dioxide'] == 45.0
+        assert row['total_sulfur_dioxide'] == 170.0
+        assert row['density'] == 1.0010
+        assert row['pH'] == 3.00
+        assert row['sulphates'] == 0.45
+        assert row['alcohol'] == 8.8
+
+    def test_rest_of_features_absent(self):
+        X = np_inputs[:-1]
+        row = self.preparer.prepare(X).loc[0]
+        absent_features = ['type']
+        with pytest.raises(KeyError):
+            for absent_feature in absent_features:
+                row[absent_feature]
+
+class TestWinesValidations(TestCase):
     def setUp(self):
         self.preparer = WinesPreparerETL()
 

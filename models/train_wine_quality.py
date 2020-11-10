@@ -43,6 +43,7 @@ if __name__ == "__main__":
  
     print('≫ Loading data')
     df = load_table(args['database'], args['table'])
+    df = df[df['type'] == 'white']
 
     print('≫ Model Specific Transformations')
 
@@ -89,7 +90,7 @@ if __name__ == "__main__":
         },
         
         'logistic_regression': {
-            'model': LogisticRegression(solver='liblinear',multi_class = 'auto'),
+            'model': LogisticRegression(solver='liblinear', multi_class='auto'),
             'params': {
                 "C": [1,5,10]
             }

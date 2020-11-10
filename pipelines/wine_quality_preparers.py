@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-# from pipelines.transformation import dummify
 from pipelines.preparer import Preparer
 from pipelines.wine_quality_schema import wines_schema
 
@@ -24,16 +23,18 @@ class WinesPreparerETL(Preparer):
         return df
     
 
-# class AbalonePreparer(Preparer):
-#     def __init__(self):
-#         super(AbalonePreparer, self).__init__(abalone_schema)
+class WhiteWinesPreparer(Preparer):
+    def __init__(self):
+        super(WhiteWinesPreparer, self).__init__(wines_schema)
 
-#     def prepare(self, data):
-#         df = super(AbalonePreparer, self).prepare(data)
+    def prepare(self, data):
+        df = super(WhiteWinesPreparer, self).prepare(data)
         
 #         df = dummify(df, 'sex', ['M','F','I'])
 
-#         selected_features = ['length', 'diameter', 'height', 'whole_weight',
-#                 'shucked_weight', 'viscera_weight', 'shell_weight', 'M', 'F']
+        selected_features = ['fixed_acidity', 'volatile_acidity', 'citric_acid',
+            'residual_sugar', 'chlorides', 'free_sulfur_dioxide',
+            'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
-#         return df[selected_features].copy()
+        return df[selected_features].copy()
+
