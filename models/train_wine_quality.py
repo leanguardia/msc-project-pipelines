@@ -96,22 +96,27 @@ if __name__ == "__main__":
         }
     }
 
-    scores=[]
+    scores = []
+    models = {}
     for model_name, mp in model_params.items():
         clf = GridSearchCV(mp["model"], mp["params"], cv=6, return_train_score=False)
         clf.fit(X_train, y_train)
         scores.append({
-            "model" : model_name,
+            "model_name" : model_name,
             "best_score": clf.best_score_,
             "best_params": clf.best_params_
         })
+        models[model_name] = clf
 
-    scores_df = pd.DataFrame(scores, columns=['model',
+    scores_df = pd.DataFrame(scores, columns=['model_name',
                                               'best_score',
                                               'best_params'])
     scores_df.sort_values(by='best_score', ascending=False, inplace=True)
     print(scores_df)
 
-    # model_filepath = args['model']
-    # print(f'≫ Storing Model "{model_filepath}"')
-    # store_model(linreg, model_filepath)
+    best_model_name = scores_df.iloc[0]['model_name']
+    best_clf = models[best_model_name]
+
+    model_filepath = args['model']
+    print(f'≫ Storing "{best_model_name}" in "{model_filepath}"')
+    store_model(best_clf, model_filepath)
