@@ -10,13 +10,13 @@ import pipelines
 from pipelines.forest_fires_preparers import ForestFiresPreparer
 from pipelines.abalone_preparers import AbalonePreparer
 from pipelines.predictors import RegressionPredictor
-from pipelines.wine_quality_etl import WineQualityProcessor
+from pipelines.wine_quality_preparers import WhiteWinesPreparer
 from app.form_parser import parse_forest_fire_params, parse_wine_quality_params, parse_abalone_params, parse_adult_params
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 fires_reg = joblib.load("models/forest_fi.pkl")
 abalone_reg = joblib.load("models/abalone_cls.pkl")
-wine_reg = joblib.load("models/wine_reg.pkl")
+wine_cls = joblib.load("models/wine_cls.pkl")
 adult_cls = joblib.load("models/cls_adult.pkl")
 
 @app.route('/')
@@ -64,17 +64,17 @@ def _process_forest_fire_prediction(args):
 
 def _process_abalone_prediction(args):
     params = parse_abalone_params(args)
-    processor = AbalonePreparer()
-    features = processor.prepare(params)
+    preparer = AbalonePreparer()
+    features = preparer.prepare(params)
     predictions = RegressionPredictor(abalone_reg).predict(features)
     return str(predictions[0])
 
 def _process_wine_quality_prediction(args):
     params = parse_wine_quality_params(args)
-    processor = WineQualityProcessor()
-    features = processor.transform(params)
-    predictions = RegressionPredictor(wine_reg).predict(features)
-    return predictions[0]
+    preparer = WhiteWinesPreparer()
+    features = preparer.prepare(params)
+    predictions = RegressionPredictor(wine_cls).predict(features)
+    return str(predictions[0])
 
 def _process_adult_prediction(args):
     params = parse_adult_params(args)

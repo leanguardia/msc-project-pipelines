@@ -30,8 +30,8 @@ def parse_wine_quality_params(args):
         float(args['free_sulfur_dioxide']),
         float(args['total_sulfur_dioxide']),
         float(args['density']),
-        float(args['sulphates']),
         float(args['ph']),
+        float(args['sulphates']),
         float(args['alcohol'])
     ]
 
