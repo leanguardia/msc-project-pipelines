@@ -6,10 +6,6 @@ import numpy as np
 
 from pipelines.wine_quality_preparers import WinesPreparerETL
 
-# target_name = 'quality'
-# input_names = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar',
-#                'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density',
-#                'pH', 'sulphates', 'alcohol', 'type']
 inputs = [7.0, 0.27, 0.36, 20.7, 0.045, 45.0, 170.0, 1.0010, 3.00, 0.45, 8.8, 'red', 6]
 
 # np_inputs    = np.array(inputs)
@@ -41,7 +37,24 @@ class TestWineQualityProcessor(TestCase):
         assert row['pH'] == 3.00
         assert row['sulphates'] == 0.45
         assert row['alcohol'] == 8.8
+        assert row['type'] == 'red'
         assert row['quality'] == 6
+
+    def test_raw_features_type(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertIsInstance(row['fixed_acidity'], float)
+        self.assertIsInstance(row['citric_acid'], float)
+        self.assertIsInstance(row['volatile_acidity'], float)
+        self.assertIsInstance(row['residual_sugar'], float)
+        self.assertIsInstance(row['chlorides'], float)
+        self.assertIsInstance(row['free_sulfur_dioxide'], float)
+        self.assertIsInstance(row['total_sulfur_dioxide'], float)
+        self.assertIsInstance(row['density'], float)
+        self.assertIsInstance(row['pH'], float)
+        self.assertIsInstance(row['sulphates'], float)
+        self.assertIsInstance(row['alcohol'], float)
+        self.assertIsInstance(row['type'], str)
+        self.assertIsInstance(row['quality'], np.int64)
 
     # def test_transform_list(self):
     #     transformed = self.preparer.transform(inputs)
