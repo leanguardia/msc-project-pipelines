@@ -3,8 +3,8 @@ from pipelines.schema import Schema
 adult_features_meta = [ 
     dict(name='age', type='input', dtype=int),
     dict(name='workclass', type='input', dtype=str),
-        # 'State-gov', 'Self-emp-not-inc', 'Private', 'Federal-gov',
-        #    'Local-gov', '?', 'Self-emp-inc', 'Without-pay', 'Never-worked'
+        # ['State-gov', 'Self-emp-not-inc', 'Private', 'Federal-gov',
+        #    'Local-gov', 'Self-emp-inc', 'Without-pay', 'Never-worked']
     dict(name='fnlwgt', type='input', dtype=int),
     dict(name='education', type='input', dtype=str),
     # 'Bachelors', 'HS-grad', '11th', 'Masters', '9th', 'Some-college',
@@ -20,7 +20,7 @@ adult_features_meta = [
     # ['Adm-clerical', 'Exec-managerial', 'Handlers-cleaners',
     #    'Prof-specialty', 'Other-service', 'Sales', 'Craft-repair',
     #    'Transport-moving', 'Farming-fishing', 'Machine-op-inspct',
-    #    'Tech-support', '?', 'Protective-serv', 'Armed-Forces',
+    #    'Tech-support', 'Protective-serv', 'Armed-Forces',
     #    'Priv-house-serv']
     dict(name='relationship', type='input', dtype=str),
     # ['Not-in-family', 'Husband', 'Wife', 'Own-child', 'Unmarried',
@@ -35,7 +35,7 @@ adult_features_meta = [
     dict(name='hours_per_week', type='input', dtype=int),
     # , range=(1,99)),
     dict(name='native_country', type='input', dtype=str),
-    # ['United-States', 'Cuba', 'Jamaica', 'India', '?', 'Mexico',
+    # ['United-States', 'Cuba', 'Jamaica', 'India', 'Mexico',
     #    'South', 'Puerto-Rico', 'Honduras', 'England', 'Canada', 'Germany',
     #    'Iran', 'Philippines', 'Italy', 'Poland', 'Columbia', 'Cambodia',
     #    'Thailand', 'Ecuador', 'Laos', 'Taiwan', 'Haiti', 'Portugal',
