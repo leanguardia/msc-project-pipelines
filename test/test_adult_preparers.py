@@ -61,6 +61,12 @@ class TestForestFiresPreparerETL(TestCase):
         row = self.preparer.prepare(invalids).loc[0]
         self.assertEqual(row['>50K<=50K'], '<=50K')
 
+    def test_target_does_not_have_dots(self):
+        invalids = inputs.copy()
+        invalids[-2] = '<=50K.'
+        row = self.preparer.prepare(invalids).loc[0]
+        self.assertEqual(row['>50K<=50K'], '<=50K')
+
 #     def test_prepare_dummy_sex(self):
 #         row = self.preparer.prepare(inputs).loc[0]
 #         self.assertEqual(row['M'], 1)

@@ -18,6 +18,9 @@ class AdultPreparerETL(Preparer):
         texts_df = df.loc[:, text_cols].copy()
         df.loc[:, text_cols] = texts_df.applymap(lambda text: text.strip())
 
+        # Remove extra dots from target.
+        df['>50K<=50K'] = df['>50K<=50K'].replace({'>50K.': '>50K', '<=50K.': '<=50K'})
+
         # df['age'] = df['rings'] + 1.5
         # df = dummify(df, 'sex', ['M','F','I'])
 
