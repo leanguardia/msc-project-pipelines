@@ -4,7 +4,7 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from pipelines.adult_preparers import AdultPreparerETL#, AdultPreparer
+from pipelines.adult_preparers import AdultPreparerETL, AdultPreparer
 
 inputs = [39, 'State-gov', 77516, 'Bachelors', 13, 'Never-married', 
           'Adm-clerical', 'Not-in-family', 'White', 'Male', 2174, 0, 40,
@@ -33,7 +33,6 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertEqual(row['hours_per_week'], 40),
         self.assertEqual(row['native_country'], 'United-States'),
         self.assertEqual(row['>50K<=50K'], '<=50K'),
-        self.assertEqual(row['for_training'], True)
         
 
     def test_raw_features_types(self):
@@ -53,7 +52,6 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertIsInstance(row['hours_per_week'], np.int64),
         self.assertIsInstance(row['native_country'], str),
         self.assertIsInstance(row['>50K<=50K'], str),
-        self.assertIsInstance(row['for_training'], np.bool_)
 
     def test_remove_duplicates(self):
         df = self.preparer.prepare([inputs, inputs])
@@ -106,31 +104,25 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertEqual(row['>50K'], 0)
 
     
+class TestAdultPreparerServing(TestCase):
+    def setUp(self):
+        self.preparer = AdultPreparer()
 
+    def test_selected_raw_feature_inputs(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['age'], 39)
+        self.assertEqual(row['fnlwgt'], 77516)
+        self.assertEqual(row['education_num'], 13),
+        self.assertEqual(row['capital_gain'], 2174),
+        self.assertEqual(row['capital_loss'], 0),
+        self.assertEqual(row['hours_per_week'], 40),
 
-# class TestAdultPreparerServing(TestCase):
-#     def setUp(self):
-#         self.preparer = AdultPreparer()
-
-#     def test_selected_raw_feature_inputs(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertEqual(row['length'], 0.455)
-#         self.assertEqual(row['diameter'], 0.365)
-#         self.assertEqual(row['height'], 0.095)
-#         self.assertEqual(row['whole_weight'], 0.514)
-#         self.assertEqual(row['shucked_weight'], 0.2245)
-#         self.assertEqual(row['viscera_weight'], 0.101)
-#         self.assertEqual(row['shell_weight'], 0.15)
-#         self.assertEqual(row['M'], 1)
-#         self.assertEqual(row['F'], 0)
-
-#     def test_rest_of_features_absent(self):
-#         X = np_inputs[:-1]
-#         row = self.preparer.prepare(X).loc[0]
-#         absent_features = ['rings', 'age', 'I']
-#         with pytest.raises(KeyError):
-#             for absent_feature in absent_features:
-#                 row[absent_feature]
+    def test_rest_of_features_absent(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        absent_features = ['workclass', 'occupation', 'relationship', 'race']
+        with pytest.raises(KeyError):
+            for absent_feature in absent_features:
+                row[absent_feature]
 
 class TestAdultValidations(TestCase):
     def setUp(self):

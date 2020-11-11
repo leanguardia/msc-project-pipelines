@@ -41,16 +41,14 @@ class AdultPreparerETL(Preparer):
         return df
     
 
-# class AbalonePreparer(Preparer):
-#     def __init__(self):
-#         super(AbalonePreparer, self).__init__(adult_schema)
+class AdultPreparer(Preparer):
+    def __init__(self):
+        super(AdultPreparer, self).__init__(adult_schema)
 
-#     def prepare(self, data):
-#         df = super(AbalonePreparer, self).prepare(data)
-        
-#         df = dummify(df, 'sex', ['M','F','I'])
+    def prepare(self, data):
+        df = super(AdultPreparer, self).prepare(data)
 
-#         selected_features = ['length', 'diameter', 'height', 'whole_weight',
-#                 'shucked_weight', 'viscera_weight', 'shell_weight', 'M', 'F']
+        selected_features = ['age', 'fnlwgt', 'education_num', 'capital_gain',
+                'capital_loss', 'hours_per_week']
 
-#         return df[selected_features].copy()
+        return df[selected_features].copy()

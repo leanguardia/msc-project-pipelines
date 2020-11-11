@@ -45,8 +45,8 @@ adult_features_meta = [
     #    'Holand-Netherlands']
     dict(name='>50K<=50K', type='target', dtype=str),
         # ['<=50K', '>50K']
-    dict(name='for_training', type='input', dtype=bool),
-    # dict(name='>50K', type='target', dtype=bool),
+    dict(name='for_training', dtype=bool),
+    dict(name='>50K', type='target', dtype=bool),
 ]
 
 adult_schema = Schema(adult_features_meta)
