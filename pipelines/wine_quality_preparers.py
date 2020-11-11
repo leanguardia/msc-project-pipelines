@@ -29,8 +29,6 @@ class WhiteWinesPreparer(Preparer):
 
     def prepare(self, data):
         df = super(WhiteWinesPreparer, self).prepare(data)
-        
-#         df = dummify(df, 'sex', ['M','F','I'])
 
         selected_features = ['fixed_acidity', 'volatile_acidity', 'citric_acid',
             'residual_sugar', 'chlorides', 'free_sulfur_dioxide',

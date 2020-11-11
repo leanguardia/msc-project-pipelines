@@ -6,7 +6,7 @@ import numpy as np
 
 from pipelines.wine_quality_preparers import WinesPreparerETL, WhiteWinesPreparer
 
-inputs = [7.0, 0.27, 0.36, 20.7, 0.045, 45.0, 170.0, 1.0010, 3.00, 0.45, 8.8, 'red', 6]
+inputs = [7.0, 0.27, 0.36, 20.7, 0.045, 45.0, 170.0, 1.0010, 3.00, 0.45, 8.8, 6]
 
 np_inputs    = np.array(inputs)
 
@@ -27,7 +27,6 @@ class TestWinesPreparerETL(TestCase):
         assert row['pH'] == 3.00
         assert row['sulphates'] == 0.45
         assert row['alcohol'] == 8.8
-        assert row['type'] == 'red'
         assert row['quality'] == 6
 
     def test_raw_features_type(self):
@@ -43,8 +42,7 @@ class TestWinesPreparerETL(TestCase):
         self.assertIsInstance(row['pH'], float)
         self.assertIsInstance(row['sulphates'], float)
         self.assertIsInstance(row['alcohol'], float)
-        self.assertIsInstance(row['type'], str)
-        self.assertIsInstance(row['quality'], np.int64)
+        self.assertIsInstance(row['quality'], float)
 
     def test_prepare_quality_to_category_1(self):
         transformed = self.preparer.prepare(inputs)
@@ -91,14 +89,6 @@ class TestWinesPreparerServing(TestCase):
         assert row['pH'] == 3.00
         assert row['sulphates'] == 0.45
         assert row['alcohol'] == 8.8
-
-    def test_rest_of_features_absent(self):
-        X = np_inputs[:-1]
-        row = self.preparer.prepare(X).loc[0]
-        absent_features = ['type']
-        with pytest.raises(KeyError):
-            for absent_feature in absent_features:
-                row[absent_feature]
 
 class TestWinesValidations(TestCase):
     def setUp(self):

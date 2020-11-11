@@ -25,7 +25,7 @@ class Preparer():
             dtypes = dtypes[:-1]
 
         df = pd.DataFrame(data, columns=columns)
-        for col, dtype in zip(self.schema.features(), dtypes):
+        for col, dtype in zip(columns, dtypes):
             df[col]= df[col].astype(dtype)
 
         return df
