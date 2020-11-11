@@ -36,17 +36,24 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertEqual(row['for_training'], True)
         
 
-#     def test_raw_features_types(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertIsInstance(row['sex'], str)
-#         self.assertIsInstance(row['length'], np.float64)
-#         self.assertIsInstance(row['diameter'], np.float64)
-#         self.assertIsInstance(row['height'], np.float64)
-#         self.assertIsInstance(row['whole_weight'], np.float64)
-#         self.assertIsInstance(row['shucked_weight'], np.float64)
-#         self.assertIsInstance(row['viscera_weight'], np.float64)
-#         self.assertIsInstance(row['shell_weight'], np.float64)
-#         self.assertIsInstance(row['rings'], np.int64)
+    def test_raw_features_types(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertIsInstance(row['age'], np.int64)
+        self.assertIsInstance(row['workclass'], str)
+        self.assertIsInstance(row['fnlwgt'], np.int64)
+        self.assertIsInstance(row['education'], str),
+        self.assertIsInstance(row['education_num'], np.int64),
+        self.assertIsInstance(row['marital_status'], str),
+        self.assertIsInstance(row['occupation'], str),
+        self.assertIsInstance(row['relationship'], str),
+        self.assertIsInstance(row['race'], str),
+        self.assertIsInstance(row['sex'], str),
+        self.assertIsInstance(row['capital_gain'], np.int64),
+        self.assertIsInstance(row['capital_loss'], np.int64),
+        self.assertIsInstance(row['hours_per_week'], np.int64),
+        self.assertIsInstance(row['native_country'], str),
+        self.assertIsInstance(row['>50K<=50K'], str),
+        self.assertIsInstance(row['for_training'], np.bool_)
 
 #     def test_prepare_age(self):
 #         row = self.preparer.prepare(inputs).loc[0]
