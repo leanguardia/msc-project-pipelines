@@ -21,6 +21,11 @@ class AdultPreparerETL(Preparer):
         # Remove extra dots from target.
         df['>50K<=50K'] = df['>50K<=50K'].replace({'>50K.': '>50K', '<=50K.': '<=50K'})
 
+        # Replace '?' with None to identify missing values.
+        df['workclass'] = df['workclass'].replace({'?': None})
+        df['occupation'] = df['occupation'].replace({'?': None})
+        df['native_country'] = df['native_country'].replace({'?': None})
+
         # df['age'] = df['rings'] + 1.5
         # df = dummify(df, 'sex', ['M','F','I'])
 

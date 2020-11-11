@@ -67,6 +67,12 @@ class TestForestFiresPreparerETL(TestCase):
         row = self.preparer.prepare(invalids).loc[0]
         self.assertEqual(row['>50K<=50K'], '<=50K')
 
+    def test_replace_question_mark_with_NaN(self):
+        invalids = inputs.copy()
+        invalids[1] = '?'
+        row = self.preparer.prepare(invalids).loc[0]
+        self.assertEqual(row['workclass'], None)
+
 #     def test_prepare_dummy_sex(self):
 #         row = self.preparer.prepare(inputs).loc[0]
 #         self.assertEqual(row['M'], 1)
