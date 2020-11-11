@@ -2,7 +2,7 @@ from pipelines.schema import Schema
 
 adult_features_meta = [ 
     dict(name='age', type='input', dtype=int),
-    dict(name='workclass', type='input', dtype=float),
+    dict(name='workclass', type='input', dtype=str),
         # 'State-gov', 'Self-emp-not-inc', 'Private', 'Federal-gov',
         #    'Local-gov', '?', 'Self-emp-inc', 'Without-pay', 'Never-worked'
     dict(name='fnlwgt', type='input', dtype=int),
@@ -10,7 +10,7 @@ adult_features_meta = [
     # 'Bachelors', 'HS-grad', '11th', 'Masters', '9th', 'Some-college',
     #    'Assoc-acdm', 'Assoc-voc', '7th-8th', 'Doctorate', 'Prof-school',
     #    '5th-6th', '10th', '1st-4th', 'Preschool', '12th'
-    dict(name='education_num', type='input', dtype=str),
+    dict(name='education_num', type='input', dtype=int),
     # [13,  9,  7, 14,  5, 10, 12, 11,  4, 16, 15,  3,  6,  2,  1,  8]
     dict(name='marital_status', type='input', dtype=str),
     # 'Never-married', 'Married-civ-spouse', 'Divorced',
@@ -46,8 +46,8 @@ adult_features_meta = [
     #    'Holand-Netherlands']
     dict(name='>50K<=50K', type='target', dtype=str),
         # ['<=50K', '>50K']
-    dict(name='>50K', type='target', dtype=bool),
-    dict(name='for_training', dtype=bool),
+    dict(name='for_training', type='input', dtype=bool),
+    # dict(name='>50K', type='target', dtype=bool),
 ]
 
-wines_schema = Schema(adult_features_meta)
+adult_schema = Schema(adult_features_meta)

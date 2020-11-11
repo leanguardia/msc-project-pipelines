@@ -3,7 +3,6 @@ import numpy as np
 from pipelines.transformation import dummify
 from pipelines.preparer import Preparer
 from pipelines.abalone_schema import abalone_schema
-# from pipelines.validators import ValidationsRunner
 
 class AbalonePreparerETL(Preparer):
     def __init__(self):

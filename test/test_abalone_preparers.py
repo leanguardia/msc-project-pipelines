@@ -9,7 +9,7 @@ from pipelines.abalone_preparers import AbalonePreparerETL, AbalonePreparer
 inputs      = ['M', 0.455, 0.365, 0.095, 0.514, 0.2245, 0.101, 0.15, 15]
 np_inputs    = np.array(inputs)
 
-class TestForestFiresPreparerETL(TestCase):
+class TestAbalonePreparerETL(TestCase):
     def setUp(self):
         self.preparer = AbalonePreparerETL()
 

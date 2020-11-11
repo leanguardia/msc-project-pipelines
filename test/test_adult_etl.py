@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pipelines.etl_adult import parse_args
+from pipelines.adult_etl import parse_args
 
 class TestAdultEtl(TestCase):
     def test_argparser_default_data_source(self):
