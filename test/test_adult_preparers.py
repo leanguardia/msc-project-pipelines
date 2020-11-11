@@ -77,11 +77,30 @@ class TestForestFiresPreparerETL(TestCase):
         row = self.preparer.prepare(invalids).loc[0]
         self.assertEqual(row['workclass'], None)
 
-#     def test_prepare_dummy_sex(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertEqual(row['M'], 1)
-#         self.assertEqual(row['F'], 0)
-#         self.assertEqual(row['I'], 0)
+    def test_prepare_dummy_workclass(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['State-gov'], 1)
+        self.assertEqual(row['Self-emp-not-inc'], 0),
+        self.assertEqual(row['Private'], 0),
+        self.assertEqual(row['Federal-gov'], 0),
+        self.assertEqual(row['Local-gov'], 0),
+        self.assertEqual(row['Self-emp-inc'], 0),
+        self.assertEqual(row['Without-pay'], 0),
+        self.assertEqual(row['Never-worked'], 0),
+        
+    def test_prepare_dummy_race(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['White'], 1)
+        self.assertEqual(row['Black'], 0)
+        self.assertEqual(row['Asian-Pac-Islander'], 0)
+        self.assertEqual(row['Amer-Indian-Eskimo'], 0)
+        self.assertEqual(row['Other'], 0)
+
+    def test_prepare_dummy_sex(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['Male'], 1)
+        self.assertEqual(row['Female'], 0)
+
 
 # class TestAbalonePreparerServing(TestCase):
 #     def setUp(self):

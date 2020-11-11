@@ -28,8 +28,13 @@ class AdultPreparerETL(Preparer):
         df['occupation'] = df['occupation'].replace({'?': None})
         df['native_country'] = df['native_country'].replace({'?': None})
 
-        # df['age'] = df['rings'] + 1.5
-        # df = dummify(df, 'sex', ['M','F','I'])
+        # Feature Engineering
+        workclasses = ['State-gov', 'Self-emp-not-inc', 'Private','Federal-gov',
+                     'Local-gov', 'Self-emp-inc', 'Without-pay', 'Never-worked']
+        df = dummify(df, 'workclass', workclasses, dummy_na=True)
+        df = dummify(df, 'race', ['White', 'Black', 'Asian-Pac-Islander',
+                                    'Amer-Indian-Eskimo', 'Other'])
+        df = dummify(df, 'sex', ['Male', 'Female'])
 
         return df
     
