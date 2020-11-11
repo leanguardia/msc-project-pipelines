@@ -55,6 +55,10 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertIsInstance(row['>50K<=50K'], str),
         self.assertIsInstance(row['for_training'], np.bool_)
 
+    def test_remove_duplicates(self):
+        df = self.preparer.prepare([inputs, inputs])
+        self.assertEqual(df.shape[0], 1)
+
     def test_whitespaces_are_removed(self):
         invalids = inputs.copy()
         invalids[-2] = ' <=50K'

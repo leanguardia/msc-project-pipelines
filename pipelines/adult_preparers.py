@@ -13,6 +13,8 @@ class AdultPreparerETL(Preparer):
         df = super(AdultPreparerETL, self).prepare(data)
         # self.input_validator.validate(df)
 
+        df.drop_duplicates(keep='first', inplace=True)
+
         # Select all text columns and strip all values
         text_cols = df.dtypes == np.object
         texts_df = df.loc[:, text_cols].copy()
