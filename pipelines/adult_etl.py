@@ -5,21 +5,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 
-# age: continuous.
-# sex: Female, Male.
-# education: Bachelors, Some-college, 11th, HS-grad, Prof-school, Assoc-acdm, Assoc-voc, 9th, 7th-8th, 12th, Masters, 1st-4th, 10th, Doctorate, 5th-6th, Preschool.
-# education-num: continuous.
-# occupation: Tech-support, Craft-repair, Other-service, Sales, Exec-managerial, Prof-specialty, Handlers-cleaners, Machine-op-inspct, Adm-clerical, Farming-fishing, Transport-moving, Priv-house-serv, Protective-serv, Armed-Forces.
-# hours-per-week: continuous.
-# workclass: Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, State-gov, Without-pay, Never-worked.
-# race: White, Asian-Pac-Islander, Amer-Indian-Eskimo, Other, Black.
-# relationship: Wife, Own-child, Husband, Not-in-family, Other-relative, Unmarried.
-# marital-status: Married-civ-spouse, Divorced, Never-married, Separated, Widowed, Married-spouse-absent, Married-AF-spouse.
-# native-country: United-States, Cambodia, England, Puerto-Rico, Canada, Germany, Outlying-US(Guam-USVI-etc), India, Japan, Greece, South, China, Cuba, Iran, Honduras, Philippines, Italy, Poland, Jamaica, Vietnam, Mexico, Portugal, Ireland, France, Dominican-Republic, Laos, Ecuador, Taiwan, Haiti, Columbia, Hungary, Guatemala, Nicaragua, Scotland, Thailand, Yugoslavia, El-Salvador, Trinadad&Tobago, Peru, Hong, Holand-Netherlands.
-# fnlwgt: continuous.
-# capital-gain: continuous.
-# capital-loss: continuous.
-
+from pipelines.adult_preparers import AdultPreparerETL
 
 def parse_args(args=[]):
     parser = argparse.ArgumentParser(
@@ -53,14 +39,9 @@ if __name__ == "__main__":
     input_data = args['data']
     df = pd.read_csv(input_data)
 
-    # print("≫ Transforming Data")
-    string_columns = df.loc[:, df.dtypes == np.object].copy()
-    # Strip all values
-    df.loc[:, df.dtypes == np.object] = string_columns.applymap(lambda text: text.strip())
-    df['>50K<=50K'] = df['>50K<=50K'].replace({'>50K.': '>50K', '<=50K.': '<=50K'})
-    df['>50K'] = df['>50K<=50K'].map({'>50K': 1, '<=50K': 0})
-    # processor = Processor()
-    # df = processor.transform(df)
+    print("≫ Transforming Data")
+    preparer = AdultPreparerETL()
+    df = preparer.prepare(df)
 
     print("≫ Loading Data")
     database = args['database']
