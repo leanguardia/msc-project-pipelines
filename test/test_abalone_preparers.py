@@ -1,23 +1,3 @@
-# For more information, read [Cortez and Morais, 2007].
-# 1. X - x-axis spatial coordinate within the Montesinho park map: 1 to 9
-# 2. Y - y-axis spatial coordinate within the Montesinho park map: 2 to 9
-# 3. month - month of the year: 'jan' to 'dec'
-# 4. day - day of the week: 'mon' to 'sun'
-
-# 5. FFMC - FFMC index from the FWI system: 18.7 to 96.20
-# 6. DMC - DMC index from the FWI system: 1.1 to 291.3
-# 7. DC - DC index from the FWI system: 7.9 to 860.6
-# 8. ISI - ISI index from the FWI system: 0.0 to 56.10
-
-# 9. temp - temperature in Celsius degrees: 2.2 to 33.30
-# 10. RH - relative humidity in %: 15.0 to 100
-# 11. wind - wind speed in km/h: 0.40 to 9.40
-# 12. rain - outside rain in mm/m2 : 0.0 to 6.4
-
-# 13. area - the burned area of the forest (in ha): 0.00 to 1090.84
-# (this output variable is very skewed towards 0.0, thus it may make
-# sense to model with the logarithm prepare).
-
 from unittest import TestCase
 
 import pytest
@@ -26,24 +6,8 @@ import numpy as np
 
 from pipelines.abalone_preparers import AbalonePreparerETL, AbalonePreparer
 
-# target_name = 'rings'
-# input_names = ['sex', 'length', 'diameter', 'height', 'whole_weight', \
-#                'shucked_weight', 'viscera_weight', 'shell_weight']
 inputs      = ['M', 0.455, 0.365, 0.095, 0.514, 0.2245, 0.101, 0.15, 15]
-
 np_inputs    = np.array(inputs)
-# np_inputs_2d = np_inputs.reshape(1, len(np_inputs))
-# df_inputs    = pd.DataFrame([inputs], columns=input_names + [target_name])
-
-# new_feature_names  = [f'{target_name}_log', 'FFMC_log', 'ISI_log', 'rain_log', 'rain_cat', 'sep', 'thu']
-# feature_vals  = inputs + [np.log1p(1.12), np.log1p(93.7), np.log1p(17.9), np.log1p(0.4), 1, 1, 1]
-
-# feature_names = input_names + [target_name] + new_feature_names
-# df_features   = pd.DataFrame([feature_vals], columns=feature_names)
-# df_features['sep'] = df_features['sep'].astype(np.uint8)
-# df_features['thu'] = df_features['thu'].astype(np.uint8)
-# df_features['rain_cat'] = df_features['rain_cat'].astype(np.uint8)
-
 
 class TestForestFiresPreparerETL(TestCase):
     def setUp(self):
