@@ -38,9 +38,17 @@ def parse_wine_quality_params(args):
 def parse_adult_params(args):
     return [
         int(args['age']),
+        args['workclass'],
         int(args['final_weight']),
+        args['education'],
         9, # Education_num TODO: Remove this, Add Categorical
+        args['marital_status'],
+        args['occupation'],
+        args['relationship'],
+        args['race'],
+        args['sex'],
         int(args['capital_gain']),
         int(args['capital_loss']),
-        int(args['hours_per_week'])
+        int(args['hours_per_week']),
+        args['native_country'],
     ]

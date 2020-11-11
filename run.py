@@ -9,15 +9,16 @@ from sklearn.externals import joblib
 import pipelines
 from pipelines.forest_fires_preparers import ForestFiresPreparer
 from pipelines.abalone_preparers import AbalonePreparer
-from pipelines.predictors import RegressionPredictor
 from pipelines.wine_quality_preparers import WhiteWinesPreparer
+from pipelines.adult_preparers import AdultPreparer
+from pipelines.predictors import RegressionPredictor
 from app.form_parser import parse_forest_fire_params, parse_wine_quality_params, parse_abalone_params, parse_adult_params
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 fires_reg = joblib.load("models/forest_fi.pkl")
 abalone_reg = joblib.load("models/abalone_cls.pkl")
 wine_cls = joblib.load("models/wine_cls.pkl")
-adult_cls = joblib.load("models/cls_adult.pkl")
+adult_cls = joblib.load("models/adult_clf.pkl")
 
 @app.route('/')
 def index():
@@ -78,10 +79,9 @@ def _process_wine_quality_prediction(args):
 
 def _process_adult_prediction(args):
     params = parse_adult_params(args)
-    # processor = Processor()
-    # features = processor.transform(params)
-    features = [params]
-    predictions = adult_cls.predict(features) # TODO: Isolate in Predictor
+    preparer = AdultPreparer()
+    features = preparer.prepare(params)
+    predictions = adult_cls.predict(features)
     prediction = 'YES' if predictions[0] else 'NO'
     return prediction
 
