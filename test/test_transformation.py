@@ -33,3 +33,11 @@ class TestDummifier(TestCase):
         assert 'a' in dummified, "New column should be added"
         assert 'b' in dummified, "New column should be added"
         assert 'c' in dummified, "New column should be added"
+
+    def test_includes_dummy_na(self):
+        df = pd.DataFrame(['a', 'b', 'a', None], columns=['category'])
+        dummified = dummify(df, 'category', categories=['a', 'b', 'c'], dummy_na=True)
+        assert 'a' in dummified, "New column should be added"
+        assert 'b' in dummified, "New column should be added"
+        assert 'c' in dummified, "New column should be added"
+        assert None in dummified, "New column should be added"
