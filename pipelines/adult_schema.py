@@ -1,7 +1,7 @@
 from pipelines.schema import Schema
 
 adult_features_meta = [ 
-    dict(name='age', type='input', dtype=int),
+    dict(name='age', type='input', dtype=int, positive=True),
     dict(name='workclass', type='input', dtype=str),
         # ['State-gov', 'Self-emp-not-inc', 'Private', 'Federal-gov',
         #    'Local-gov', 'Self-emp-inc', 'Without-pay', 'Never-worked']
@@ -28,12 +28,10 @@ adult_features_meta = [
     dict(name='race', type='input', dtype=str),
     # ['White', 'Black', 'Asian-Pac-Islander', 'Amer-Indian-Eskimo',
     #    'Other']
-    dict(name='sex', type='input', dtype=str),
-    # ['Male', 'Female']
+    dict(name='sex', type='input', dtype=str, categories=['Male', 'Female']),
     dict(name='capital_gain', type='input', dtype=int),
     dict(name='capital_loss', type='input', dtype=int),
-    dict(name='hours_per_week', type='input', dtype=int),
-    # , range=(1,99)),
+    dict(name='hours_per_week', type='input', dtype=int, range=(1,99)),
     dict(name='native_country', type='input', dtype=str),
     # ['United-States', 'Cuba', 'Jamaica', 'India', 'Mexico',
     #    'South', 'Puerto-Rico', 'Honduras', 'England', 'Canada', 'Germany',
