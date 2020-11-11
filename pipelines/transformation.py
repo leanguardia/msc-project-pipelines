@@ -6,7 +6,7 @@ def dummify(df, column, categories, dummy_na=False):
     if not type(df) == pd.DataFrame:
         raise TypeError("df must be a DataFrame")
 
-    categories_count = len(categories) + dummy_na
+    categories_count = len(categories) + int(dummy_na)
     if dummy_na: categories.append(None)
 
     zeroes = np.zeros((df.shape[0], categories_count), dtype=int)

@@ -101,6 +101,12 @@ class TestForestFiresPreparerETL(TestCase):
     #     self.assertEqual(row['Male'], 1)
     #     self.assertEqual(row['Female'], 0)
 
+    def test_boolean_target_cretion(self):
+        row = self.preparer.prepare(inputs).loc[0]
+        self.assertEqual(row['>50K'], 0)
+
+    
+
 
 # class TestAdultPreparerServing(TestCase):
 #     def setUp(self):

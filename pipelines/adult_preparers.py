@@ -36,6 +36,8 @@ class AdultPreparerETL(Preparer):
         #                             'Amer-Indian-Eskimo', 'Other'])
         # df = dummify(df, 'sex', ['Male', 'Female'])
 
+        df['>50K'] = df['>50K<=50K'].map({'>50K': 1, '<=50K': 0})
+
         return df
     
 
