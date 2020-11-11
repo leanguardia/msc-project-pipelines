@@ -55,9 +55,11 @@ class TestForestFiresPreparerETL(TestCase):
         self.assertIsInstance(row['>50K<=50K'], str),
         self.assertIsInstance(row['for_training'], np.bool_)
 
-#     def test_prepare_age(self):
-#         row = self.preparer.prepare(inputs).loc[0]
-#         self.assertEqual(row['age'], 15.0 + 1.5)
+    def test_whitespaces_are_removed(self):
+        invalids = inputs.copy()
+        invalids[-2] = ' <=50K'
+        row = self.preparer.prepare(invalids).loc[0]
+        self.assertEqual(row['>50K<=50K'], '<=50K')
 
 #     def test_prepare_dummy_sex(self):
 #         row = self.preparer.prepare(inputs).loc[0]

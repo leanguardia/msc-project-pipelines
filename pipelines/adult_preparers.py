@@ -13,6 +13,11 @@ class AdultPreparerETL(Preparer):
         df = super(AdultPreparerETL, self).prepare(data)
         # self.input_validator.validate(df)
 
+        # Select all text columns and strip all values
+        text_cols = df.dtypes == np.object
+        texts_df = df.loc[:, text_cols].copy()
+        df.loc[:, text_cols] = texts_df.applymap(lambda text: text.strip())
+
         # df['age'] = df['rings'] + 1.5
         # df = dummify(df, 'sex', ['M','F','I'])
 
