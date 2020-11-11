@@ -28,7 +28,8 @@ adult_features_meta = [
     dict(name='race', type='input', dtype=str),
     # ['White', 'Black', 'Asian-Pac-Islander', 'Amer-Indian-Eskimo',
     #    'Other']
-    dict(name='sex', type='input', dtype=str, categories=['Male', 'Female']),
+    dict(name='sex', type='input', dtype=str), 
+        #categories=['Male', 'Female']),
     dict(name='capital_gain', type='input', dtype=int),
     dict(name='capital_loss', type='input', dtype=int),
     dict(name='hours_per_week', type='input', dtype=int, range=(1,99)),

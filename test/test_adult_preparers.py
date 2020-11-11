@@ -154,14 +154,14 @@ class TestAdultValidations(TestCase):
         with pytest.raises(ValueError, match="'hours_per_week' out of range"):
             self.preparer.prepare(invalid_inputs)
 
-    def test_sex_values(self):
-        sexes = ['Male', 'Female']
-        for sex in sexes:
-            inputs[9] = sex
-            self.preparer.prepare(inputs)
+    # def test_sex_values(self):
+    #     sexes = ['Male', 'Female']
+    #     for sex in sexes:
+    #         inputs[9] = sex
+    #         self.preparer.prepare(inputs)
 
-    def test_sex_invalid(self):
-        invalid_inputs = np_inputs.copy()
-        invalid_inputs[9] = 'femaile'
-        with pytest.raises(ValueError, match="Invalid 'sex'"):
-            self.preparer.prepare(invalid_inputs)
+    # def test_sex_invalid(self):
+    #     invalid_inputs = np_inputs.copy()
+    #     invalid_inputs[9] = 'femaile'
+    #     with pytest.raises(ValueError, match="Invalid 'sex'"):
+    #         self.preparer.prepare(invalid_inputs)
