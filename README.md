@@ -4,27 +4,39 @@
 
 The research endeavour consisted in a theoretical and empirical study of ML systems good implementation practices with focus in **Data Preparation**, built on two traditional software engineering elements; design pattterns and software testing.
 
-## Overview
-Pipes consists in four end-to-end pipelines, two regressions and two classifications. These contain all stages of the ML workflow from data integration, across data cleaning, data validation, feature engineering, model training, evaluation and inference. Prior to pipeline 
+## Project Overview
+Pipes consists in four end-to-end pipelines, two regressions and two classifications (Forest Fires, Abalone, Wine Quality and Adult). These contain all stages of the ML workflow from data integration, across data cleaning, data validation, feature engineering, model training, evaluation and inference in a user interface.
 
-## Systems Architecture
-Inspired by [Yokoyama's](https://ieeexplore.ieee.org/document/8712157) layered ML system architecture.
+## System's Architecture
+Inspired by [Yokoyama's](https://ieeexplore.ieee.org/document/8712157) layered ML system architecture. Pipes's consist in five components:
+- **Data Lake**: Storage of datasets, databases and model files.
+- **Data Preparation**: Modules for data cleaning, validation and feature engineering.
+- **Trainers**: Environment for modelling exploration, it outputs a trained model.
+- **Predictors**: Evaluation of previous model's performance. 
+- **Web Application**: Software that benefits from the ML pipeline.
+
+[comment]: <> (Give an overview)
 
 ![Multi-layered Architecture](img/pipes_architecture.png)
 
 ## Findings
 The Data Preparation Pattern is the main contribution of the project. It is a generalizable template structure to guide flexible and reliable implementation of all pipeline activities after datasets integration, and before modelling. The pattern abstracts all included sub-activities of the pipeline in three components; data cleaning, data validation and feature engineering.
 
+[comment]: <> (Talk about the components)
+
 ![The Data Preparation Pattern](img/data_preparation_pattern.png)
 
 #### Folder Structure
+[comment]: <> (WIP)
 - app: Flas web application
 - models: 
 - pipelines
 - test
 - *.ipynb
 
-## Dependencies 
+
+## Set up
+### Dependencies 
 - Python 3
 - pandas
 - numpy
@@ -34,8 +46,6 @@ The Data Preparation Pattern is the main contribution of the project. It is a ge
 - flask_sqlalchemy
 - sqlalchemy
 - pytest
-
-## Set up
 ```
 > from app import db
 > db.create_all()
@@ -54,7 +64,7 @@ For example, to execute the ETL process for the Forest Fires dataset, run:
 
 ### Run Web App
 
-## Run Unit-Tests
+### Run Unit-Tests
 ```
 > python -m pytest
 
@@ -67,3 +77,6 @@ Specially thankful to the Software Engineering for Machine Learning (SE4ML) comm
 
 ## Licence
 MIT License - Copyright (c) 2020 D. Leandro Guardia V.
+
+--- 
+Did you find this interesting? Let's chat! Drop me message at @lean_guardia (Twitter) or leandro-guardia (LinkedIn).
