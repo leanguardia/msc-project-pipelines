@@ -2,7 +2,6 @@ from datetime import datetime
 
 import numpy as np
 from flask import Flask, render_template, request, redirect
-from flask_sqlalchemy import SQLAlchemy
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.externals import joblib
 
