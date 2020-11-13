@@ -15,14 +15,12 @@ Inspired by [Yokoyama's](https://ieeexplore.ieee.org/document/8712157) layered M
 - **Predictors**: Evaluation of previous model's performance. 
 - **Web Application**: Software that benefits from the ML pipeline.
 
-[comment]: <> (Give an overview)
-
 ![Multi-layered Architecture](img/pipes_architecture.png)
 
 ## Findings
-The Data Preparation Pattern is the main contribution of the project. It is a generalizable template structure to guide flexible and reliable implementation of all pipeline activities after datasets integration, and before modelling. The pattern abstracts all included sub-activities of the pipeline in three components; data cleaning, data validation and feature engineering.
+The Data Preparation Pattern is the main contribution of this project. It is a generalizable template structure to guide flexible and reliable implementation of all pipeline activities after datasets integration, and before modelling. The pattern abstracts all included sub-activities of the pipeline in three components; data cleaning, data validation and feature engineering.
 
-[comment]: <> (Talk about the components)
+This pattern is composed by, first, a schema mechanism for feature metadata definiton, a generic-to-specific hierarchy of preparation logic (inheritance), and a pluggable data validation sub-system. This research demonstrated theoretically and empirically that this design for data preparation allows for flexibility and reliability.
 
 ![The Data Preparation Pattern](img/data_preparation_pattern.png)
 
