@@ -25,12 +25,13 @@ This pattern is composed by, first, a schema mechanism for feature metadata defi
 ![The Data Preparation Pattern](img/data_preparation_pattern.png)
 
 #### Folder Structure
-[comment]: <> (WIP)
-- app: Flas web application
-- models: 
-- pipelines
-- test
-- *.ipynb
+- **app/** Flask web application
+- **lake/** Contains dataset files, warehouse database and models ()
+- **models/** Modules for model training and evaluation
+- **pipelines/** Modules for data preparation i.e. all ETL and serving pipelines, schemas, transformations and validators
+- **test/** unit-testing suites
+- *.ipynb - Exploratory Data Analysis for the four datasets.
+- run.py - Web server script
 
 
 ## Set up
@@ -44,28 +45,44 @@ This pattern is composed by, first, a schema mechanism for feature metadata defi
 - flask_sqlalchemy
 - sqlalchemy
 - pytest
+
+To create the warehouse database, run: 
 ```
 > from app import db
 > db.create_all()
 ```
 
 ## Using Pipes
-Both, the ETL processes and model training for all pipelines is executable and configurable by a CLI. These have default parameters that can be changed on demand, simply add `--help` to print the documentation.
+Both, the ETL processes and model training for all pipelines are executable and configurable by a CLI.
 
 ### Extract-Transform-Load
 For example, to execute the ETL process for the Forest Fires dataset, run:
 ```
 > python -m pipelines.forest_firest_etl
 ```
+ Where `forest_firest_etl` can be replaced with any of the other three datasets for ETL execution. These commands have default parameters (e.g. data source, database target, and others) that can be changed on demand, simply add `--help` to access the documentation.
 
 ### Training
+To execute training routine, run:
+```
+> python -m models.train_forest_fires forest_fire_area_regressor.pkl
+```
+Similar to the previous, `train_forest_fires` is interchangeable with the scripts for the other pipelines. The name of the output model is a mandatory parameter, but other defaults can be modified, see `--help` for details.
+
 
 ### Run Web App
+From the root folder, run:
+```
+> python run.py
+```
+See an example of the UI interface for people salary's classification (Adult pipeline)
+
+![Adult classification UI](img/adult_ui.png)
+
 
 ### Run Unit-Tests
 ```
 > python -m pytest
-
 ```
 
 ## Acknowledgements
@@ -77,4 +94,4 @@ Specially thankful to the Software Engineering for Machine Learning (SE4ML) comm
 MIT License - Copyright (c) 2020 D. Leandro Guardia V.
 
 --- 
-Did you find this interesting? Let's chat! Drop me message at @lean_guardia (Twitter) or leandro-guardia (LinkedIn).
+Did you find this interesting? Let's chat! Drop me message at `@lean_guardia` in Twitter or `/leandro-guardia` in LinkedIn.
